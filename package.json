@@ -18,5 +18,10 @@
     "react-dom": "18.2.0",
     "thin-backend": "^0.12.1",
     "thin-backend-react": "^0.10.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
   }
 }

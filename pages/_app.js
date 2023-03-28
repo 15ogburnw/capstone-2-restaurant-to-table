@@ -1,12 +1,5 @@
-import '@/styles/globals.css'
-import { initThinBackend } from 'thin-backend';
-import { ThinBackend } from 'thin-backend-react';
-
-initThinBackend({ host: process.env.NEXT_PUBLIC_BACKEND_URL });
+import "../styles/globals.css";
 
 export default function App({ Component, pageProps }) {
-  return <ThinBackend>
-    <Component {...pageProps} />
-    </ThinBackend>
-  
+  return <Component {...pageProps} />;
 }
