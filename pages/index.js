@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 
 export default function LandingPage({ props }) {
-  const { user, isLoading, error } = useUser();
+  const { user, isLoading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
