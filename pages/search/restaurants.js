@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { graphql } from "graphql";
 import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
-import { getSupabase } from "../utils/supabase";
+import { getSupabase } from "@/utils/supabase";
 
 export default function restaurantsSearchPage({ restaurants }) {
   return (
