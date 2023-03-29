@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { graphql } from "graphql";
+import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
+import { getSupabase } from "../utils/supabase";
 
 export default function restaurantsSearchPage({ restaurants }) {
   return (
@@ -17,7 +19,7 @@ export default function restaurantsSearchPage({ restaurants }) {
             <div className="flex w-full md:justify-start justify-center items-end">
               <div className="relative mr-4 md:w-full lg:w-full xl:w-1/2 w-2/4">
                 <label
-                  for="hero-field"
+                  htmlFor="hero-field"
                   className="leading-7 text-sm text-gray-600"
                 >
                   Placeholder
@@ -91,10 +93,13 @@ export default function restaurantsSearchPage({ restaurants }) {
                 ? `https://api.companyurlfinder.com/logo/${hostname}`
                 : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv9IvL5KY9NBkSRXmVWPEGTel97yNBPkyXEg&usqp=CAU";
             return (
-              <div className="items-center" key={item.id}>
+              <div
+                className="flex flex-col row-span-full align-baseline"
+                key={item.websiteUrl}
+              >
                 <Image
-                  width={150}
-                  height={150}
+                  width={100}
+                  height={100}
                   alt="company logo"
                   className="object-cover object-center my-2"
                   src={imgUrl}
@@ -112,10 +117,11 @@ export default function restaurantsSearchPage({ restaurants }) {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  const RESTAURANTS_QUERY = `
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    const RESTAURANTS_QUERY = `
         {
-           restaurantSearch(first:5){
+           restaurantSearch(query:"burger", first:5){
                 edges {
                     node {
                         name
@@ -129,20 +135,23 @@ export async function getServerSideProps(ctx) {
         }
     `;
 
-  let restaurants;
-  await fetch(process.env.SUGGESTIC_DOMAIN, {
-    method: "POST",
-    body: JSON.stringify({ query: RESTAURANTS_QUERY }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: process.env.SUGGESTIC_API_KEY,
-    },
-  })
-    .then((res) => res.json())
-    .then(
-      (res) =>
-        (restaurants = res.data.restaurantSearch.edges.map((node) => node.node))
-    );
+    let restaurants;
+    await fetch(process.env.SUGGESTIC_DOMAIN, {
+      method: "POST",
+      body: JSON.stringify({ query: RESTAURANTS_QUERY }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.env.SUGGESTIC_API_KEY,
+      },
+    })
+      .then((res) => res.json())
+      .then(
+        (res) =>
+          (restaurants = res.data.restaurantSearch.edges.map(
+            (node) => node.node
+          ))
+      );
 
-  return { props: { restaurants } };
-}
+    return { props: { restaurants } };
+  },
+});

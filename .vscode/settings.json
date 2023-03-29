@@ -1,5 +1,5 @@
 {
-  "editor.acceptSuggestionOnEnter": "off",
+  "editor.acceptSuggestionOnEnter": "smart",
   "editor.autoClosingBrackets": "languageDefined",
   "editor.autoIndent": "full",
   "editor.defaultFormatter": "esbenp.prettier-vscode",

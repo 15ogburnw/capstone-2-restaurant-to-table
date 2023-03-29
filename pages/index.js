@@ -1,7 +1,22 @@
 import Head from 'next/head'
 import Image from "next/image";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import LoadingScreen from "@/components/LoadingScreen";
 
-export default function Home({ props }) {
+export default function LandingPage({ props }) {
+  const { user, isLoading, error } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/home");
+    }
+  }, [user, router]);
+
+  if (isLoading) return <LoadingScreen />;
+
   return (
     <>
       <Head>
@@ -10,6 +25,7 @@ export default function Home({ props }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
         <section className="text-gray-600 body-font overflow-hidden">
           <div className="container px-5 py-24 mx-auto">
