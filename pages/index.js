@@ -1,23 +1,31 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { redirect } from "next/dist/server/api-utils";
+import {
+  getMenuByRestaurantId,
+  getRestaurantByID,
+} from "@/lib/suggestic/queries";
 
-export default function LandingPage({ props }) {
+export default function LandingPage({ restaurants }) {
   const user = useUser();
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
   const [data, setData] = useState();
 
+  const loadData = useCallback(async () => {
+    const { data } = await supabaseClient.from("test").select("*");
+    setData(data);
+    console.log(data);
+  }, [supabaseClient]);
+
   useEffect(() => {
-    async function loadData() {
-      const { data } = await supabaseClient.from("test").select("*");
-    }
-    if (user) loadData();
-    else redirect("/home");
-  }, [user, router, supabaseClient]);
+    // if (user) loadUserData();
+    // else redirect("/home");
+    console.log(restaurants);
+    loadData();
+  }, [loadData, restaurants]);
 
   const handleAuthRedirect = (e) => {
     e.preventDefault();
@@ -124,3 +132,22 @@ export default function LandingPage({ props }) {
     </>
   );
 }
+
+export async function getServerSideProps(ctx) {
+  const firstPageIDs = [
+    "UmVzdGF1cmFudDo3NzNmZDE4MC0wYmMwLTQ2NTItYjliYi1kYTEwM2NkYjVkODc=",
+    "UmVzdGF1cmFudDozNGI4Y2VmOS1hZTJlLTRjYjYtYjQzYy01Mzk5NjFiNzY2ZGE=",
+    "UmVzdGF1cmFudDpiNTYzOTJhMi0xMjI2LTRiNzAtYWQ3YS1kMmU1NWRiYjZmNTY=",
+  ];
+
+  const restaurants = [];
+  for (let id of firstPageIDs) {
+    let restaurant = await getRestaurantByID(id);
+    let menu = await getMenuByRestaurantId(restaurant.databaseId);
+    restaurant.menu = menu;
+    restaurants.push(restaurant);
+  }
+  return { props: { restaurants } };
+}
+
+
