@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 
 export default function restaurantsSearchPage({ restaurants }) {
@@ -117,9 +116,9 @@ export default function restaurantsSearchPage({ restaurants }) {
   );
 }
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(ctx) {
-    const RESTAURANTS_QUERY = `
+
+export async function getServerSideProps(ctx) {
+  const RESTAURANTS_QUERY = `
         {
            restaurantSearch(query:"burger", first:5){
                 edges {
@@ -135,23 +134,21 @@ export const getServerSideProps = withPageAuthRequired({
         }
     `;
 
-    let restaurants;
-    await fetch(process.env.SUGGESTIC_DOMAIN, {
-      method: "POST",
-      body: JSON.stringify({ query: RESTAURANTS_QUERY }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: process.env.SUGGESTIC_API_KEY,
-      },
-    })
-      .then((res) => res.json())
-      .then(
-        (res) =>
-          (restaurants = res.data.restaurantSearch.edges.map(
-            (node) => node.node
-          ))
-      );
+  let restaurants;
+  await fetch(process.env.SUGGESTIC_DOMAIN, {
+    method: "POST",
+    body: JSON.stringify({ query: RESTAURANTS_QUERY }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: process.env.SUGGESTIC_API_KEY,
+    },
+  })
+    .then((res) => res.json())
+    .then(
+      (res) =>
+        (restaurants = res.data.restaurantSearch.edges.map((node) => node.node))
+    );
 
-    return { props: { restaurants } };
-  },
-});
+  return { props: { restaurants } };
+};
+
