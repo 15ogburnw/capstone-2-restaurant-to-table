@@ -1,9 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { redirect } from "next/dist/server/api-utils";
 
 export default function LandingPage({ props }) {
   const user = useUser();
@@ -11,13 +10,17 @@ export default function LandingPage({ props }) {
   const supabaseClient = useSupabaseClient();
   const [data, setData] = useState();
 
+  const loadData = useCallback(async () => {
+    const { data } = await supabaseClient.from("test").select("*");
+    setData(data);
+    console.log(data);
+  }, [supabaseClient]);
+
   useEffect(() => {
-    async function loadData() {
-      const { data } = await supabaseClient.from("test").select("*");
-    }
-    if (user) loadData();
-    else redirect("/home");
-  }, [user, router, supabaseClient]);
+    // if (user) loadUserData();
+    // else redirect("/home");
+    loadData();
+  }, [loadData]);
 
   const handleAuthRedirect = (e) => {
     e.preventDefault();
@@ -124,3 +127,7 @@ export default function LandingPage({ props }) {
     </>
   );
 }
+
+export async function getServerSideProps(ctx) {}
+
+
