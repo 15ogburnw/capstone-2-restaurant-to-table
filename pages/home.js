@@ -1,5 +1,3 @@
-import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
-
 const Home = ({ user }) => {
   return (
     <>
@@ -8,7 +6,4 @@ const Home = ({ user }) => {
   );
 };
 
-export const getServerSideProps ({req,res,session}){
-  re
-}
 export default Home;
