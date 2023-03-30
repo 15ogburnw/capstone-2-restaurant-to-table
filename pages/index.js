@@ -1,26 +1,29 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Image from "next/image";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import LoadingScreen from "@/components/LoadingScreen";
+import { useEffect, useState } from "react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function LandingPage({ props }) {
-  const { user, isLoading, error } = useUser();
+  const user = useUser();
   const router = useRouter();
+  const supabaseClient = useSupabaseClient();
+  const [data, setData] = useState();
 
   useEffect(() => {
-    if (user) {
-      router.push("/home");
+    async function loadData() {
+      const { data } = await supabaseClient.from("test").select("*");
     }
-  }, [user, router]);
+    if (user) loadData();
+    else redirect("/home");
+  }, [user, router, supabaseClient]);
 
   const handleAuthRedirect = (e) => {
     e.preventDefault();
-    router.push("/api/auth/login");
+    router.push("/auth/login");
   };
 
-  if (isLoading) return <LoadingScreen />;
   return (
     <>
       <Head>
