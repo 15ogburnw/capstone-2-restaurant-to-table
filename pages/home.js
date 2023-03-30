@@ -8,7 +8,6 @@ const Home = ({ user }) => {
   );
 };
 
-export const getServerSideProps ({req,res,session}){
-  re
-}
+export const getServerSideProps = withPageAuthRequired();
+
 export default Home;
