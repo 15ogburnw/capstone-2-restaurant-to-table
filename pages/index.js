@@ -6,7 +6,7 @@ import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import {
   getMenuByRestaurantId,
   getRestaurantByID,
-} from "@/lib/suggestic/queries";
+} from "@/lib/restaurantQueries/menuInfo";
 
 export default function LandingPage({ restaurants }) {
   const user = useUser();

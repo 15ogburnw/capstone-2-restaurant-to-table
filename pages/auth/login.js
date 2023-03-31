@@ -2,7 +2,8 @@ import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import rttLogo from 'public/rtt-logo.svg';
-import diningImg from 'public/dining.jpg'
+import diningImg from 'public/dining.jpg';
+import AuthFormInput from '@/components/Forms/AuthFormInput'
 
 const LoginPage = () => {
   const supabaseClient = useSupabaseClient();
@@ -90,19 +91,7 @@ const LoginPage = () => {
               <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
             </div>
 
-            <div className="mt-4">
-              <label
-                className="block mb-2 text-base font-bold text-gray-600 "
-                for="LoggingEmailAddress"
-              >
-                Email Address
-              </label>
-              <input
-                id="LoggingEmailAddress"
-                className="block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg focus:border-emerald-400 focus:ring-opacity-40 focus:outline-none"
-                type="email"
-              />
-            </div>
+            <AuthFormInput id="email" name="email" value="test" placeholder="Enter your email" type="email" label="Email"/>
 
             <div className="mt-4">
               <div className="flex justify-between">
