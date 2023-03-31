@@ -1,26 +1,37 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Image from "next/image";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import LoadingScreen from "@/components/LoadingScreen";
+import { useCallback, useEffect, useState } from "react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import {
+  getMenuByRestaurantId,
+  getRestaurantByID,
+} from "@/lib/suggestic/queries";
 
-export default function LandingPage({ props }) {
-  const { user, isLoading, error } = useUser();
+export default function LandingPage({ restaurants }) {
+  const user = useUser();
   const router = useRouter();
+  const supabaseClient = useSupabaseClient();
+  const [data, setData] = useState();
+
+  const loadData = useCallback(async () => {
+    const { data } = await supabaseClient.from("test").select("*");
+    setData(data);
+    console.log(data);
+  }, [supabaseClient]);
 
   useEffect(() => {
-    if (user) {
-      router.push("/home");
-    }
-  }, [user, router]);
+    // if (user) loadUserData();
+    // else redirect("/home");
+    console.log(restaurants);
+    loadData();
+  }, [loadData, restaurants]);
 
   const handleAuthRedirect = (e) => {
     e.preventDefault();
-    router.push("/api/auth/login");
+    router.push("/auth/login");
   };
 
-  if (isLoading) return <LoadingScreen />;
   return (
     <>
       <Head>
@@ -121,3 +132,22 @@ export default function LandingPage({ props }) {
     </>
   );
 }
+
+export async function getServerSideProps(ctx) {
+  const firstPageIDs = [
+    "UmVzdGF1cmFudDo3NzNmZDE4MC0wYmMwLTQ2NTItYjliYi1kYTEwM2NkYjVkODc=",
+    "UmVzdGF1cmFudDozNGI4Y2VmOS1hZTJlLTRjYjYtYjQzYy01Mzk5NjFiNzY2ZGE=",
+    "UmVzdGF1cmFudDpiNTYzOTJhMi0xMjI2LTRiNzAtYWQ3YS1kMmU1NWRiYjZmNTY=",
+  ];
+
+  const restaurants = [];
+  for (let id of firstPageIDs) {
+    let restaurant = await getRestaurantByID(id);
+    let menu = await getMenuByRestaurantId(restaurant.databaseId);
+    restaurant.menu = menu;
+    restaurants.push(restaurant);
+  }
+  return { props: { restaurants } };
+}
+
+

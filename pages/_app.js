@@ -1,11 +1,17 @@
-import "@fortawesome/fontawesome-free/css/all.css";
 import "../styles/globals.css";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+
   return (
-    <UserProvider>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
       <Component {...pageProps} />;
-    </UserProvider>
+    </SessionContextProvider>
   );
 }
