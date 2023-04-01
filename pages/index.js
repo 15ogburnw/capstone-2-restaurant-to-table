@@ -2,30 +2,14 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import {
-  getMenuByRestaurantId,
-  getRestaurantByID,
-} from "@/lib/restaurantQueries/menuInfo";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+
+import getRestaurantSearchResults from "@/lib/restaurantQueries/googleInfo";
 
 export default function LandingPage({ restaurants }) {
-  const user = useUser();
-  const router = useRouter();
-  const supabaseClient = useSupabaseClient();
-  const [data, setData] = useState();
-
-  const loadData = useCallback(async () => {
-    const { data } = await supabaseClient.from("test").select("*");
-    setData(data);
-    console.log(data);
-  }, [supabaseClient]);
-
   useEffect(() => {
-    // if (user) loadUserData();
-    // else redirect("/home");
     console.log(restaurants);
-    loadData();
-  }, [loadData, restaurants]);
+  }, [restaurants]);
 
   const handleAuthRedirect = (e) => {
     e.preventDefault();
@@ -134,20 +118,27 @@ export default function LandingPage({ restaurants }) {
 }
 
 export async function getServerSideProps(ctx) {
-  const firstPageIDs = [
-    "UmVzdGF1cmFudDo3NzNmZDE4MC0wYmMwLTQ2NTItYjliYi1kYTEwM2NkYjVkODc=",
-    "UmVzdGF1cmFudDozNGI4Y2VmOS1hZTJlLTRjYjYtYjQzYy01Mzk5NjFiNzY2ZGE=",
-    "UmVzdGF1cmFudDpiNTYzOTJhMi0xMjI2LTRiNzAtYWQ3YS1kMmU1NWRiYjZmNTY=",
-  ];
+  const supabase = createServerSupabaseClient(ctx);
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  const restaurants = [];
-  for (let id of firstPageIDs) {
-    let restaurant = await getRestaurantByID(id);
-    let menu = await getMenuByRestaurantId(restaurant.databaseId);
-    restaurant.menu = menu;
-    restaurants.push(restaurant);
-  }
+  if (session)
+    return {
+      redirect: {
+        destination: "/home",
+        permanent: false,
+      },
+    };
+
+  // TODO: ADAPT THIS TO RETURN MULTIPLE RESULTS: WILL HAVE TO UPDATE THE LOGIC FOR FILTERING THE SUGGESTIC RESULTS IN
+  // THE MENUINFO.JS FILE
+  const restaurants = await getRestaurantSearchResults(
+    "MELT",
+    34.738228,
+    -86.601791,
+    10
+  );
   return { props: { restaurants } };
 }
-
-
