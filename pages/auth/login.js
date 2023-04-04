@@ -1,9 +1,9 @@
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import rttLogo from 'public/rtt-logo.svg';
-import diningImg from 'public/dining.jpg';
-import AuthFormInput from '@/components/Forms/AuthFormInput'
+import rttLogo from "public/rtt-logo.svg";
+import diningImg from "public/dining.jpg";
+import AuthFormInput from "@/components/Forms/FormInput";
 
 const LoginPage = () => {
   const supabaseClient = useSupabaseClient();
@@ -27,7 +27,7 @@ const LoginPage = () => {
             className="hidden bg-cover lg:block lg:w-1/2"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')"
+                "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')",
             }}
           ></div>
 
@@ -44,7 +44,7 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <p className="mt-3 text-xl text-center text-gray-600" >
+            <p className="mt-3 text-xl text-center text-gray-600">
               Welcome back!
             </p>
 
@@ -91,7 +91,14 @@ const LoginPage = () => {
               <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
             </div>
 
-            <AuthFormInput id="email" name="email" value="test" placeholder="Enter your email" type="email" label="Email"/>
+            <AuthFormInput
+              id="email"
+              name="email"
+              value="test"
+              placeholder="Enter your email"
+              type="email"
+              label="Email"
+            />
 
             <div className="mt-4">
               <div className="flex justify-between">

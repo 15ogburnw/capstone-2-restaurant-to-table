@@ -7,13 +7,14 @@ import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import getRestaurantSearchResults from "@/lib/restaurantQueries/googleInfo";
 
 export default function LandingPage({ restaurants }) {
+  const router = useRouter();
   useEffect(() => {
     console.log(restaurants);
   }, [restaurants]);
 
   const handleAuthRedirect = (e) => {
     e.preventDefault();
-    router.push("/auth/login");
+    router.push("/auth/testlogin");
   };
 
   return (
@@ -132,13 +133,14 @@ export async function getServerSideProps(ctx) {
       },
     };
 
-  // TODO: ADAPT THIS TO RETURN MULTIPLE RESULTS: WILL HAVE TO UPDATE THE LOGIC FOR FILTERING THE SUGGESTIC RESULTS IN
-  // THE MENUINFO.JS FILE
-  const restaurants = await getRestaurantSearchResults(
-    "MELT",
-    34.738228,
-    -86.601791,
-    10
-  );
+  // // TODO: ADAPT THIS TO RETURN MULTIPLE RESULTS: WILL HAVE TO UPDATE THE LOGIC FOR FILTERING THE SUGGESTIC RESULTS IN
+  // // THE MENUINFO.JS FILE
+  // const restaurants = await getRestaurantSearchResults(
+  //   "Commerce Kitchen",
+  //   34.738228,
+  //   -86.601791,
+  //   10
+  // );
+  const restaurants = [];
   return { props: { restaurants } };
 }
