@@ -14,8 +14,11 @@ const nextConfig = {
       {
         hostname: "encrypted-tbn0.gstatic.com",
       },
+      {
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };
 
-module.exports = nextConfig
+module.exports = nextConfig;

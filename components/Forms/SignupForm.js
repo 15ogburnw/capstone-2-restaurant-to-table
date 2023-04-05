@@ -1,10 +1,8 @@
-import { useRouter } from "next/router";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
+import Link from "next/link";
 
 const SignupForm = () => {
-  const router = useRouter();
-
   const inputStyles = {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
@@ -95,7 +93,7 @@ const SignupForm = () => {
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
-                for="name"
+                htmlFor="name"
               >
                 Name
               </label>
@@ -123,7 +121,7 @@ const SignupForm = () => {
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
-                for="email"
+                htmlFor="email"
               >
                 Email
               </label>
@@ -151,7 +149,7 @@ const SignupForm = () => {
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
-                for="password"
+                htmlFor="password"
               >
                 Password
               </label>
@@ -180,7 +178,7 @@ const SignupForm = () => {
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
-                for="confirmPassword"
+                htmlFor="confirmPassword"
               >
                 Password
               </label>
@@ -221,16 +219,12 @@ const SignupForm = () => {
               Already have an account?
             </span>
 
-            <a
-              href="#"
+            <Link
+              href="/auth/login"
               className="text-sm text-green-500 font-semibold hover:underline"
-              onClick={(e) => {
-                e.preventDefault();
-                router.push("/auth/login");
-              }}
             >
               Login here
-            </a>
+            </Link>
           </div>
         </Form>
       )}

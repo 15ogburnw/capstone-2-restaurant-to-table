@@ -1,10 +1,11 @@
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import rttLogo from "public/rtt-logo.svg";
+import rttLogo from "public/rtt-logos/rtt-logo.svg";
 import SignupForm from "@/components/Forms/SignupForm";
+import Auth from "@/layouts/Auth";
 
-const SignupPage = () => {
+export default function SignupPage() {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
 
@@ -40,6 +41,6 @@ const SignupPage = () => {
       </div>
     );
   } else return <>hello</>;
-};
+}
 
-export default SignupPage;
+SignupPage.layout = Auth;

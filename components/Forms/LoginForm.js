@@ -1,10 +1,8 @@
-import { useRouter } from "next/router";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
+import Link from "next/link";
 
 const LoginForm = () => {
-  const router = useRouter();
-
   const inputStyles = {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
@@ -82,7 +80,7 @@ const LoginForm = () => {
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
-                for="email"
+                htmlFor="email"
               >
                 Email
               </label>
@@ -110,7 +108,7 @@ const LoginForm = () => {
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
-                for="loggingPassword"
+                htmlFor="loggingPassword"
               >
                 Password
               </label>
@@ -154,16 +152,12 @@ const LoginForm = () => {
               Need to make an account?
             </span>
 
-            <a
-              href="#"
+            <Link
+              href="/auth/signup"
               className="text-sm text-green-500 font-semibold hover:underline"
-              onClick={(e) => {
-                e.preventDefault();
-                router.push("/auth/signup");
-              }}
             >
               Sign up here
-            </a>
+            </Link>
           </div>
         </Form>
       )}

@@ -10,6 +10,7 @@
     "fresh-install": "rm -rf node_modules/ && rm -rf .next/ && rm -rf yarn.lock && yarn && yarn dev"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.17",
     "@supabase/auth-helpers-nextjs": "^0.5.6",
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/supabase-js": "^2.12.1",
