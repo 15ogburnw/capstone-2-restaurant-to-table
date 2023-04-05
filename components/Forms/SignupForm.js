@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 
-const LoginForm = () => {
+const SignupForm = () => {
   const router = useRouter();
 
   const inputStyles = {
@@ -10,9 +10,20 @@ const LoginForm = () => {
     invalid: "border-red-400",
   };
 
-  const loginSchema = yup.object().shape({
+  const registerSchema = yup.object().shape({
+    name: yup
+      .string()
+      .required("Name is required")
+      .min(3, "Name must be at least 3 characters long"),
     email: yup.string().email("Invalid email").required("Email is required"),
-    password: yup.string().required("Password is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters long"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .required("You must confirm your password"),
   });
 
   const onSubmit = (values) => {
@@ -22,17 +33,19 @@ const LoginForm = () => {
   return (
     <Formik
       initialValues={{
+        name: "",
         email: "",
         password: "",
+        confirmPassword: "",
       }}
-      validationSchema={loginSchema}
+      validationSchema={registerSchema}
       onSubmit={onSubmit}
       validateOnMount
     >
       {({ errors, touched, isValid }) => (
         <Form>
           <p className="mt-3 text-xl text-center text-gray-600">
-            Welcome back!
+            Welcome to Restaurant to Table!
           </p>
 
           {/* Google Sign In Button */}
@@ -62,19 +75,47 @@ const LoginForm = () => {
             </div>
 
             <span className="w-5/6 px-4 py-3 font-bold text-center">
-              Sign in with Google
+              Sign In with Google
             </span>
           </a>
 
-          {/* Login with email horizontal line break */}
+          {/* Signup with email horizontal line break */}
           <div className="flex items-center justify-between mt-3">
-            <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
+            <span className="w-1/4 border border-green-400 lg:w-1/3"></span>
 
             <span className="text-sm text-center text-green-500 font-semibold">
-              Or login with Email
+              Or sign up with Email
             </span>
 
-            <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
+            <span className="w-1/4 border border-green-400 lg:w-1/3"></span>
+          </div>
+
+          {/* Name input */}
+          <div className="mt-4">
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-base font-bold text-gray-600 "
+                for="name"
+              >
+                Name
+              </label>
+            </div>
+
+            <Field
+              className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
+            ${
+              errors.name && touched.name
+                ? inputStyles.invalid
+                : inputStyles.valid
+            }`}
+              name="name"
+              placeholder="Please enter your name"
+            />
+            {touched.name && errors.name ? (
+              <div className="text-sm text-red-500 mt-1 font-medium">
+                {errors.name}
+              </div>
+            ) : null}
           </div>
 
           {/* Email input */}
@@ -96,7 +137,7 @@ const LoginForm = () => {
                 : inputStyles.valid
             }`}
               name="email"
-              placeholder="Email"
+              placeholder="Please enter your email"
             />
             {touched.email && errors.email ? (
               <div className="text-sm text-red-500 mt-1 font-medium">
@@ -105,23 +146,20 @@ const LoginForm = () => {
             ) : null}
           </div>
 
-          {/* Password input with forgot password link */}
+          {/* Password input */}
           <div className="mt-3">
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
-                for="loggingPassword"
+                for="password"
               >
                 Password
               </label>
-              <a href="#" className="text-sm text-emerald-500 hover:underline">
-                Forget Password?
-              </a>
             </div>
 
             <Field
               name="password"
-              placeholder="Password"
+              placeholder="Please enter your password"
               className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
             ${
               errors.password && touched.password
@@ -137,21 +175,50 @@ const LoginForm = () => {
             ) : null}
           </div>
 
-          {/* Sign In Button */}
+          {/* Confirm password input */}
+          <div className="mt-3">
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-base font-bold text-gray-600 "
+                for="confirmPassword"
+              >
+                Password
+              </label>
+            </div>
+
+            <Field
+              name="confirmPassword"
+              placeholder="Please confirm your password"
+              className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
+            ${
+              errors.confirmPassword && touched.confirmPassword
+                ? inputStyles.invalid
+                : inputStyles.valid
+            }`}
+              type="password"
+            />
+            {touched.confirmPassword && errors.confirmPassword ? (
+              <div className="text-sm text-red-500 mt-1 font-medium">
+                {errors.confirmPassword}
+              </div>
+            ) : null}
+          </div>
+
+          {/* Sign Up Button */}
           <div className="mt-6">
             <button
               type="submit"
               className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 "
               disabled={!isValid}
             >
-              Sign In
+              Create Account
             </button>
           </div>
 
-          {/* Sign up redirect link */}
+          {/* Login redirect link */}
           <div className="flex items-center justify-center mt-4">
             <span className="text-sm text-center text-green-500 font-semibold mr-3">
-              Need to make an account?
+              Already have an account?
             </span>
 
             <a
@@ -159,10 +226,10 @@ const LoginForm = () => {
               className="text-sm text-green-500 font-semibold hover:underline"
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/auth/signup");
+                router.push("/auth/login");
               }}
             >
-              Sign up here
+              Login here
             </a>
           </div>
         </Form>
@@ -171,4 +238,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;
