@@ -10,9 +10,21 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import rttLogo from "public/rtt-logos/rtt-logo.svg";
 import { useRouter } from "next/router";
 import SideBarMenuItem from "../Menus/SidbarMenuItem";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function Sidebar() {
+  const supabase = useSupabaseClient();
   const router = useRouter();
+
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    async function signOut() {
+      const { error } = await supabase.auth.signOut();
+      if (error) console.error(error);
+    }
+    signOut();
+  };
+
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l ">
       {/* TODO: FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR */}
@@ -151,7 +163,8 @@ export default function Sidebar() {
 
           {/* TODO: THIS WILL NEED TO CHANGE ONCE I FIGURE OUT THE AUTH */}
           <Link
-            href="/auth/logout"
+            href="#"
+            onClick={handleSignOut}
             className=" flex items-center px-4 py-3 mt-3 font-bold rounded-md text-slate-700 hover:text-slate-500"
           >
             <ArrowRightOnRectangleIcon className="h-5 w-5 inline" />
@@ -167,13 +180,13 @@ export default function Sidebar() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-4 h-4"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M12 4.5v15m7.5-7.5h-15"
                 />
               </svg>

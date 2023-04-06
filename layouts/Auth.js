@@ -1,4 +1,4 @@
-const Auth = ({ children }) => {
+export default function Auth({ children }) {
   return (
     <>
       {/* TODO Add a Header Here */}
@@ -8,6 +8,4 @@ const Auth = ({ children }) => {
       {/* TODO Add a footer here  */}
     </>
   );
-};
-
-export default Auth;
+}

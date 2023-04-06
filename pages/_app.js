@@ -4,12 +4,7 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
-  const [supabaseClient] = useState(() =>
-    createBrowserSupabaseClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    )
-  );
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
   const Layout = Component.layout || (({ children }) => <>{children}</>);
 
   return (

@@ -1,8 +1,13 @@
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 const SignupForm = () => {
+  const supabase = useSupabaseClient();
+  const router = useRouter();
+
   const inputStyles = {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
@@ -24,8 +29,15 @@ const SignupForm = () => {
       .required("You must confirm your password"),
   });
 
-  const onSubmit = (values) => {
-    alert(JSON.stringify(values, null, 2));
+  const onSubmit = async (values) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (data) router.push("/dashboard");
+    // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT
+    if (error) console.error(error);
   };
 
   return (
