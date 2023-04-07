@@ -36,11 +36,8 @@ export async function middleware(req) {
     if (session?.user) {
       const redirectUrl = req.nextUrl.clone();
       redirectUrl.pathname = "/dashboard";
-      redirectUrl.searchParams.set(`redirectedFrom`, req.nextUrl.pathname);
       return NextResponse.redirect(redirectUrl);
     }
   }
   return res;
 }
-
-export const config = {};

@@ -4,8 +4,11 @@ import Footer from "@/components/Footer";
 export default function Dashboard({ children }) {
   return (
     <>
-      <Sidebar />
-      {children}
+      <div className="flex flex-row">
+        <Sidebar />
+        {children}
+      </div>
+
       <Footer />
     </>
   );
