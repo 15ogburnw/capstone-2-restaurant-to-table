@@ -28,26 +28,4 @@ export default function SignupPage() {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  const supabase = createServerSupabaseClient(ctx);
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  console.log(session);
-
-  if (session)
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-
-  return {
-    props: {},
-  };
-}
-
 SignupPage.layout = Auth;

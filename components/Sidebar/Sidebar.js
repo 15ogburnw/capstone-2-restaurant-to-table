@@ -6,7 +6,6 @@ import { GlobeAltIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
-import rttLogo from "public/rtt-logos/rtt-logo.svg";
 import SVG from "react-inlinesvg";
 import { useRouter } from "next/router";
 import SideBarMenuItem from "../Menus/SidbarMenuItem";
@@ -19,7 +18,9 @@ export default function Sidebar() {
   const handleSignOut = (e) => {
     e.preventDefault();
     async function signOut() {
+      setIsLoading(true);
       const { error } = await supabase.auth.signOut();
+      router.push("/");
       if (error) console.error(error);
     }
     signOut();

@@ -26,6 +26,7 @@
     "react-dom": "18.2.0",
     "react-inlinesvg": "^3.0.2",
     "string-similarity": "^4.0.4",
+    "swr": "^2.1.2",
     "url": "^0.11.0",
     "yup": "^1.0.2"
   },
