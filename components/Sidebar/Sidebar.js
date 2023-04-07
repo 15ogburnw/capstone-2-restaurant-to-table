@@ -26,6 +26,7 @@ export default function Sidebar() {
     signOut();
   };
 
+  // TODO: FIX SO THAT THE NAVBAR COLLAPSES ON SMALLER SIZES - REFERENCE NOTUS TEMPLATE NAVBAR
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l ">
       {/* TODO: FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR */}
@@ -66,7 +67,7 @@ export default function Sidebar() {
                       }`}
           >
             <RectangleStackIcon
-              className={`h-5 w-5 inline
+              className={`h-5 w-5 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard") !== -1 &&
                           router.pathname.indexOf("/dashboard/") === -1
@@ -88,7 +89,7 @@ export default function Sidebar() {
                       }`}
           >
             <MagnifyingGlassCircleIcon
-              className={`h-5 w-5 inline
+              className={`h-5 w-5 inline flex-none
                         ${
                           router.pathname.indexOf(
                             "/dashboard/recipe-search"
@@ -110,7 +111,7 @@ export default function Sidebar() {
                       }`}
           >
             <GlobeAltIcon
-              className={`h-5 w-5 inline
+              className={`h-5 w-5 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard/restaurants") !==
                           -1
@@ -131,7 +132,7 @@ export default function Sidebar() {
                       }`}
           >
             <UserCircleIcon
-              className={`h-5 w-5 inline
+              className={`h-5 w-5 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard/profile") !== -1
                             ? "opacity-75"
@@ -151,7 +152,7 @@ export default function Sidebar() {
                       }`}
           >
             <Cog6ToothIcon
-              className={`h-5 w-5 inline
+              className={`h-5 w-5 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard/settings") !== -1
                             ? "opacity-75"
@@ -161,13 +162,12 @@ export default function Sidebar() {
             <span className="mx-4 font-medium">Settings</span>
           </Link>
 
-          {/* TODO: THIS WILL NEED TO CHANGE ONCE I FIGURE OUT THE AUTH */}
           <Link
             href="#"
             onClick={handleSignOut}
             className=" flex items-center px-4 py-3 mt-3 font-bold rounded-md text-slate-700 hover:text-slate-500"
           >
-            <ArrowRightOnRectangleIcon className="h-5 w-5 inline" />
+            <ArrowRightOnRectangleIcon className="h-5 w-5 inline flex-none" />
             <span className="mx-4 font-medium">Logout</span>
           </Link>
         </nav>

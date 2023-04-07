@@ -2,6 +2,7 @@ export default function Pagination({
   results,
   handleNextPage,
   handlePrevPage,
+  isLoading,
 }) {
   return (
     <div className="mt-6 sm:flex sm:items-center sm:justify-between ">
@@ -11,9 +12,10 @@ export default function Pagination({
       </div>
 
       <div className="flex items-center mt-4 gap-x-4 sm:mt-0">
-        <a
+        <button
           onClick={handlePrevPage}
-          className="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 "
+          className=" flex items-center disabled:bg-gray-200 disabled:border-gray-200 justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100"
+          disabled={isLoading || results.currentPage === 1 ? true : false}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,11 +33,16 @@ export default function Pagination({
           </svg>
 
           <span>previous</span>
-        </a>
+        </button>
 
-        <a
+        <button
           onClick={handleNextPage}
-          className="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 "
+          className=" flex items-center disabled:bg-gray-200 disabled:border-gray-200 justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100"
+          disabled={
+            isLoading || results.currentPage === results.totalPages
+              ? true
+              : false
+          }
         >
           <span>Next</span>
 
@@ -53,7 +60,7 @@ export default function Pagination({
               d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
             />
           </svg>
-        </a>
+        </button>
       </div>
     </div>
   );

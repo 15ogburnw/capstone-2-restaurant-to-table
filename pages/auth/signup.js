@@ -2,7 +2,6 @@ import Image from "next/image";
 import rttLogo from "public/rtt-logos/rtt-logo.svg";
 import SignupForm from "@/components/Forms/SignupForm";
 import Auth from "@/layouts/Auth";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export default function SignupPage() {
   return (
