@@ -1,5 +1,6 @@
 import LoadingScreen from "@/components/LoadingScreen";
 import Sidebar from "@/components/Sidebar";
+import Footer from "@/components/Footer";
 import { useSession } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -18,6 +19,7 @@ export default function Dashboard({ children }) {
       <>
         <Sidebar />
         {children}
+        <Footer />
       </>
     );
 }
