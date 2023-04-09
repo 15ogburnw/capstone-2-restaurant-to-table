@@ -1,6 +1,7 @@
 // TODO: DESIGN THIS RECIPE RESULT CARD
 
 import Image from "next/image";
+import Link from "next/link";
 
 export default function RecipeSearchCard({ recipe }) {
   return (
@@ -29,6 +30,21 @@ export default function RecipeSearchCard({ recipe }) {
         <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
           Total cook time:{" "}
           {recipe.totalTime ? `${recipe.totalTime} minutes` : "Not provided"}
+        </div>
+        <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
+          Total cook time:{" "}
+          <Link
+            href={{
+              pathname: "/dashboard/recipes/[id]",
+              query: {
+                id: recipe.id,
+                recipe: JSON.stringify(recipe),
+              },
+            }}
+            as={`/dashboard/recipes/${recipe.id}`}
+          >
+            See more Info
+          </Link>
         </div>
       </div>
     </div>

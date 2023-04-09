@@ -24,7 +24,7 @@ export async function middleware(req) {
     // Auth condition not met, redirect to landing page.
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/";
-    redirectUrl.searchParams.set(`redirectedFrom`, req.nextUrl.pathname);
+
     return NextResponse.redirect(redirectUrl);
   }
 

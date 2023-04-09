@@ -6,7 +6,13 @@ import SearchResults from "@/components/Search/SearchResults";
 import RecipeSearchCard from "@/components/Recipes/RecipeSearchCard";
 import NoResults from "@/components/Search/NoResults";
 
-// TODO: DISABLE SEARCH AND CLEAR SEARCH BUTTONS WHILE RESULTS ARE LOADING, add logic for filtering recipe results, and build out results component
+// TODO:
+// --add logic for filtering recipe results
+// --make results cards look a bit better,
+// --make a loading graphic for results section,
+// --make each result link to its info page,
+// --add dropdown to each card for saving, favoriting, and adding to a menu
+
 export default function RecipeSearchPage() {
   const INITIAL_RESULTS = {
     items: [],
