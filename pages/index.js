@@ -1,20 +1,9 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
 import getRestaurantSearchResults from "@/lib/restaurantQueries/googleInfo";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function LandingPage({ restaurants }) {
-  const session = useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (session) {
-      console.log(session);
-      router.push("/dashboard");
-    }
-  }, [session, router]);
 
   const handleAuthRedirect = (e) => {
     e.preventDefault();

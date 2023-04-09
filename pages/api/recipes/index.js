@@ -1,5 +1,6 @@
 import { replaceSpaces } from "@/lib/edamam/helpers";
 import { EDAMAM_API_URL } from "@/lib/edamam/filters";
+import { getPlaiceholder } from "plaiceholder";
 
 async function edamamQuery(req, res) {
   // get values from form and set initial values as necessary
@@ -56,6 +57,11 @@ async function edamamQuery(req, res) {
       const data = await fetch(url)
         .then((res) => res.json())
         .catch((e) => console.error(e));
+
+      for (let result of data.hits) {
+        let res = await getPlaiceholder(result.recipe.image);
+        result.recipe.placeholder = res.base64;
+      }
 
       res.status(200).json(data);
     } catch (e) {

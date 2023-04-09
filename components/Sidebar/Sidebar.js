@@ -18,7 +18,6 @@ export default function Sidebar() {
   const handleSignOut = (e) => {
     e.preventDefault();
     async function signOut() {
-      setIsLoading(true);
       const { error } = await supabase.auth.signOut();
       router.push("/");
       if (error) console.error(error);
