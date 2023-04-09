@@ -2,8 +2,11 @@ import Dashboard from "@/layouts/Dashboard";
 import { useState } from "react";
 import { truncateRecipe, recipePagination } from "@/lib/edamam/helpers";
 import Pagination from "@/components/Pagination";
+import SearchResults from "@/components/Search/SearchResults";
+import RecipeSearchCard from "@/components/Recipes/RecipeSearchCard";
+import NoResults from "@/components/Search/NoResults";
 
-// TODO: DISABLE SEARCH AND CLEAR SEARCH BUTTONS WHILE RESULTS ARE LOADING
+// TODO: DISABLE SEARCH AND CLEAR SEARCH BUTTONS WHILE RESULTS ARE LOADING, add logic for filtering recipe results, and build out results component
 export default function RecipeSearchPage() {
   const INITIAL_RESULTS = {
     items: [],
@@ -12,11 +15,12 @@ export default function RecipeSearchPage() {
     currentPage: null,
     currentPageItems: null,
     nextPageURL: null,
-    numPerPage: 20,
   };
+
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(INITIAL_RESULTS);
   const [activeSearch, setActiveSearch] = useState(false);
+  const [activeQuery, setActiveQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -24,6 +28,8 @@ export default function RecipeSearchPage() {
     setQuery(newVal);
   };
 
+  // HandleNextPage and HandlePrevPage are passed down to pagination component
+  // They call a helper function for handling pagination with the Edamam model, then
   const handleNextPage = (e) => {
     e.preventDefault();
     (async () => {
@@ -44,33 +50,37 @@ export default function RecipeSearchPage() {
     })();
   };
 
+  // asynchronous function which handles the search and is called by the handleSearch function
   async function searchRecipes() {
+    // call the backend endpoint which gets recipes from Edamam API
     const data = await fetch("/api/recipes/", {
       method: "POST",
       body: JSON.stringify({ query }),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .catch((e) => {
+        setIsLoading(false);
+      });
 
-    // I set the important values for state storage based on the response I get back and set
-    // the page to 1. Pagination for edamam results will always be 20/page, and pagination is done
-    // with a "next page URL" system
-    if (!data) {
+    const items = data?.hits;
+
+    // If I don't get any data, set loading state to false
+    if (!data || items.length === 0) {
       setIsLoading(false);
       return;
     }
 
-    const items = data.hits;
-    if (items.length === 0) {
-      setIsLoading(false);
-      return;
-    }
-
+    // use a helper function to truncate the recipe objects into a form with just info I'm going to use
     const recipes = items.map((recipe) => {
       return truncateRecipe(recipe);
     });
 
+    // set state values for initial results. Results per page will always be 20 for Edamam,
+    // and pagination is done with a "next page URL" model, so I'm storing results in state
+    // as the user clicks on the next page.
     const totalResults = data.count;
     const currentPage = 1;
     const totalPages = Number.isInteger(totalResults / 20)
@@ -91,16 +101,18 @@ export default function RecipeSearchPage() {
     return;
   }
 
+  // handle a search: set search state to active, set loading state, then call the search function. If there's no query just reset the results to initial.
   const handleSearch = (e) => {
     e.preventDefault(e);
     setActiveSearch(true);
+    setActiveQuery(query);
     setIsLoading(true);
     if (query.length === 0) {
       setResults(INITIAL_RESULTS);
     }
-    console.log(query);
     searchRecipes();
   };
+
   return (
     <section className="container px-4 mx-auto">
       <div className="mt-6 md:flex md:items-center md:justify-start">
@@ -134,68 +146,59 @@ export default function RecipeSearchPage() {
             className="block w-full  py-1.5 pr-5 text-gray-700 bg-white border border-gray-300 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5  focus:border-emerald-400  focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
           />
         </form>
+
+        <button
+          className="w-1/2 px-5 py-2 text-sm transition-colors duration-200 bg-white hover:bg-gray-100 border-gray-300 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+
+        {/* If there's an active search, display a button to clear the search */}
         {activeSearch ? (
-          <>
-            <button
-              className="w-1/2 px-5 py-2 text-sm transition-colors duration-200 bg-white hover:bg-gray-100 border-gray-300 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-            <button
-              className="w-1/2 px-5 py-2 text-sm transition-colors duration-200 bg-white hover:bg-gray-100 border-gray-300 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
-              onClick={() => {
-                setQuery("");
-                setResults(INITIAL_RESULTS);
-                setActiveSearch(false);
-              }}
-            >
-              Clear Search
-            </button>
-          </>
-        ) : (
           <button
             className="w-1/2 px-5 py-2 text-sm transition-colors duration-200 bg-white hover:bg-gray-100 border-gray-300 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
-            onClick={handleSearch}
+            onClick={() => {
+              setQuery("");
+              setResults(INITIAL_RESULTS);
+              setActiveSearch(false);
+              setActiveQuery("");
+            }}
           >
-            Search
+            Clear Search
           </button>
-        )}
+        ) : null}
       </div>
-      <div className="flex items-center mt-6 text-center border border-gray-300 rounded-lg h-96 ">
-        <div className="flex flex-col w-full max-w-sm px-4 mx-auto">
-          {results.items.length === 0 && activeSearch && !isLoading ? (
-            <>
-              <div className="p-3 mx-auto text-red-500 bg-red-100 rounded-full ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
+      <div className="flex  mt-6 border border-gray-300 rounded-lg min-h-[500px] max-h-[750px] overflow-auto">
+        <div className="flex flex-col items-start w-full">
+          <SearchResults>
+            {/* If there are search results, map over them and display a recipe row for each result on the page */}
+
+            {results?.items.length > 0
+              ? results.currentPageItems.map((recipe) => (
+                  <RecipeSearchCard key={recipe.id} recipe={recipe} />
+                ))
+              : null}
+          </SearchResults>
+          <div className="flex align-middle flex-col text-center justify-center w-full h-full items-center">
+            {/* If there are no recipes in the results state, there is an active search, and it's not loading, display a no results message */}
+
+            {results?.items.length === 0 && activeSearch && !isLoading ? (
+              <NoResults query={activeQuery} type="recipes" />
+            ) : null}
+            {/* If there's not an active search, display a message prompting the user to search for a recipe */}
+            {!activeSearch ? (
+              <div className="text-gray-500 text-xl md:text-2xl ">
+                Hungry? Search for a recipe!
               </div>
-              <h1 className="mt-3 text-lg text-gray-800 ">No recipes found</h1>
-              <p className="mt-2 text-gray-500 ">
-                Your search {query} did not match any recipes. Please try again
-                with a different search term.
-              </p>
-            </>
-          ) : null}
-          {!activeSearch ? (
-            <p className="text-gray-500 text-xl md:text-2xl ">
-              Hungry? Search for a recipe!
-            </p>
-          ) : null}
+            ) : null}
+          </div>
         </div>
       </div>
+      {/* 
+          If there are currently recipes in the results state, display the buttons for pagination, passing down custom functions
+          for handling the pagination, the results state object, and the loading state. 
+        */}
       {results.items.length > 0 ? (
         <Pagination
           results={results}
