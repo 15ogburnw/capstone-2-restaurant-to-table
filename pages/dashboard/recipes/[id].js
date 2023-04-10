@@ -5,7 +5,7 @@ import { EDAMAM_API_URL } from "@/lib/edamam/filters";
 import { truncateRecipe } from "@/lib/edamam/helpers";
 import { getPlaiceholder } from "plaiceholder";
 
-// TODO: (LOW PRIORITY) FIGURE OUT HOW TO MAINTAIN STATE OF THIS PAGE IF THE USER NAVIGATES BACK FROM THE RECIPE WEBSITE
+// TODO: STYLE THIS PAGE WITH MORE DETAILED RECIPE INFORMATION
 export default function RecipePage({ recipe }) {
   useEffect(() => {
     console.log(recipe);

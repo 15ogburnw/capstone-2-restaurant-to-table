@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+// TODO: MAKE THIS MY OWN
+
 const merakiLogo = (
   <svg
     className="h-7 w-auto"

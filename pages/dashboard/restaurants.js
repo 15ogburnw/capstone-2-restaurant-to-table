@@ -1,5 +1,7 @@
 import Dashboard from "@/layouts/Dashboard";
 
+// TODO: NEED TO CREATE THIS PAGE. UNDECIDED ON HOW I WANT THE UX TO BE FOR INTEGRATING RESTAURANT SEARCHING/DISCOVERY TO THE SITE.
+
 export default function RestaurantSearchPage() {
   return (
     <>

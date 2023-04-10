@@ -11,7 +11,8 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react/dist";
 // TODO:
 // --add logic for filtering recipe results
 // --make results cards look a bit better,
-// --add dropdown to each card for saving, favoriting, and adding to a menu
+// --add option to each card for adding to a menu
+// --implement filters to search
 
 export default function RecipeSearchPage() {
   const INITIAL_RESULTS = {

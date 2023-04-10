@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import getRestaurantSearchResults from "@/lib/restaurantQueries/googleInfo";
 
+// TODO: BUILD OUT LANDING PAGE
 export default function LandingPage({ restaurants }) {
   const router = useRouter();
 
@@ -38,17 +38,4 @@ export default function LandingPage({ restaurants }) {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps(ctx) {
-  // // TODO: ADAPT THIS TO RETURN MULTIPLE RESULTS: WILL HAVE TO UPDATE THE LOGIC FOR FILTERING THE SUGGESTIC RESULTS IN
-  // // THE MENUINFO.JS FILE
-  // const restaurants = await getRestaurantSearchResults(
-  //   "Commerce Kitchen",
-  //   34.738228,
-  //   -86.601791,
-  //   10
-  // );
-  const restaurants = [];
-  return { props: { restaurants } };
 }

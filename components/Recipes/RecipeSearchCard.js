@@ -12,10 +12,12 @@ import {
   HeartIcon as HeartIconSolid,
   PlusCircleIcon as PlusCircleIconSolid,
 } from "@heroicons/react/24/solid";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react/dist";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+
+// TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
 export default function RecipeSearchCard({
   recipe,
@@ -119,6 +121,7 @@ export default function RecipeSearchCard({
         <div className="my-2 ml-2 relative h-44 w-44 flex-none">
           <Image
             fill
+            sizes="(max-width: 176px)"
             className=" object-cover rounded-xl"
             alt="recipe-image"
             blurDataURL={recipe.placeholder}
