@@ -143,9 +143,20 @@ export default function RecipeSearchPage() {
     searchRecipes(values);
   };
 
+  const resetResults = () => {
+    setResults(INITIAL_RESULTS);
+    setIsLoading(false);
+    setActiveSearch(false);
+  };
+
   return (
     <section className="container px-4 mx-auto">
-      <RecipeSearchForm handleSearch={handleSearch} isLoading={isLoading} />
+      <RecipeSearchForm
+        handleSearch={handleSearch}
+        activeSearch={activeSearch}
+        isLoading={isLoading}
+        resetResults={resetResults}
+      />
 
       <SearchResults>
         {/* If there are search results, map over them and display a recipe row for each result on the page */}

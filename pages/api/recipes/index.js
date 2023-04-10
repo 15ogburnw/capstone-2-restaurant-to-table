@@ -18,6 +18,9 @@ async function edamamQuery(req, res) {
       } = req.body;
       console.log(req.body);
       console.log("next page url passed to backend", nextPageURL);
+      console.log("direct select", req.body.nextPageURL);
+      console.log("select with explicit key", req.body["nextPageURL"]);
+      console.log("body after attempts", req.body);
       let url;
 
       if (!query && !nextPageURL) res.status(400).send();

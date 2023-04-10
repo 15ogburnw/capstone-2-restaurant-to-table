@@ -6,6 +6,7 @@ export default function RecipeSearchForm({
   handleSearch,
   isLoading,
   activeSearch,
+  resetResults,
 }) {
   const INITIAL_VALUES = {
     query: "",
@@ -38,7 +39,7 @@ export default function RecipeSearchForm({
       className="relative flex items-center mt-4 md:mt-0"
       initialValues={INITIAL_VALUES}
     >
-      {() => (
+      {({ handleReset }) => (
         <Form>
           <div>
             <div className="mt-6 md:flex md:items-center md:justify-start">
@@ -80,7 +81,10 @@ export default function RecipeSearchForm({
               {activeSearch ? (
                 <button
                   className="w-1/2 px-5 py-2 disabled:bg-gray-200 disabled:border-gray-200 text-sm transition-colors duration-200 bg-white hover:bg-gray-100 border-gray-300 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
-                  onClick={handleReset}
+                  onClick={() => {
+                    handleReset();
+                    resetResults();
+                  }}
                   disabled={isLoading ? true : false}
                 >
                   Clear Search
