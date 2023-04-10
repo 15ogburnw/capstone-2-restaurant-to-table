@@ -1,4 +1,4 @@
-import { Formik, Field, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -24,7 +24,7 @@ const LoginForm = () => {
       password: values.password,
     });
 
-    if (data) router.push("/dashboard");
+    if (data) router.push("/");
 
     // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
     if (error) console.error(error);

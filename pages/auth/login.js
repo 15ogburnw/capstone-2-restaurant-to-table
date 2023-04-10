@@ -1,7 +1,8 @@
-import Image from "next/image";
-import rttLogo from "public/rtt-logos/rtt-logo.svg";
 import LoginForm from "@/components/Forms/LoginForm";
+import SVG from "react-inlinesvg";
 import Auth from "@/layouts/Auth";
+
+// TODO: IF ALL OTHER FEATURES GET IMPLEMENTED, IMPLEMENT GOOGLE SIGNIN, IF NOT REMOVE BUTTON
 
 export default function LoginPage() {
   return (
@@ -16,15 +17,11 @@ export default function LoginPage() {
 
       <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
         <div className="flex justify-center mx-auto">
-          <div className="w-auto h-7 sm:h-8">
-            <Image
-              height={40}
-              width={40}
-              className="mb-5"
-              src={rttLogo}
-              alt=""
-            />
-          </div>
+          <SVG
+            className="h-8 w-auto inline flex-none"
+            src="/rtt-logos/rtt-icon.svg"
+            alt="logo"
+          />
         </div>
 
         <LoginForm />

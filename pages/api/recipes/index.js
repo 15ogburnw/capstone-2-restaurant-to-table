@@ -9,41 +9,41 @@ async function edamamQuery(req, res) {
     try {
       let {
         query,
-        nextPageURL,
         cuisineTypes,
+        nextPageURL,
         dishTypes,
         mealTypes,
         dietLabels,
         healthLabels,
       } = req.body;
+      console.log(req.body);
+      console.log("next page url passed to backend", nextPageURL);
       let url;
 
-      if (!cuisineTypes) cuisineTypes = [];
-      if (!dishTypes) dishTypes = [];
-      if (!mealTypes) mealTypes = [];
-      if (!dietLabels) dietLabels = [];
-      if (!healthLabels) healthLabels = [];
-
       if (!query && !nextPageURL) res.status(400).send();
-
-      if (query) {
+      else if (query && !nextPageURL) {
         query = replaceSpaces(query.trim());
         //set up the URL that we will use to query the Edamam API with the filter values as query parameters
         url = `${EDAMAM_API_URL}?type=public&q=${query}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_API_KEY}&`;
 
         for (let type of mealTypes) {
+          type = replaceSpaces(type);
           url += `mealType=${type}&`;
         }
         for (let type of dishTypes) {
+          type = replaceSpaces(type);
           url += `dishType=${type}&`;
         }
         for (let type of cuisineTypes) {
+          type = replaceSpaces(type);
           url += `cuisineType=${type}&`;
         }
         for (let label of dietLabels) {
+          label = replaceSpaces(label);
           url += `diet=${label}&`;
         }
         for (let label of healthLabels) {
+          label = replaceSpaces(label);
           url += `health=${label}&`;
         }
 
@@ -54,8 +54,11 @@ async function edamamQuery(req, res) {
         url = nextPageURL;
       }
 
+      console.log("url after logic in backend", url);
       const data = await fetch(url)
-        .then((res) => res.json())
+        .then((res) => {
+          return res.json();
+        })
         .catch((e) => console.error(e));
 
       for (let result of data.hits) {

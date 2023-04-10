@@ -3,6 +3,8 @@ import rttLogo from "public/rtt-logos/rtt-logo.svg";
 import SignupForm from "@/components/Forms/SignupForm";
 import Auth from "@/layouts/Auth";
 
+// TODO: IF ALL OTHER FEATURES GET IMPLEMENTED, IMPLEMENT GOOGLE SIGNIN, IF NOT REMOVE BUTTON
+
 export default function SignupPage() {
   return (
     <div className="flex flex-col space-between h-screen justify-center bg-emerald-50">

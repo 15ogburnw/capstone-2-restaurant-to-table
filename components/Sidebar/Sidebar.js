@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { RectangleStackIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
@@ -7,6 +6,7 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import SVG from "react-inlinesvg";
+
 import { useRouter } from "next/router";
 import SideBarMenuItem from "../Menus/SidbarMenuItem";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -32,7 +32,7 @@ export default function Sidebar() {
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l ">
       <Link href="/dashboard">
         <SVG
-          src="rtt-logos/rtt-logo.svg"
+          src="/rtt-logos/rtt-icon.svg"
           className="h-8 w-auto inline mr-3"
           alt="logo"
         />
