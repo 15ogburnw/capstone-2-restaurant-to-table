@@ -19,7 +19,7 @@ export default function Sidebar() {
     e.preventDefault();
     async function signOut() {
       const { error } = await supabase.auth.signOut();
-      router.push("/landing");
+      router.push("/");
       if (error) console.error(error);
     }
     signOut();

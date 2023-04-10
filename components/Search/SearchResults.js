@@ -1,7 +1,7 @@
 export default function SearchResults({ children }) {
   return (
-    <div className=" flex w-full">
-      <div className="bg-white w-full divide-gray-200 ">{children}</div>
+    <div className="flex  mt-6 border border-gray-400 rounded-lg min-h-[500px] max-h-[750px] overflow-auto">
+      <div className="flex flex-col items-start w-full">{children}</div>
     </div>
   );
 }
