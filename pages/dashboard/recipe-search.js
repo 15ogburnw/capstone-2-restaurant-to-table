@@ -29,31 +29,23 @@ export default function RecipeSearchPage() {
   const [results, setResults] = useState(INITIAL_RESULTS);
   const [activeSearch, setActiveSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const user = useUser();
-  const supabase = useSupabaseClient();
+  // const user = useUser();
 
-  const getSavedRecipes = useCallback(async () => {
-    let { data, error } = await supabase
-      .from("saved_recipes")
-      .select("recipe_id");
-    if (error) console.error(error);
-    user.user_metadata.savedRecipes = data.map((item) => item.recipe_id);
-  }, [supabase, user?.user_metadata]);
+  // const refreshSavedRecipes = useCallback(
+  //   () => user.user_metadata.getSavedRecipes,
+  //   [user.user_metadata.getSavedRecipes]
+  // );
+  // const refreshFavoriteRecipes = useCallback(
+  //   () => user.user_metadata.getFavoriteRecipes,
+  //   [user.user_metadata.getFavoriteRecipes]
+  // );
 
-  const getFavoriteRecipes = useCallback(async () => {
-    let { data, error } = await supabase
-      .from("favorite_recipes")
-      .select("recipe_id");
-    if (error) console.error;
-    user.user_metadata.favoriteRecipes = data.map((item) => item.recipe_id);
-  }, [supabase, user?.user_metadata]);
-
-  useEffect(() => {
-    if (user) {
-      getSavedRecipes();
-      getFavoriteRecipes();
-    }
-  }, [getFavoriteRecipes, getSavedRecipes, user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     refreshSavedRecipes();
+  //     refreshFavoriteRecipes();
+  //   }
+  // }, [refreshFavoriteRecipes, refreshSavedRecipes, user]);
 
   // HandleNextPage and HandlePrevPage are passed down to pagination component
   // They call a helper function for handling pagination with the Edamam model, then
@@ -149,8 +141,6 @@ export default function RecipeSearchPage() {
   return (
     <section className="container px-4 mx-auto">
       <RecipeSearchForm
-        query={query}
-        setQuery={setQuery}
         handleSearch={handleSearch}
         activeSearch={activeSearch}
         isLoading={isLoading}
@@ -164,8 +154,8 @@ export default function RecipeSearchPage() {
             {results?.items.length > 0
               ? results.currentPageItems.map((recipe) => (
                   <RecipeSearchCard
-                    getFavoriteRecipes={getFavoriteRecipes}
-                    getSavedRecipes={getSavedRecipes}
+                    // getFavoriteRecipes={getFavoriteRecipes}
+                    // getSavedRecipes={getSavedRecipes}
                     key={recipe.id}
                     recipe={recipe}
                   />

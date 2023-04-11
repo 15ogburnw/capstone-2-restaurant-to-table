@@ -21,11 +21,7 @@ import Tooltip from "../TopTooltip";
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
-export default function RecipeSearchCard({
-  recipe,
-  getSavedRecipes,
-  getFavoriteRecipes,
-}) {
+export default function RecipeSearchCard({ recipe }) {
   const user = useUser();
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const [loadingSave, setLoadingSave] = useState(false);
@@ -66,8 +62,8 @@ export default function RecipeSearchCard({
         .from("saved_recipes")
         .insert({ recipe_id: recipe.id, user_id: user.id });
 
-      if (error) console.log(error);
-      await getSavedRecipes();
+      if (error) console.error(error);
+
       setSavedRecipes(user.user_metadata.savedRecipes);
       setLoadingSave(false);
     }
@@ -83,8 +79,8 @@ export default function RecipeSearchCard({
         .delete()
         .eq("recipe_id", recipe.id);
 
-      if (error) console.log(error);
-      await getSavedRecipes();
+      if (error) console.error(error);
+
       setSavedRecipes(user.user_metadata.savedRecipes);
       setLoadingSave(false);
     }
@@ -101,8 +97,8 @@ export default function RecipeSearchCard({
         .from("favorite_recipes")
         .insert({ recipe_id: recipe.id, user_id: user.id });
 
-      if (error) console.log(error);
-      await getFavoriteRecipes();
+      if (error) console.error(error);
+
       setFavoriteRecipes(user.user_metadata.favoriteRecipes);
       setLoadingFavorite(false);
     }
@@ -118,8 +114,8 @@ export default function RecipeSearchCard({
         .delete()
         .eq("recipe_id", recipe.id);
 
-      if (error) console.log(error);
-      await getFavoriteRecipes();
+      if (error) console.error(error);
+
       setFavoriteRecipes(user.user_metadata.favoriteRecipes);
       setLoadingFavorite(false);
     }

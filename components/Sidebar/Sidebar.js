@@ -14,16 +14,36 @@ import SVG from "react-inlinesvg";
 import { useRouter } from "next/router";
 import SideBarMenuItem from "../Menus/SidbarMenuItem";
 import AddMenuModal from "../Menus/AddMenuModal";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import Loading from "../Loading";
 
 export default function Sidebar() {
   const supabase = useSupabaseClient();
+  const user = useUser();
   const router = useRouter();
   const [hoverMenu, setHoverMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const COLORS = [
+    "bg-red-500",
+    "bg-orange-500",
+    "bg-yellow-500",
+    "bg-emerald-500",
+    "bg-blue-500",
+    "bg-purple-500",
+    "bg-pink-500",
+  ];
+
+  const getColor = (idx) => {
+    if (idx < COLORS.length) return COLORS[idx];
+    else {
+      idx = idx % COLORS.length;
+      return COLORS[idx];
+    }
+  };
 
   const handleSignOut = (e) => {
     e.preventDefault();
@@ -38,6 +58,7 @@ export default function Sidebar() {
   // TODO:
   // --FIX SO THAT THE NAVBAR COLLAPSES ON SMALLER SIZES - REFERENCE NOTUS TEMPLATE NAVBAR
   // --FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR (FIGURE OUT WHY THE CURRENT LOGO IS FAILING TO LOAD SOMETIMES)
+
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
       <Link href="/dashboard">
@@ -187,13 +208,28 @@ export default function Sidebar() {
             </div>
           </div>
 
-          <nav className="mt-4 mx-3 space-y-3 ">
-            <SideBarMenuItem dotColor="bg-pink-500" name="Test Item" />
-          </nav>
+          {user ? (
+            <nav className="mt-4 mx-3 space-y-3 ">
+              <SideBarMenuItem dotColor="bg-pink-500" name="Test Item" />
+              {user.user_metadata.menus?.map((menu, idx) => {
+                console.log(menu, idx);
+                let color = getColor(idx);
+                return (
+                  <>
+                    <SideBarMenuItem dotColor={color} name={menu} />
+                  </>
+                );
+              })}
+            </nav>
+          ) : null}
         </div>
       </div>
 
       {showModal ? <AddMenuModal setShowModal={setShowModal} /> : null}
     </aside>
   );
+}
+
+export async function getStaticProps(ctx) {
+  const supabase = createServerSupabaseClient(ctx);
 }

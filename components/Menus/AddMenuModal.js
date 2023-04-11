@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function AddMenuModal({ setShowModal }) {
+  const user = useUser();
+  const supabase = useSupabaseClient();
   const [menuName, setMenuName] = useState("");
   const [error, setError] = useState("");
 
@@ -10,8 +13,19 @@ export default function AddMenuModal({ setShowModal }) {
   };
 
   const handleSubmit = (e) => {
-    console.log(menuName);
+    e.preventDefault(e);
+    setShowModal(false);
+
     if (!menuName) setError("Please enter a name for your menu!");
+    createMenu();
+  };
+
+  const createMenu = async () => {
+    const { error } = await supabase
+      .from("menus")
+      .insert({ name: menuName, user_id: user.id });
+    if (error) console.error(error);
+    setMenuName("");
   };
 
   return (
