@@ -10,10 +10,8 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react/dist";
 import RecipeSearchForm from "@/components/Forms/RecipeSearchForm";
 
 // TODO:
-// --add logic for filtering recipe results
 // --make results cards look a bit better (decide what final info I want on them),
 // --add option to each card for adding to a menu
-// --implement filters to search
 // --add results to local storage so the user can navigate back
 // --add tooltips to save, favorite, and add buttons
 

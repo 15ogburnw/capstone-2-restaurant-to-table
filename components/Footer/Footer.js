@@ -55,7 +55,7 @@ const merakiLogo = (
 
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-gray-900">
+    <footer className="bg-white border-t shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.075)]">
       <div className="container px-6 py-8 mx-auto">
         <div className="flex flex-col items-center text-center">
           <Link href="#" className="">

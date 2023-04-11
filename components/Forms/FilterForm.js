@@ -42,20 +42,26 @@ export default function FilterForm() {
         key="meal-types-group"
         name="meal-types-group"
         onClick={toggleCollapse}
-        className="flex items-center align-middle font-bold text-md text-gray-700 mt-4 underline cursor-pointer hover:text-gray-500"
+        className={`font-bold text-md underline mt-4 ${
+          mealTypesCollapsed
+            ? "text-gray-600 hover:text-gray-500"
+            : "text-emerald-600 hover:text-emerald-500"
+        } cursor-pointer`}
       >
         Meal Types
         {mealTypesCollapsed ? (
           <FontAwesomeIcon
             name="meal-types-group"
             icon={faAnglesDown}
+            onClick={toggleCollapse}
             className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
           />
         ) : (
           <FontAwesomeIcon
             name="meal-types-group"
             icon={faAnglesUp}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            onClick={toggleCollapse}
+            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
           />
         )}
       </div>
@@ -76,7 +82,7 @@ export default function FilterForm() {
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-gray-700 cursor-pointer hover:text-slate-400"
+                  className="text-sm font-medium inline mr-3 text-gray-600 cursor-pointer hover:text-slate-400"
                   htmlFor={label}
                 >
                   {label}
@@ -86,25 +92,31 @@ export default function FilterForm() {
           ))}
         </div>
       ) : null}
-
+      <hr className="mt-2" />
       <div
         key="cuisine-types-group"
         name="cuisine-types-group"
         onClick={toggleCollapse}
-        className="font-bold text-md mt-4 underline text-gray-700 cursor-pointer hover:text-gray-500"
+        className={`font-bold text-md underline mt-4 ${
+          cuisineTypesCollapsed
+            ? "text-gray-600 hover:text-gray-500"
+            : "text-emerald-600 hover:text-emerald-500"
+        } cursor-pointer`}
       >
         Cuisine Types
         {cuisineTypesCollapsed ? (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="cuisine-types-group"
             icon={faAnglesDown}
+            onClick={toggleCollapse}
             className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
           />
         ) : (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="cuisine-types-group"
             icon={faAnglesUp}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            onClick={toggleCollapse}
+            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
           />
         )}
       </div>
@@ -125,7 +137,7 @@ export default function FilterForm() {
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-gray-700  cursor-pointer hover:text-slate-400"
+                  className="text-sm font-medium inline mr-3 text-gray-600  cursor-pointer hover:text-slate-400"
                   htmlFor={label}
                 >
                   {label}
@@ -135,24 +147,30 @@ export default function FilterForm() {
           ))}
         </div>
       ) : null}
-
+      <hr className="mt-2" />
       <div
         name="dish-types-group"
         onClick={toggleCollapse}
-        className="font-bold mt-4 font-md underline text-gray-700 cursor-pointer hover:text-gray-500"
+        className={`font-bold text-md underline mt-4 ${
+          dishTypesCollapsed
+            ? "text-gray-600 hover:text-gray-500"
+            : "text-emerald-600 hover:text-emerald-500"
+        } cursor-pointer`}
       >
         Dish Types
         {dishTypesCollapsed ? (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="dish-types-group"
             icon={faAnglesDown}
+            onClick={toggleCollapse}
             className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
           />
         ) : (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="dish-types-group"
             icon={faAnglesUp}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            onClick={toggleCollapse}
+            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
           />
         )}
       </div>
@@ -173,7 +191,7 @@ export default function FilterForm() {
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-gray-700 cursor-pointer hover:text-slate-400"
+                  className="text-sm font-medium inline mr-3 text-gray-600 cursor-pointer hover:text-slate-400"
                   htmlFor={label}
                 >
                   {label}
@@ -183,25 +201,31 @@ export default function FilterForm() {
           ))}
         </div>
       ) : null}
-
+      <hr className="mt-2" />
       {/* TODO: ADD TOOLTIPS TO EACH HEALTH AND DIET LABEL TO SHOW THEIR DESCRIPTIONS */}
       <div
         name="diet-labels-group"
         onClick={toggleCollapse}
-        className="font-bold mt-4 text-medium underline text-gray-700 cursor-pointer hover:text-gray-500"
+        className={`font-bold text-md underline mt-4 ${
+          dietLabelsCollapsed
+            ? "text-gray-600 hover:text-gray-500"
+            : "text-emerald-600 hover:text-emerald-500"
+        } cursor-pointer`}
       >
         Diet Labels
         {dietLabelsCollapsed ? (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="diet-labels-group"
             icon={faAnglesDown}
+            onClick={toggleCollapse}
             className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
           />
         ) : (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="diet-labels-group"
             icon={faAnglesUp}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            onClick={toggleCollapse}
+            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
           />
         )}
       </div>
@@ -222,7 +246,7 @@ export default function FilterForm() {
                   value={item.value}
                 />
                 <label
-                  className=" inline mr-3 text-sm font-medium text-gray-700 cursor-pointer hover:text-slate-400"
+                  className=" inline mr-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-slate-400"
                   htmlFor={item.label}
                 >
                   {item.label}
@@ -232,24 +256,30 @@ export default function FilterForm() {
           ))}
         </div>
       ) : null}
-
+      <hr className="mt-2" />
       <div
         name="health-labels-group"
         onClick={toggleCollapse}
-        className="font-bold text-md underline mt-4 text-gray-700 cursor-pointer hover:text-gray-500"
+        className={`font-bold text-md underline mt-4 ${
+          healthLabelsCollapsed
+            ? "text-gray-600 hover:text-gray-500"
+            : "text-emerald-600 hover:text-emerald-500"
+        } cursor-pointer`}
       >
         Health Labels
         {healthLabelsCollapsed ? (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="health-labels-group"
             icon={faAnglesDown}
+            onClick={toggleCollapse}
             className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
           />
         ) : (
           <FontAwesomeIcon
-            name="meal-types-group"
+            name="health-labels-group"
             icon={faAnglesUp}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            onClick={toggleCollapse}
+            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
           />
         )}
       </div>
@@ -270,7 +300,7 @@ export default function FilterForm() {
                   value={item.value}
                 />
                 <label
-                  className="text-sm inline mr-3 font-medium  cursor-pointer "
+                  className="text-sm inline mr-3 font-medium text-gray-600 cursor-pointer "
                   htmlFor={item.label}
                 >
                   {item.label}
