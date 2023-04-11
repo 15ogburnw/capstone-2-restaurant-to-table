@@ -119,7 +119,7 @@ export default function RecipeSearchPage() {
       ? totalResults / 20
       : Math.ceil(totalResults / 20);
     const nextPageURL = data._links?.next ? data._links.next.href : null;
-    console.log("original url set in search func", nextPageURL);
+
     const newResults = {
       items: recipes,
       totalResults,
@@ -137,7 +137,6 @@ export default function RecipeSearchPage() {
   // handle a search: set search state to active, set loading state, then call the search function.
   const handleSearch = (values) => {
     setResults(INITIAL_RESULTS);
-    console.log(values);
     setActiveSearch(true);
     setIsLoading(true);
     searchRecipes(values);
@@ -152,6 +151,8 @@ export default function RecipeSearchPage() {
   return (
     <section className="container px-4 mx-auto">
       <RecipeSearchForm
+        query={query}
+        setQuery={setQuery}
         handleSearch={handleSearch}
         activeSearch={activeSearch}
         isLoading={isLoading}

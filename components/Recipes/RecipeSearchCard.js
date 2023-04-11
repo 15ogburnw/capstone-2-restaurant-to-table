@@ -117,7 +117,7 @@ export default function RecipeSearchCard({
 
   return (
     <Link href={`/dashboard/recipes/${recipe.id}`}>
-      <div className="flex flex-row items-center w-full border-b border-gray-400 hover:bg-gray-200">
+      <div className="flex flex-row items-center w-full border-b border-gray-300 hover:bg-gray-200">
         <div className="my-2 ml-2 relative h-44 w-44 flex-none">
           <Image
             fill
