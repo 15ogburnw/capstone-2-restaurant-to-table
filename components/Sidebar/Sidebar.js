@@ -12,18 +12,18 @@ import {
 } from "@heroicons/react/24/outline";
 import SVG from "react-inlinesvg";
 import { useRouter } from "next/router";
-import SideBarMenuItem from "./SidebarMenuItem";
-import AddMenuModal from "../Modals/AddMenuModal";
+import SideBarMenuItem from "../Menus/SidbarMenuItem";
+import AddMenuModal from "../Menus/AddMenuModal";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
-import { useState, useRef, useEffect } from "react";
-import useSWR, { mutate, preload } from "swr";
+import { useState } from "react";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import Loading from "../Loading";
-import ClientOnlyPortal from "../HOF/ClientOnlyPortal";
-import useModal from "@/lib/hooks/useModal";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function Sidebar() {
+  const supabase = useSupabaseClient();
+  const user = useUser();
   const router = useRouter();
   //get current user's menus
   const { data: menus, isLoading } = useSWR("/api/user/menus");
@@ -47,6 +47,15 @@ export default function Sidebar() {
 
   // reference modal and set it to close if the user clicks outside its bounds
   const [showModal, setShowModal] = useState(false);
+  const COLORS = [
+    "bg-red-500",
+    "bg-orange-500",
+    "bg-yellow-500",
+    "bg-emerald-500",
+    "bg-blue-500",
+    "bg-purple-500",
+    "bg-pink-500",
+  ];
 
   const getColor = (idx) => {
     if (idx < COLORS.length) return COLORS[idx];
@@ -56,7 +65,6 @@ export default function Sidebar() {
     }
   };
 
-  // sign out of supabase, clear cache, and redirect to landing page
   const handleSignOut = (e) => {
     e.preventDefault();
 
@@ -80,8 +88,6 @@ export default function Sidebar() {
   // TODO:
   // --FIX SO THAT THE NAVBAR COLLAPSES ON SMALLER SIZES - REFERENCE NOTUS TEMPLATE NAVBAR
   // --FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR (FIGURE OUT WHY THE CURRENT LOGO IS FAILING TO LOAD SOMETIMES)
-  // --Style this error message with a toast or something
-  // -- try the routing thing again, because this wos drecting to the courthouse.
 
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
@@ -237,36 +243,20 @@ export default function Sidebar() {
             </div>
           </div>
 
-          <nav className="mt-4 mx-3 space-y-3 ">
-            {console.log("My menus:", menus)}
-            {menus?.length > 0 &&
-              menus.map((menu, idx) => (
-                <Link
-                  href={`user/menus/${menu.id}`}
-                  key={menu.id}
-                  className="w-full h-ful mx-2 my-2 px-4"
-                >
-                  <SideBarMenuItem
-                    key={menu.name}
-                    dotColor={getColor(idx)}
-                    name={menu.name}
-                  />
-                </Link>
-              ))}
-
-            <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
-              {/* Fix these from showing up at the same time */}
-              <div className="flex items-center gap-x-2 ">
-                {!menus || menus.length === 0 ? (
-                  <span>
-                    You don&apos;t have any menus yet! Create your first one to
-                    get started
-                  </span>
-                ) : null}
-                {isLoading && <Loading size="md" />}
-              </div>
-            </div>
-          </nav>
+          {user ? (
+            <nav className="mt-4 mx-3 space-y-3 ">
+              <SideBarMenuItem dotColor="bg-pink-500" name="Test Item" />
+              {user.user_metadata.menus?.map((menu, idx) => {
+                console.log(menu, idx);
+                let color = getColor(idx);
+                return (
+                  <>
+                    <SideBarMenuItem dotColor={color} name={menu} />
+                  </>
+                );
+              })}
+            </nav>
+          ) : null}
         </div>
       </div>
       <ClientOnlyPortal selector="#modals">
@@ -278,4 +268,8 @@ export default function Sidebar() {
       </ClientOnlyPortal>
     </aside>
   );
+}
+
+export async function getStaticProps(ctx) {
+  const supabase = createServerSupabaseClient(ctx);
 }
