@@ -1,19 +1,29 @@
 import Link from "next/link";
-import { RectangleStackIcon } from "@heroicons/react/24/outline";
-import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
-import { GlobeAltIcon } from "@heroicons/react/24/outline";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
-import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  GlobeAltIcon,
+  UserCircleIcon,
+  MagnifyingGlassCircleIcon,
+  RectangleStackIcon,
+  ArrowRightOnRectangleIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/24/outline";
+
 import SVG from "react-inlinesvg";
 
 import { useRouter } from "next/router";
 import SideBarMenuItem from "../Menus/SidbarMenuItem";
+import AddMenuModal from "../Menus/AddMenuModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
+import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 export default function Sidebar() {
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const [hoverMenu, setHoverMenu] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleSignOut = (e) => {
     e.preventDefault();
@@ -156,25 +166,25 @@ export default function Sidebar() {
           </Link>
         </nav>
         <div className="pt-5">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center align-middle justify-between">
             <h2 className="text-base font-semibold text-gray-800 ">My Menus</h2>
-
-            <button className="p-0.5 hover:bg-gray-100 duration-200 transition-colors text-gray-500 border rounded-lg">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
+            <div
+              onMouseEnter={() => setHoverMenu(true)}
+              onMouseLeave={() => setHoverMenu(false)}
+              onClick={() => setShowModal(true)}
+            >
+              {hoverMenu ? (
+                <FontAwesomeIcon
+                  icon={faSquarePlusSolid}
+                  className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
                 />
-              </svg>
-            </button>
+              ) : (
+                <FontAwesomeIcon
+                  icon={faSquarePlus}
+                  className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
+                />
+              )}
+            </div>
           </div>
 
           <nav className="mt-4 mx-3 space-y-3 ">
@@ -182,6 +192,8 @@ export default function Sidebar() {
           </nav>
         </div>
       </div>
+
+      {showModal ? <AddMenuModal setShowModal={setShowModal} /> : null}
     </aside>
   );
 }

@@ -5,17 +5,19 @@ import Link from "next/link";
 import {
   ArrowDownCircleIcon,
   HeartIcon,
-  PlusCircleIcon,
+  ClipboardDocumentListIcon,
 } from "@heroicons/react/24/outline";
 import {
   ArrowDownCircleIcon as ArrowDownCircleIconSolid,
   HeartIcon as HeartIconSolid,
-  PlusCircleIcon as PlusCircleIconSolid,
+  ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react/dist";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+
+import Tooltip from "../TopTooltip";
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
@@ -28,6 +30,7 @@ export default function RecipeSearchCard({
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
+  const [tooltipShowing, setTooltipShowing] = useState(false);
   const [savedRecipes, setSavedRecipes] = useState(
     user.user_metadata.savedRecipes
   );
@@ -37,8 +40,20 @@ export default function RecipeSearchCard({
 
   const supabase = useSupabaseClient();
 
+  const showTooltip = () => {
+    (async () => {
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      setTooltipShowing(true);
+    })();
+  };
+
   const handleHover = (name) => {
     setHoveredIcon(name);
+    if (name === null) {
+      setTooltipShowing(false);
+    } else {
+      showTooltip();
+    }
   };
 
   const handleSave = (e) => {
@@ -118,10 +133,10 @@ export default function RecipeSearchCard({
   return (
     <Link href={`/dashboard/recipes/${recipe.id}`}>
       <div className="flex flex-row items-center w-full border-b bg-white border-gray-400 hover:bg-gray-200">
-        <div className="my-2 ml-2 relative h-44 w-44 flex-none">
+        <div className="my-2 ml-2 overflow-hidden relative h-44 w-44 flex-none">
           <Image
-            fill
-            sizes="(max-width: 176px)"
+            width={180}
+            height={180}
             className=" object-cover rounded-xl"
             alt="recipe-image"
             blurDataURL={recipe.placeholder}
@@ -166,6 +181,16 @@ export default function RecipeSearchCard({
                 ) : (
                   <HeartIcon className="text-red-500 stroke-2" />
                 )}
+                {hoveredIcon === "heart" && tooltipShowing ? (
+                  <Tooltip
+                    message={
+                      favoriteRecipes.includes(recipe.id)
+                        ? "Remove recipe from your favorites"
+                        : "Add recipe to your favorites"
+                    }
+                    adjustments="ml-3 bottom-14"
+                  />
+                ) : null}
               </div>
             ) : (
               <FontAwesomeIcon
@@ -189,6 +214,16 @@ export default function RecipeSearchCard({
                 ) : (
                   <ArrowDownCircleIcon className="text-emerald-600 stroke-2" />
                 )}
+                {hoveredIcon === "save" && tooltipShowing ? (
+                  <Tooltip
+                    message={
+                      savedRecipes.includes(recipe.id)
+                        ? "Remove this recipe from your saved recipes"
+                        : "Save this recipe for later"
+                    }
+                    adjustments="ml-3 bottom-14"
+                  />
+                ) : null}
               </div>
             ) : (
               <FontAwesomeIcon
@@ -200,15 +235,21 @@ export default function RecipeSearchCard({
 
             <div
               onClick={showAddOptions}
-              onMouseEnter={() => handleHover("plus")}
+              onMouseEnter={() => handleHover("menu")}
               onMouseLeave={() => handleHover(null)}
               className="h-6 w-6 ml-3 cursor-pointer"
             >
-              {hoveredIcon === "plus" ? (
-                <PlusCircleIconSolid className="text-blue-600 stroke-2" />
+              {hoveredIcon === "menu" ? (
+                <ClipboardDocumentListIconSolid className="text-blue-600 stroke-2" />
               ) : (
-                <PlusCircleIcon className="text-blue-600 stroke-2" />
+                <ClipboardDocumentListIcon className="text-blue-600 stroke-2" />
               )}
+              {hoveredIcon === "menu" && tooltipShowing ? (
+                <Tooltip
+                  message="Add this recipe to a menu"
+                  adjustments="ml-3 bottom-14"
+                />
+              ) : null}
             </div>
           </div>
         </div>
