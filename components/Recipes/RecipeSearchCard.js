@@ -27,12 +27,6 @@ export default function RecipeSearchCard({ recipe }) {
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [tooltipShowing, setTooltipShowing] = useState(false);
-  const [savedRecipes, setSavedRecipes] = useState(
-    user.user_metadata.savedRecipes
-  );
-  const [favoriteRecipes, setFavoriteRecipes] = useState(
-    user.user_metadata.favoriteRecipes
-  );
 
   const supabase = useSupabaseClient();
 
@@ -64,7 +58,6 @@ export default function RecipeSearchCard({ recipe }) {
 
       if (error) console.error(error);
 
-      setSavedRecipes(user.user_metadata.savedRecipes);
       setLoadingSave(false);
     }
     saveRecipe();
@@ -81,7 +74,6 @@ export default function RecipeSearchCard({ recipe }) {
 
       if (error) console.error(error);
 
-      setSavedRecipes(user.user_metadata.savedRecipes);
       setLoadingSave(false);
     }
     unSaveRecipe();
@@ -99,7 +91,6 @@ export default function RecipeSearchCard({ recipe }) {
 
       if (error) console.error(error);
 
-      setFavoriteRecipes(user.user_metadata.favoriteRecipes);
       setLoadingFavorite(false);
     }
     favoriteRecipe();
@@ -116,7 +107,6 @@ export default function RecipeSearchCard({ recipe }) {
 
       if (error) console.error(error);
 
-      setFavoriteRecipes(user.user_metadata.favoriteRecipes);
       setLoadingFavorite(false);
     }
     unFavoriteRecipe();
@@ -163,7 +153,7 @@ export default function RecipeSearchCard({ recipe }) {
             {!loadingFavorite ? (
               <div
                 onClick={
-                  favoriteRecipes.includes(recipe.id)
+                  user.favoriteRecipes.includes(recipe.id)
                     ? handleUnFavorite
                     : handleFavorite
                 }
@@ -172,7 +162,7 @@ export default function RecipeSearchCard({ recipe }) {
                 className="h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait"
               >
                 {hoveredIcon === "heart" ||
-                favoriteRecipes.includes(recipe.id) ? (
+                user.favoriteRecipes.includes(recipe.id) ? (
                   <HeartIconSolid className="text-red-500 stroke-2" />
                 ) : (
                   <HeartIcon className="text-red-500 stroke-2" />
@@ -180,7 +170,7 @@ export default function RecipeSearchCard({ recipe }) {
                 {hoveredIcon === "heart" && tooltipShowing ? (
                   <Tooltip
                     message={
-                      favoriteRecipes.includes(recipe.id)
+                      user.favoriteRecipes.includes(recipe.id)
                         ? "Remove recipe from your favorites"
                         : "Add recipe to your favorites"
                     }
@@ -199,13 +189,16 @@ export default function RecipeSearchCard({ recipe }) {
             {!loadingSave ? (
               <div
                 onClick={
-                  savedRecipes.includes(recipe.id) ? handleUnSave : handleSave
+                  user.savedRecipes.includes(recipe.id)
+                    ? handleUnSave
+                    : handleSave
                 }
                 onMouseEnter={() => handleHover("save")}
                 onMouseLeave={() => handleHover(null)}
                 className="h-6 w-6 ml-3 cursor-pointer"
               >
-                {hoveredIcon === "save" || savedRecipes.includes(recipe.id) ? (
+                {hoveredIcon === "save" ||
+                user.savedRecipes.includes(recipe.id) ? (
                   <ArrowDownCircleIconSolid className="text-emerald-600 stroke-2" />
                 ) : (
                   <ArrowDownCircleIcon className="text-emerald-600 stroke-2" />
@@ -213,7 +206,7 @@ export default function RecipeSearchCard({ recipe }) {
                 {hoveredIcon === "save" && tooltipShowing ? (
                   <Tooltip
                     message={
-                      savedRecipes.includes(recipe.id)
+                      user.savedRecipes.includes(recipe.id)
                         ? "Remove this recipe from your saved recipes"
                         : "Save this recipe for later"
                     }

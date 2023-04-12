@@ -1,12 +1,11 @@
 import Dashboard from "@/layouts/Dashboard";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { truncateRecipe, recipePagination } from "@/lib/edamam/helpers";
 import Pagination from "@/components/Pagination";
 import SearchResults from "@/components/Search/SearchResults";
 import RecipeSearchCard from "@/components/Recipes/RecipeSearchCard";
 import NoResults from "@/components/Search/NoResults";
 import Loading from "@/components/Loading";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react/dist";
 import RecipeSearchForm from "@/components/Forms/RecipeSearchForm";
 
 // TODO:
