@@ -17,13 +17,14 @@ import AddMenuModal from "../Menus/AddMenuModal";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import Loading from "../Loading";
+import { useContext, useState } from "react";
+import UserContext from "@/lib/context/UserContext";
 
 export default function Sidebar() {
   const supabase = useSupabaseClient();
   const user = useUser();
+  const [userInfo, setUserInfo] = useContext(UserContext);
+
   const router = useRouter();
   //get current user's menus
   const { data: menus, isLoading } = useSWR("/api/user/menus");
@@ -243,20 +244,19 @@ export default function Sidebar() {
             </div>
           </div>
 
-          {user ? (
-            <nav className="mt-4 mx-3 space-y-3 ">
-              <SideBarMenuItem dotColor="bg-pink-500" name="Test Item" />
-              {user.user_metadata.menus?.map((menu, idx) => {
-                console.log(menu, idx);
-                let color = getColor(idx);
-                return (
-                  <>
-                    <SideBarMenuItem dotColor={color} name={menu} />
-                  </>
-                );
-              })}
-            </nav>
-          ) : null}
+          <nav className="mt-4 mx-3 space-y-3 ">
+            <SideBarMenuItem dotColor="bg-pink-500" name="Test Item" />
+            {userInfo.menus ? (
+              <>
+                {userInfo.menus.map((menu, idx) => {
+                  let color = getColor(idx);
+                  return (
+                    <SideBarMenuItem key={menu} dotColor={color} name={menu} />
+                  );
+                })}
+              </>
+            ) : null}
+          </nav>
         </div>
       </div>
       <ClientOnlyPortal selector="#modals">
@@ -268,8 +268,4 @@ export default function Sidebar() {
       </ClientOnlyPortal>
     </aside>
   );
-}
-
-export async function getStaticProps(ctx) {
-  const supabase = createServerSupabaseClient(ctx);
 }
