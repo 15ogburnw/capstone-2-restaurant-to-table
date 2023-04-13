@@ -13,12 +13,14 @@ export default function App({ Component, pageProps }) {
 
 	// TODO: IMPLEMENT TOAST MESSAGES FOR ALL USER FETCHING DATA/ERROR HANDLING
 
-	
+
 
 	return (
 		<SessionContextProvider
 			supabaseClient={supabaseClient}
 			initialSession={pageProps.initialSession}>
+			{/* TODO: CREATE CUSTOM ERROR HANDLING HERE */}
+
 			<Layout>
 				<Component {...pageProps} />;
 				<ToastContainer position='top-center' autoclose={2000} />

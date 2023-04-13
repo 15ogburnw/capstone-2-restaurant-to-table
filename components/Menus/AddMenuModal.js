@@ -16,6 +16,8 @@ export default function AddMenuModal() {
 
   // TODO: ALERTS AREN'T DISAPPEARING ON THE MODAL PAGE AFTER IT IS CLOSED. MODAL POPS UP EVERY TIME I CLICK ON THE PAGE OUTSIDE OF IT, EVEN IF ITS CLOSED
 
+  const { data, error, isLoading, mutate } = useSWR("/api/user/menus");
+
   const handleChange = (e) => {
     const newVal = e.target.value;
     setNewMenuName(newVal);
