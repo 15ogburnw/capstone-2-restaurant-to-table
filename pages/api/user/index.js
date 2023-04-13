@@ -13,7 +13,7 @@ const handler = async (req, res) => {
       } = await supabaseServerClient.auth.getUser();
       return res.status(200).json({
         user: {
-          name: user?.name ?? "",
+          name: user.name ?? null,
           email: user.email,
         },
       });

@@ -21,8 +21,6 @@ import { useContext, useState } from "react";
 import UserContext from "@/lib/context/UserContext";
 
 export default function Sidebar() {
-  const supabase = useSupabaseClient();
-  const user = useUser();
   const [userInfo, setUserInfo] = useContext(UserContext);
 
   const router = useRouter();

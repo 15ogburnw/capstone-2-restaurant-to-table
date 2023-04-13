@@ -3,59 +3,41 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useCallback, useEffect, useState } from "react";
+import useSWR from "swr";
 import UserContext from "../lib/context/UserContext";
+import Loading from "@/components/Loading";
 
 export default function Dashboard({ children }) {
-  const user = useUser();
-  const supabase = useSupabaseClient();
-  const [userInfo, setUserInfo] = useState({});
-
-  const getFavoriteRecipes = useCallback(async () => {
-    let { data, error } = await supabase
-      .from("favorite_recipes")
-      .select("recipe_id");
-    if (error) console.error;
-    return data.map((item) => item.recipe_id) || [];
-  }, [supabase]);
-
-  const getSavedRecipes = useCallback(async () => {
-    let { data, error } = await supabase
-      .from("saved_recipes")
-      .select("recipe_id");
-    if (error) console.error(error);
-
-    return data.map((item) => item.recipe_id) || [];
-  }, [supabase]);
-
-  const getUserMenus = useCallback(async () => {
-    let { data, error } = await supabase.from("menus").select("name");
-    if (error) console.error(error);
-
-    return data.map((item) => item.name) || [];
-  }, [supabase]);
-
-  const setUserVals = useCallback(async () => {
-    const favoriteRecipes = await getFavoriteRecipes();
-    const savedRecipes = await getSavedRecipes();
-    const menus = await getUserMenus();
-
-    setUserInfo((old) => ({ ...old, favoriteRecipes, savedRecipes, menus }));
-  }, [getFavoriteRecipes, getSavedRecipes, getUserMenus]);
+  const [userInfo, setUserInfo] = useState();
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:3000/api/user/saved-recipes",
+    fetcher
+  );
 
   useEffect(() => {
-    setUserVals();
-  }, [setUserVals]);
+    if (!isLoading && !error) {
+      setUserInfo(data.user);
+    }
+  }, [data?.user, error, isLoading]);
 
-  if (user)
+  if (error) return "There was a problem fetching user data";
+  if (isLoading)
     return (
-      <UserContext.Provider value={[userInfo, setUserInfo]}>
-        <Navbar />
-        <div className="flex flex-row">
-          <Sidebar />
-          {children}
-        </div>
-        <Footer />
-      </UserContext.Provider>
+      <div className="h-screen w-screen flex flex-col items-center justify-center">
+        <Loading />
+      </div>
     );
-  else return null;
+
+  return (
+    <UserContext.Provider value={[userInfo, setUserInfo]}>
+      <Navbar />
+      <div className="flex flex-row">
+        <Sidebar />
+        {children}
+      </div>
+      <Footer />
+    </UserContext.Provider>
+  );
+  // else return null;
 }
