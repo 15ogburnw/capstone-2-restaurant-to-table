@@ -1,43 +1,42 @@
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useCallback, useEffect, useState } from "react";
-import useSWR from "swr";
-import UserContext from "../lib/context/UserContext";
-import Loading from "@/components/Loading";
+import { SWRConfig } from "swr";
 
 export default function Dashboard({ children }) {
-  const [userInfo, setUserInfo] = useState();
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    "http://localhost:3000/api/user/saved-recipes",
-    fetcher
-  );
-
-  useEffect(() => {
-    if (!isLoading && !error) {
-      setUserInfo(data.user);
-    }
-  }, [data?.user, error, isLoading]);
-
-  if (error) return "There was a problem fetching user data";
-  if (isLoading)
-    return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center">
-        <Loading />
-      </div>
-    );
-
   return (
-    <UserContext.Provider value={[userInfo, setUserInfo]}>
+    <SWRConfig
+      value={{
+        refreshInterval: 5000,
+
+        fetcher: (resource, init) =>
+          fetch(resource, init).then((res) => res.json()),
+
+        onError: (error, key) => {
+          if (error.status !== 403 && error.status !== 404) {
+            // We can send the error to Sentry,
+            // or show a notification UI.
+          }
+        },
+        onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+          // Never retry on 404.
+          if (error.status === 404) return;
+
+          // Only retry up to 10 times.
+          if (retryCount >= 10) return;
+
+          // Retry after 5 seconds.
+          setTimeout(() => revalidate({ retryCount }), 5000);
+        },
+      }}
+    >
       <Navbar />
       <div className="flex flex-row">
         <Sidebar />
         {children}
       </div>
       <Footer />
-    </UserContext.Provider>
+    </SWRConfig>
   );
   // else return null;
 }

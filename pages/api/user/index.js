@@ -11,15 +11,20 @@ const handler = async (req, res) => {
       const {
         data: { user },
       } = await supabaseServerClient.auth.getUser();
-      return res.status(200).json({
-        user: {
-          name: user.name ?? null,
-          email: user.email,
-        },
-      });
+      if (!user) return res.json(404).json({ message: "User not found" });
+
+      user = {
+        name: user.name ?? null,
+        email: user.email,
+      };
+      res.status(200).json({ user });
     } catch (e) {
-      res.status(404).json({ message: "couldn't find user" });
+      res
+        .status(500)
+        .json({ message: "Something went wrong, please try again later" });
     }
+  } else {
+    res.status(400).json({ message: "Method not allowed" });
   }
 };
 

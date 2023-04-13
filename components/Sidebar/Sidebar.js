@@ -8,20 +8,18 @@ import {
   ArrowRightOnRectangleIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
-
 import SVG from "react-inlinesvg";
-
 import { useRouter } from "next/router";
-import SideBarMenuItem from "../Menus/SidbarMenuItem";
+import SideBarMenuItem from "../Menus/SidebarMenuItem";
 import AddMenuModal from "../Menus/AddMenuModal";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
-import UserContext from "@/lib/context/UserContext";
+import { useState } from "react";
+import useSWR from "swr";
+import Loading from "../Loading";
 
 export default function Sidebar() {
-  const [userInfo, setUserInfo] = useContext(UserContext);
+  const { data, isLoading, error } = useSWR("/api/user/menus");
 
   const router = useRouter();
   const [hoverMenu, setHoverMenu] = useState(false);
@@ -57,7 +55,14 @@ export default function Sidebar() {
   // TODO:
   // --FIX SO THAT THE NAVBAR COLLAPSES ON SMALLER SIZES - REFERENCE NOTUS TEMPLATE NAVBAR
   // --FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR (FIGURE OUT WHY THE CURRENT LOGO IS FAILING TO LOAD SOMETIMES)
-
+  // --Style this error message with a toast or something
+  if (error) return <h1>Something Went Wrong! {console.error(error)}</h1>;
+  else if (isLoading)
+    return (
+      <div className="h-screen w-screen flex flex-col justify-center items-center absolute bg-white z-10">
+        <Loading />
+      </div>
+    );
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
       <Link href="/dashboard">
@@ -209,16 +214,18 @@ export default function Sidebar() {
 
           <nav className="mt-4 mx-3 space-y-3 ">
             <SideBarMenuItem dotColor="bg-pink-500" name="Test Item" />
-            {userInfo.menus ? (
+            {data.menus ? (
               <>
-                {userInfo.menus.map((menu, idx) => {
+                {data.menus.map((val, idx) => {
                   let color = getColor(idx);
                   return (
-                    <SideBarMenuItem key={menu} dotColor={color} name={menu} />
+                    <SideBarMenuItem key={val} dotColor={color} name={val} />
                   );
                 })}
               </>
-            ) : null}
+            ) : (
+              console.log(data)
+            )}
           </nav>
         </div>
       </div>

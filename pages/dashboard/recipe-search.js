@@ -27,45 +27,28 @@ export default function RecipeSearchPage() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(INITIAL_RESULTS);
   const [activeSearch, setActiveSearch] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  // const user = useUser();
-
-  // const refreshSavedRecipes = useCallback(
-  //   () => user.user_metadata.getSavedRecipes,
-  //   [user.user_metadata.getSavedRecipes]
-  // );
-  // const refreshFavoriteRecipes = useCallback(
-  //   () => user.user_metadata.getFavoriteRecipes,
-  //   [user.user_metadata.getFavoriteRecipes]
-  // );
-
-  // useEffect(() => {
-  //   if (user) {
-  //     refreshSavedRecipes();
-  //     refreshFavoriteRecipes();
-  //   }
-  // }, [refreshFavoriteRecipes, refreshSavedRecipes, user]);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   // HandleNextPage and HandlePrevPage are passed down to pagination component
   // They call a helper function for handling pagination with the Edamam model, then
   const handleNextPage = (e) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
+      setSearchLoading(true);
       setResults((old) => ({ ...old, currentPageItems: [] }));
       const newResults = await recipePagination("next", results);
       setResults((old) => ({ ...old, ...newResults }));
-      setIsLoading(false);
+      setSearchLoading(false);
     })();
   };
 
   const handlePrevPage = (e) => {
     e.preventDefault();
     (async () => {
-      setIsLoading(true);
+      setSearchLoading(true);
       const newResults = await recipePagination("prev", results);
       setResults((old) => ({ ...old, ...newResults }));
-      setIsLoading(false);
+      setSearchLoading(false);
     })();
   };
 
@@ -83,14 +66,14 @@ export default function RecipeSearchPage() {
       .then((res) => res.json())
       .catch((e) => {
         console.error(e);
-        setIsLoading(false);
+        setSearchLoading(false);
       });
 
     const items = data?.hits;
 
     // If I don't get any data, set loading state to false
     if (!data || items.length === 0) {
-      setIsLoading(false);
+      setSearchLoading(false);
       return;
     }
 
@@ -119,7 +102,7 @@ export default function RecipeSearchPage() {
     };
 
     setResults((old) => ({ ...old, ...newResults }));
-    setIsLoading(false);
+    setSearchLoading(false);
     return;
   }
 
@@ -127,13 +110,13 @@ export default function RecipeSearchPage() {
   const handleSearch = (values) => {
     setResults(INITIAL_RESULTS);
     setActiveSearch(true);
-    setIsLoading(true);
+    setSearchLoading(true);
     searchRecipes(values);
   };
 
   const resetResults = () => {
     setResults(INITIAL_RESULTS);
-    setIsLoading(false);
+    setSearchLoading(false);
     setActiveSearch(false);
   };
 
@@ -142,7 +125,7 @@ export default function RecipeSearchPage() {
       <RecipeSearchForm
         handleSearch={handleSearch}
         activeSearch={activeSearch}
-        isLoading={isLoading}
+        searchLoading={searchLoading}
         resetResults={resetResults}
       />
 
@@ -165,11 +148,11 @@ export default function RecipeSearchPage() {
 
         <div className="flex align-middle flex-col text-center justify-center w-full h-full items-center">
           {/* If the search is loading, display a loading message */}
-          {isLoading ? <Loading /> : null}
+          {searchLoading ? <Loading /> : null}
 
           {/* If there are no recipes in the results state, there is an active search, and it's not loading, display a no results message */}
 
-          {results?.items.length === 0 && activeSearch && !isLoading ? (
+          {results?.items.length === 0 && activeSearch && !searchLoading ? (
             <NoResults query={query} type="recipes" />
           ) : null}
           {/* If there's not an active search, display a message prompting the user to search for a recipe */}
@@ -189,7 +172,7 @@ export default function RecipeSearchPage() {
           results={results}
           handleNextPage={handleNextPage}
           handlePrevPage={handlePrevPage}
-          isLoading={isLoading}
+          searchLoading={searchLoading}
         />
       ) : null}
     </section>
