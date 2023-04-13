@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+
+import useSWR from "swr";
+import Loading from "../Loading";
 
 export default function AddMenuModal({ setShowModal }) {
-  const user = useUser();
-  const supabase = useSupabaseClient();
   const [menuName, setMenuName] = useState("");
-  const [error, setError] = useState("");
+  const [alert, setAlert] = useState("");
+
+  const { data, error, isLoading, mutate } = useSWR("/api/user/menus");
 
   const handleChange = (e) => {
     const newVal = e.target.value;
@@ -14,20 +16,35 @@ export default function AddMenuModal({ setShowModal }) {
 
   const handleSubmit = (e) => {
     e.preventDefault(e);
-    setShowModal(false);
-
-    if (!menuName) setError("Please enter a name for your menu!");
+    setAlert("");
+    if (data?.menus.length > 0 && data.menus.includes(menuName)) {
+      setAlert("You already have a menu with this name, try a different one!");
+    } else if (!menuName) setAlert("Please enter a name for your menu!");
     createMenu();
   };
 
   const createMenu = async () => {
-    const { error } = await supabase
-      .from("menus")
-      .insert({ name: menuName, user_id: user.id });
-    if (error) console.error(error);
+    await fetch("/api/user/menus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: menuName }),
+    })
+      .then((res) => res.json())
+      .catch((e) => console.error(e));
+
+    mutate([...data, menuName]);
     setMenuName("");
   };
 
+  if (error) return <>{console.error(error)}</>;
+  if (isLoading)
+    return (
+      <div className="w-screen h-screen flex flex-col bg-white z-10 justify-center items-center text-center">
+        <Loading />
+      </div>
+    );
   return (
     <div
       className="fixed  inset-x-0 top-1/4 z-10 overflow-y-auto transition duration-300 ease-in-out"
@@ -71,9 +88,9 @@ export default function AddMenuModal({ setShowModal }) {
               className="flex h-10 px-4  text-sm text-gray-700 bg-white border border-gray-200 rounded-md  w-full mt-2  focus:border-emerald-400 focus:ring-emerald-300 focus:ring-opacity-40  focus:outline-none focus:ring"
             />
 
-            {error ? (
+            {alert ? (
               <p classNameName="text-red-500 font-semibold text-center">
-                {error}
+                {alert}
               </p>
             ) : null}
 

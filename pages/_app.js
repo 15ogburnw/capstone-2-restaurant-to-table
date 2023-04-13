@@ -18,6 +18,8 @@ export default function App({ Component, pageProps }) {
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
+      {/* TODO: CREATE CUSTOM ERROR HANDLING HERE */}
+
       <Layout>
         <Component {...pageProps} />;
       </Layout>
