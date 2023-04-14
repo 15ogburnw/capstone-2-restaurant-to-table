@@ -15,6 +15,7 @@ import AddMenuModal from "../Menus/AddMenuModal";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+
 import useSWR from "swr";
 import Loading from "../Loading";
 
@@ -24,6 +25,7 @@ export default function Sidebar() {
   const router = useRouter();
   const [hoverMenu, setHoverMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
   const COLORS = [
     "bg-red-500",
     "bg-orange-500",
