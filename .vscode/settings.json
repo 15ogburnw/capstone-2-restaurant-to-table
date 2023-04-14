@@ -4,6 +4,7 @@
   "editor.formatOnSaveMode": "file",
   "files.autoSave": "onWindowChange",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   "npm-intellisense.packageSubfoldersIntellisense": true,
 >>>>>>> e3767c3 (signin sheet almost working again)
@@ -335,4 +336,7 @@
 =======
   "editor.find.addExtraSpaceOnTop": true
 >>>>>>> e3767c3 (signin sheet almost working again)
+=======
+  "simpleBrowser.focusLockIndicator.enabled": true
+>>>>>>> 71b3a5d (still a mess with menus database)
 }

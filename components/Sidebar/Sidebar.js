@@ -252,10 +252,9 @@ export default function Sidebar() {
           </div>
 
           <nav className="mt-4 mx-3 space-y-3 ">
-            <SideBarMenuItem dotColor="bg-pink-500" name="Test Item" />
-            {data.menus ? (
+            {data ? (
               <>
-                {data.menus.map((val, idx) => {
+                {data?.menus?.map((val, idx, newArr) => {
                   let color = getColor(idx);
                   return (
                     <SideBarMenuItem key={val} dotColor={color} name={val} />
