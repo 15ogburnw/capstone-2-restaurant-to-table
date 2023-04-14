@@ -1,6 +1,7 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true,
-	"editor.formatOnSaveMode": "file",
-	"files.autoSave": "onWindowChange"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "files.autoSave": "onWindowChange",
+  "simpleBrowser.focusLockIndicator.enabled": true
 }
