@@ -6,6 +6,7 @@ const handler = async (req, res) => {
       req,
       res,
     });
+    const user = await supabaseServerClient.auth.getUser();
     if (req.method === "GET") {
       let { data, error } = await supabaseServerClient
         .from("menus")
@@ -16,10 +17,13 @@ const handler = async (req, res) => {
       res.status(200).json({ menus });
     } else if (req.method === "POST") {
       const { name } = req.body;
-      let { error } = await supabaseServerClient.from("menus").insert({ name });
+      let { error } = await supabaseServerClient
+        .from("menus")
+        .insert({ name, user_id: user.id });
       if (error) res.status(400).json({ message: error.message });
-
-      res.status(201).json({ message: "Menu successfully created" });
+      else {
+        res.status(201).json({ message: "Menu successfully created" });
+      }
     } else if (req.method === "DELETE") {
       // TODO: BUILD THIS
     } else if (req.method === "PATCH") {
