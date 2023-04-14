@@ -4,6 +4,7 @@
   "editor.formatOnSaveMode": "file",
   "files.autoSave": "onWindowChange",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -306,5 +307,11 @@
 =======
   "editor.find.addExtraSpaceOnTop": true
 >>>>>>> e3767c3 (signin sheet almost working again)
+<<<<<<< HEAD
 >>>>>>> a4e90ff (signin sheet almost working again)
+=======
+=======
+  "simpleBrowser.focusLockIndicator.enabled": true
+>>>>>>> 71b3a5d (still a mess with menus database)
+>>>>>>> e03ea14 (still a mess with menus database)
 }
