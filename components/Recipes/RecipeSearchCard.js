@@ -12,6 +12,7 @@ import {
   HeartIcon as HeartIconSolid,
   ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
 } from "@heroicons/react/24/solid";
+import Loading from "../Loading";
 import { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
@@ -148,7 +149,7 @@ export default function RecipeSearchCard({ recipe }) {
   if (loadingFavorites && loadingSaved) {
     return (
       <div className="absolute w-screen h-screen bg-white z-10 flex flex-col justify-center items-center">
-        <Loading />
+        <Loading size="lg" />
       </div>
     );
   } else {
