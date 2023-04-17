@@ -17,26 +17,6 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <link
-          rel="preload"
-          href="/api/user/menus"
-          as="menus"
-          crossOrigin="anonymous"
-        ></link>
-        <link
-          rel="preload"
-          href="/api/user/saved-recipes"
-          as="savedRecipes"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/api/user/favorite-recipes"
-          as="menus"
-          crossOrigin="anonymous"
-        />
-      </Head>
       <SessionContextProvider
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession}

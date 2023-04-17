@@ -16,15 +16,11 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
-import useSWR, { preload, useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 
 import Tooltip from "../TopTooltip";
 
-const fetcher = (resource, init) =>
-  fetch(resource, init).then((res) => res.json());
-
-preload("/api/user/favorite-recipes", fetcher);
-preload("/api/user/saved-recipes", fetcher);
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
@@ -32,10 +28,8 @@ export default function RecipeSearchCard({ recipe }) {
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const [tooltipShowing, setTooltipShowing] = useState(false);
   const { mutate } = useSWRConfig();
-  const { data: favorites } = useSWR("/api/user/favorite-recipes");
-  const { data: saved } = useSWR("/api/user/saved-recipes");
 
-  const postInit = useMemo(
+  const postOptions = useMemo(
     () => ({
       method: "POST",
       headers: {
@@ -46,11 +40,7 @@ export default function RecipeSearchCard({ recipe }) {
     [recipe.id]
   );
 
-  useEffect(() => {
-    console.log(favorites);
-  }, [favorites]);
-
-  const deleteInit = useMemo(
+  const deleteOptions = useMemo(
     () => ({
       method: "DELETE",
       headers: {
@@ -81,17 +71,17 @@ export default function RecipeSearchCard({ recipe }) {
     e.preventDefault();
     try {
       mutate(
-        "api/user/saved-recipes",
+        "/api/user/saved-recipes",
         fetch("/api/user/saved-recipes", postInit),
         {
           optimisticData: (newSave, savedRecipes) => {
             const {
               data: { saves },
             } = savedRecipes;
-            const {
-              data: { message },
-            } = savedRecipes;
-            setToast(message);
+            // const {
+            //   data: { message },
+            // } = savedRecipes;
+            // setToast(message);
 
             return [...saves, newSave];
           },

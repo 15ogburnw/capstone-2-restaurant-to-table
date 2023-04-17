@@ -7,7 +7,6 @@ import {
   RectangleStackIcon,
   ArrowRightOnRectangleIcon,
   Cog6ToothIcon,
-  ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import SVG from "react-inlinesvg";
 import { useRouter } from "next/router";
@@ -15,21 +14,17 @@ import SideBarMenuItem from "../Menus/SidebarMenuItem";
 import AddMenuModal from "../Menus/AddMenuModal";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import useSWR, { mutate, preload } from "swr";
 import Loading from "../Loading";
 
 export default function Sidebar() {
-  const { data: menus, isLoading, error } = useSWR("/api/user/menus");
+  const { data: menus, isLoading } = useSWR("/api/user/menus");
 
   const router = useRouter();
   const [hoverMenu, setHoverMenu] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    preload("/api/user/menus", (url) => fetch(url).then((res) => res.json()));
-  }, []);
 
   const COLORS = [
     "bg-red-500",
@@ -55,18 +50,17 @@ export default function Sidebar() {
     e.preventDefault();
     async function signOut() {
       const { error } = await supabase.auth.signOut();
-      router.push("/");
       if (error) console.error(error);
+      router.push("/");
     }
-    signOut();
     clearCache();
+    signOut();
   };
 
   // TODO:
   // --FIX SO THAT THE NAVBAR COLLAPSES ON SMALLER SIZES - REFERENCE NOTUS TEMPLATE NAVBAR
   // --FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR (FIGURE OUT WHY THE CURRENT LOGO IS FAILING TO LOAD SOMETIMES)
   // --Style this error message with a toast or something
-  if (error) return <h1>Something Went Wrong! {console.error(error)}</h1>;
 
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
@@ -210,8 +204,9 @@ export default function Sidebar() {
           </div>
 
           <nav className="mt-4 mx-3 space-y-3 ">
-            {menus?.length > 0 && !isLoading ? (
+            {(!menus || menus.length > 0) && !isLoading ? (
               <>
+                {console.log(menus)}
                 {menus.map((menu, idx) => {
                   return (
                     <SideBarMenuItem
@@ -224,7 +219,7 @@ export default function Sidebar() {
               </>
             ) : null}
 
-            {!menus || menus.length === 0 ? (
+            {(!menus || menus.length === 0) && !isLoading ? (
               <button className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
                 <div className="flex items-center gap-x-2 ">
                   <span>
@@ -239,7 +234,9 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {showModal ? <AddMenuModal setShowModal={setShowModal} /> : null}
+      {showModal && !isLoading ? (
+        <AddMenuModal setShowModal={setShowModal} />
+      ) : null}
     </aside>
   );
 }
