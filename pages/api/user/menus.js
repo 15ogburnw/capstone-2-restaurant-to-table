@@ -10,66 +10,64 @@ const handler = async (req, res) => {
       data: { user },
     } = await supabaseServerClient.auth.getUser();
     const { name, id } = req.body;
-    let data, error;
+    let menus;
 
     switch (req.method) {
       case "GET":
-        ({ data, error } = await supabaseServerClient
-          .from("menus")
-          .select("name, id"));
-        if (error) {
-          res.status(error.code).send({ error: error.message });
+        menus = await supabaseServerClient.from("menus").select("id, name");
+        if (menus.error) {
+          res.status(menus.status).json({ error: menus.statusText });
         } else {
-          res.status(200).json(data);
+          res.status(200).json(menus.data);
         }
         break;
 
       case "POST":
-        ({ data, error } = await supabaseServerClient
+        menus = await supabaseServerClient
           .from("menus")
           .insert({ name: name, user_id: user.id })
-          .select("name, id"));
-        if (error) res.status(error.code).json({ error: error.message });
+          .select("id, name");
+        if (menus.error)
+          res.status(menus.status).json({ error: menus.statusText });
         else {
-          console.log("menus after post", data);
-          res.status(201).json(data);
+          console.log("menu successfully added:", menus.data);
+          res.status(201).json(menus.data);
         }
         break;
 
       case "DELETE":
-        ({ data, error } = await supabaseServerClient
+        menus = await supabaseServerClient
           .from("menus")
           .delete()
           .eq("name", name)
-          .select("id", "name"));
-        if (error) res.status(error.code).send({ error: error.message });
+          .select("id", "name");
+        if (menus.error)
+          res.status(menus.status).json({ error: menus.statusText });
         else {
-          console.log("deleted menu", data);
-          res
-            .status(200)
-            .json({ message: `successfully deleted menu "${name}"` });
+          console.log("deleted menu", menus.data);
+          res.status(200).json(menus.data);
         }
         break;
 
       case "PATCH":
-        ({ data, error } = await supabaseServerClient
+        menus = await supabaseServerClient
           .from("menus")
-          .update({ name })
+          .update({ name: name })
           .eq("id", id)
-          .select("id", "name"));
-        if (error) res.status(error.code).json({ error: error.message });
+          .select("id, name");
+        if (menus.error)
+          res.status(menus.status).json({ error: menus.statusText });
         else {
-          console.log("menu after update", data.name);
+          console.log("menu after update", menus.data);
+          res.status(200).json(menus.data);
         }
         break;
 
       default:
-        res
-          .status(500)
-          .send({ error: "Something went wrong, please try again later" });
+        res.status(400).json({ error: "Bad Request" });
     }
   } catch (error) {
-    res.status(error.code).send(error.message);
+    res.send(error);
   }
 };
 

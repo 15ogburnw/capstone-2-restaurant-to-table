@@ -5,7 +5,16 @@ import Loading from "../Loading";
 // preload("http://localhost:3000/api/user/favorite-recipes", fetcher);
 // preload("http://localhost:3000/api/user/saved-recipes", fetcher);
 
+import useSWR, { preload } from "swr";
+import Loading from "../Loading";
+
+// const fetcher = (url) => fetch(url).then((res) => res.json());
+// preload("http://localhost:3000/api/user/favorite-recipes", fetcher);
+// preload("http://localhost:3000/api/user/saved-recipes", fetcher);
+
 export default function SearchResults({ children }) {
+  const favorites = useSWR("/api/user/favorite-recipes");
+  const saved = useSWR("/api/user/saved-recipes");
   const favorites = useSWR("/api/user/favorite-recipes");
   const saved = useSWR("/api/user/saved-recipes");
   return (
@@ -14,7 +23,7 @@ export default function SearchResults({ children }) {
         {favorites.isLoading || saved.isLoading ? (
           <Loading sz="xl" />
         ) : (
-          children
+          {children}
         )}
       </div>
     </div>

@@ -1,7 +1,5 @@
 {
-  "recommendations": [
-    "arcanis.vscode-zipfs",
-    "dbaeumer.vscode-eslint",
-    "riazxrazor.html-to-jsx"
-  ]
+    "recommendations": [
+        "ms-vscode-remote.vscode-remote-extensionpack"
+    ]
 }
