@@ -103,21 +103,17 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 					) : null}
 				</div>
 
-			</div>
-		</div>
-		{/* 
-          If there are currently recipes in the results state, display the buttons for pagination, passing down custom functions
-          for handling the pagination, the results state object, and the loading state. 
-        	*/}
-		{/* {results.items.length > 0 ? (
-			<Pagination
-				results={results}
-				handleNextPage={handleNextPage}
-				handlePrevPage={handlePrevPage}
-				searchLoading={searchLoading}
-			/>
-		) : null} */}
-	</>
-
-	);
+				export default function SearchResults({children}) {
+  const favorites = useSWR("/api/user/favorite-recipes");
+				const saved = useSWR("/api/user/saved-recipes");
+				const favorites = useSWR("/api/user/favorite-recipes");
+				const saved = useSWR("/api/user/saved-recipes");
+				return (
+				<div className="flex  mt-2 border border-gray-400 bg-white rounded-lg min-h-[500px] max-h-[750px]  overflow-hidden">
+					<div className="flex flex-col items-start w-full overflow-auto">
+						{favorites.isLoading || saved.isLoading ? <Loading sz="xl" /> : null}
+						{children}
+					</div>
+				</div>
+				);
 }
