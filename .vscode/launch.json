@@ -2,25 +2,27 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "chrome",
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
       "request": "launch",
-      "name": "Next: Chrome",
-      "url": "http://localhost:3000",
-      "webRoot": "/home/wade/Springboard/rtt-nextjs-final/"
+      "command": "yarn dev"
     },
     {
-      "type": "node",
+      "name": "Next.js: debug client-side",
+      "type": "chrome",
       "request": "launch",
-      "name": "Next: Node",
-      "outputCapture": "std",
-      "program": "./node_modules/next/dist/bin/next",
-      "args": ["dev"]
-    }
-  ],
-  "compounds": [
+      "url": "http://localhost:3000"
+    },
     {
-      "name": "Next: Full",
-      "configurations": ["Next: Node", "Next: Chrome"]
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev",
+      "serverReadyAction": {
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
     }
   ]
 }

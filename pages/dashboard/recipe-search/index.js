@@ -145,10 +145,9 @@ export default function RecipeSearchPage() {
               : null}
           </div>
         </div>
-
+        {searchLoading ? <Loading size="xl" container={true} /> : null}
         <div className="flex align-middle flex-col text-center justify-center w-full h-full items-center">
           {/* If the search is loading, display a loading message */}
-          {searchLoading ? <Loading /> : null}
 
           {/* If there are no recipes in the results state, there is an active search, and it's not loading, display a no results message */}
 

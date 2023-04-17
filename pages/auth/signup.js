@@ -1,5 +1,5 @@
 import Image from "next/image";
-import rttLogo from "public/rtt-logos/rtt-logo.svg";
+import SVG from "react-inlinesvg";
 import SignupForm from "@/components/Forms/SignupForm";
 import Auth from "@/layouts/Auth";
 
@@ -12,12 +12,10 @@ export default function SignupPage() {
         <div className="w-full px-6 py-8 md:px-8">
           <div className="flex justify-center mx-auto">
             <div className="w-auto h-7 sm:h-8">
-              <Image
-                height={40}
-                width={40}
-                className="mb-5"
-                src={rttLogo}
-                alt=""
+              <SVG
+                className="h-8 w-auto inline flex-none"
+                src="/img/rtt-logos/rtt-icon.svg"
+                alt="logo"
               />
             </div>
           </div>

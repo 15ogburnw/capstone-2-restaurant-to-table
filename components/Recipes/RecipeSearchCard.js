@@ -18,7 +18,6 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import useSWR, { preload, useSWRConfig } from "swr";
 
 import Tooltip from "../TopTooltip";
-import Loading from "../Loading";
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
