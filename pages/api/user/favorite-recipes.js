@@ -17,9 +17,10 @@ const handler = async (req, res) => {
         ({ data, error } = await supabaseServerClient
           .from("favorite_recipes")
           .select("recipe_id"));
-        if (error) res.error(error);
+        if (error) res.send(error);
         else {
           const favorites = data?.map((val) => val.recipe_id) || [];
+          console.log(favorites);
           res.status(200).json(favorites);
         }
         break;
@@ -28,7 +29,7 @@ const handler = async (req, res) => {
         ({ error } = await supabaseServerClient
           .from("favorite_recipes")
           .insert({ recipe_id, user_id: user.id }));
-        if (error) res.error(error);
+        if (error) res.send(error);
         else
           res
             .status(201)
@@ -40,7 +41,7 @@ const handler = async (req, res) => {
           .from("favorite_recipes")
           .delete()
           .eq("recipe_id", recipe_id));
-        if (error) res.error(error);
+        if (error) res.send(error);
         else {
           res.status(200).json({
             message: "Recipe successfully removed from favorite recipes",
@@ -49,12 +50,10 @@ const handler = async (req, res) => {
         break;
 
       default:
-        error = new Error("Something went wrong, please try again later");
-        error.code = 500;
-        res.error(error);
+        res.status(400).json("Bad Request");
     }
   } catch (error) {
-    res.error(error);
+    res.status(500).json({ error: error.message });
   }
 };
 

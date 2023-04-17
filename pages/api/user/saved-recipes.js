@@ -17,19 +17,24 @@ const handler = async (req, res) => {
         ({ data, error } = await supabaseServerClient
           .from("saved_recipes")
           .select("recipe_id"));
-        if (error) res.error(error);
+        if (error) res.send(error);
         else {
           const saved = data?.map((val) => val.recipe_id) || [];
+          console.log(saved);
           res.status(200).json(saved);
         }
         break;
 
       case "POST":
-        ({ error } = await supabaseServerClient
+        ({ data, error } = await supabaseServerClient
           .from("saved_recipes")
-          .insert({ recipe_id, user_id: user.id }));
-        if (error) res.error(error);
-        else res.status(201).json({ message: "Recipe successfully saved" });
+          .insert({ recipe_id, user_id: user.id })
+          .select("recipe_id"));
+        if (error) res.send(error);
+        else
+          res.status(201).json({
+            data: { message: "Recipe successfully saved", saves: data },
+          });
         break;
 
       case "DELETE":
@@ -37,7 +42,7 @@ const handler = async (req, res) => {
           .from("saved_recipes")
           .delete()
           .eq("recipe_id", recipe_id));
-        if (error) res.error(error);
+        if (error) res.send(error);
         else {
           res.status(200).json({
             message: "Recipe successfully removed from saved recipes",
@@ -46,12 +51,10 @@ const handler = async (req, res) => {
         break;
 
       default:
-        error = new Error("Something went wrong, please try again later");
-        error.code = 500;
-        res.error(error);
+        res.status(400).json({ error: "Bad Request" });
     }
   } catch (error) {
-    res.error(error);
+    res.send(error);
   }
 };
 
