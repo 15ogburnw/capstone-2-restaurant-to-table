@@ -1,20 +1,31 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import useSWR from "swr";
 import useClickOutside from "@/lib/hooks/useClickOutside";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useSWRConfig } from "swr";
-import { useUser } from "@supabase/auth-helpers-react";
+import useSWRMutation from "swr/mutation";
 
 export default function AddMenuModal({ setShowModal }) {
   const [newMenuName, setNewMenuName] = useState("");
   const [alert, setAlert] = useState("");
   const modalRef = useRef(null);
   useClickOutside(modalRef, setShowModal);
-  const user = useUser();
-  const { mutate } = useSWRConfig();
-
   let { data: menus } = useSWR("/api/user/menus");
+
+  const createMenu = async (url, { name }) => {
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(name),
+    }).then((res) => res.json());
+  };
+
+  const { trigger } = useSWRMutation("/api/user/menus", createMenu, {
+    optimisticData: (current) => ({ ...current, name: newMenuName }),
+    rollbackOnError: true,
+  });
 
   const handleChange = (e) => {
     const newVal = e.target.value;
@@ -29,30 +40,16 @@ export default function AddMenuModal({ setShowModal }) {
         setAlert(
           "You already have a menu with this name, try a different one!"
         );
+        return;
       }
     }
-    if (!newMenuName) setAlert("Please enter a name for your menu!");
-    else {
-      createMenu();
-    }
-  };
-
-  const createMenu = async () => {
-    try {
-      await mutate("/api/user/menus", async () => {
-        return fetch("/api/user/menus", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name: newMenuName }),
-        });
-      });
-
+    if (!newMenuName) {
+      setAlert("Please enter a name for your menu!");
+      return;
+    } else {
+      trigger(newMenuName);
       setNewMenuName("");
       setShowModal(false);
-    } catch (error) {
-      console.error(error);
     }
   };
 

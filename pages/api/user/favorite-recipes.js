@@ -10,42 +10,52 @@ const handler = async (req, res) => {
       data: { user },
     } = await supabaseServerClient.auth.getUser();
     const { recipe_id } = req.body || null;
-    let data, error;
 
+    let favorites;
     switch (req.method) {
       case "GET":
-        ({ data, error } = await supabaseServerClient
+        favorites = await supabaseServerClient
           .from("favorite_recipes")
-          .select("recipe_id"));
-        if (error) res.send(error);
+          .select("recipe_id");
+        if (favorites.error)
+          res.status(favorites.status).json({ error: favorites.statusText });
         else {
-          const favorites = data?.map((val) => val.recipe_id) || [];
-          console.log(favorites);
+          favorites = favorites.data?.map((val) => val.recipe_id) || [];
+          console.log("here are your favorite recipes:", favorites);
           res.status(200).json(favorites);
         }
         break;
 
       case "POST":
-        ({ error } = await supabaseServerClient
+        favorites = await supabaseServerClient
           .from("favorite_recipes")
-          .insert({ recipe_id, user_id: user.id }));
-        if (error) res.send(error);
-        else
-          res
-            .status(201)
-            .json({ message: "Recipe successfully added to favorites" });
+          .insert({ recipe_id, user_id: user.id })
+          .select("recipe_id");
+        if (favorites.error)
+          res.status(favorites.status).json({ error: favorites.statusText });
+        else {
+          console.log(
+            "recipe successfully added to favorites:",
+            favorites.data
+          );
+          res.status(201).json(favorites.data);
+        }
         break;
 
       case "DELETE":
-        ({ error } = await supabaseServerClient
+        favorites = await supabaseServerClient
           .from("favorite_recipes")
           .delete()
-          .eq("recipe_id", recipe_id));
-        if (error) res.send(error);
+          .eq("recipe_id", recipe_id)
+          .select("recipe_id");
+        if (favorites.error)
+          res.status(favorites.status).json({ error: favorites.statusText });
         else {
-          res.status(200).json({
-            message: "Recipe successfully removed from favorite recipes",
-          });
+          console.log(
+            "recipe successfully removed from favorites",
+            favorites.data
+          );
+          res.status(200).json(favorites.data);
         }
         break;
 
@@ -53,7 +63,7 @@ const handler = async (req, res) => {
         res.status(400).json("Bad Request");
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.send(error);
   }
 };
 
