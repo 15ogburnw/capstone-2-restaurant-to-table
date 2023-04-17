@@ -16,7 +16,7 @@ import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-import useSWR, { mutate, preload } from "swr";
+import useSWR, { mutate } from "swr";
 import Loading from "../Loading";
 
 export default function Sidebar() {
@@ -24,7 +24,6 @@ export default function Sidebar() {
 
   const router = useRouter();
   const [hoverMenu, setHoverMenu] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const COLORS = [
     "bg-red-500",
@@ -44,16 +43,16 @@ export default function Sidebar() {
     }
   };
 
-  const clearCache = () => mutate(() => true, undefined, { revalidate: false });
-
   const handleSignOut = (e) => {
     e.preventDefault();
+    const clearCache = () =>
+      mutate(() => true, undefined, { revalidate: false });
     async function signOut() {
       const { error } = await supabase.auth.signOut();
       if (error) console.error(error);
+      clearCache();
       router.push("/");
     }
-    clearCache();
     signOut();
   };
 
@@ -197,7 +196,6 @@ export default function Sidebar() {
                 setHoverMenu(true);
               }}
               onMouseLeave={() => setHoverMenu(false)}
-              onClick={() => setShowModal(true)}
             >
               {hoverMenu ? (
                 <FontAwesomeIcon
@@ -214,7 +212,7 @@ export default function Sidebar() {
           </div>
 
           <nav className="mt-4 mx-3 space-y-3 ">
-            {(!menus || menus.length > 0) && !isLoading ? (
+            {menus?.length > 0 ? (
               <>
                 {console.log(menus)}
                 {menus.map((menu, idx) => {
@@ -229,7 +227,7 @@ export default function Sidebar() {
               </>
             ) : null}
 
-            {(!menus || menus.length === 0) && !isLoading ? (
+            {menus?.length === 0 && !isLoading ? (
               <button className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
                 <div className="flex items-center gap-x-2 ">
                   <span>
@@ -244,9 +242,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {showModal && !isLoading ? (
-        <AddMenuModal setShowModal={setShowModal} />
-      ) : null}
+      <AddMenuModal />
     </aside>
   );
 }
