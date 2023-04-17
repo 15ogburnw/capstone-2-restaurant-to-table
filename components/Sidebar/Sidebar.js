@@ -234,7 +234,7 @@ export default function Sidebar() {
                 </div>
               </button>
             ) : null}
-            {isLoading ? <Loading /> : null}
+            {isLoading ? <Loading size="md" /> : null}
           </nav>
         </div>
       </div>
