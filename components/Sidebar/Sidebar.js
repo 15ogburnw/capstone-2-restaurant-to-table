@@ -72,7 +72,7 @@ export default function Sidebar() {
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
       <Link href="/dashboard">
         <SVG
-          src="/rtt-logos/rtt-icon.svg"
+          src="/img/rtt-logos/rtt-icon.svg"
           className="h-8 w-auto inline mr-3"
           alt="logo"
         />

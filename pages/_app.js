@@ -14,15 +14,36 @@ export default function App({ Component, pageProps }) {
   /* TODO: CREATE CUSTOM ERROR HANDLING HERE FOR THE ERROR BOUNDARY */
 
   return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
-      {/* TODO: CREATE CUSTOM ERROR HANDLING HERE */}
-
-      <Layout>
-        <Component {...pageProps} />;
-      </Layout>
-    </SessionContextProvider>
+    <>
+      <Head>
+        <link
+          rel="preload"
+          href="/api/user/menus"
+          as="menus"
+          crossOrigin="anonymous"
+        ></link>
+        <link
+          rel="preload"
+          href="/api/user/saved-recipes"
+          as="savedRecipes"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/api/user/favorite-recipes"
+          as="menus"
+          crossOrigin="anonymous"
+        />
+      </Head>
+      <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession}
+      >
+        {/* TODO: CREATE CUSTOM ERROR HANDLING HERE */}
+        <Layout>
+          <Component {...pageProps} />;
+        </Layout>
+      </SessionContextProvider>
+    </>
   );
 }

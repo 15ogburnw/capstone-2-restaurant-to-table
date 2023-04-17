@@ -24,38 +24,35 @@ export default function AddMenuModal({ setShowModal }) {
   const handleSubmit = (e) => {
     e.preventDefault(e);
     setAlert("");
-    for (let menu of menus) {
-      if (menu.name === newMenuName) {
-        setAlert(
-          "You already have a menu with this name, try a different one!"
-        );
-      }
+    if (data.menus.length > 0 && data.menus.includes(menuName)) {
+      setAlert("You already have a menu with this name, try a different one!");
+      return;
+    } else if (!menuName) {
+      setAlert("Please enter a name for your menu!");
+      return;
     }
-    if (!newMenuName) setAlert("Please enter a name for your menu!");
-    else {
-      createMenu();
-    }
+    if (!alert && menuName) createMenu();
   };
 
   const createMenu = async () => {
-    try {
-      await mutate("/api/user/menus", async () => {
-        return fetch("/api/user/menus", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name: newMenuName }),
-        });
+    await fetch("/api/user/menus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: menuName }),
+    })
+      .then((res) => res.json())
+      .catch((e) => {
+        console.error(e);
       });
 
-      setNewMenuName("");
-      setShowModal(false);
-    } catch (error) {
-      console.error(error);
-    }
+    mutate({ menus: [...data.menus, menuName] });
+    setAlert("");
+    setShowModal(false);
   };
 
+  if (error) return <></>;
   return (
     <div
       ref={modalRef}
