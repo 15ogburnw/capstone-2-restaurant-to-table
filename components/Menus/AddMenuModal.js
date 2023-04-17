@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import useSWR from "swr";
-import Loading from "../Loading";
 import useClickOutside from "@/lib/hooks/useClickOutside";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -21,10 +20,14 @@ export default function AddMenuModal({ setShowModal }) {
   const handleSubmit = (e) => {
     e.preventDefault(e);
     setAlert("");
-    if (data?.menus.length > 0 && data.menus.includes(menuName)) {
+    if (data.menus.length > 0 && data.menus.includes(menuName)) {
       setAlert("You already have a menu with this name, try a different one!");
-    } else if (!menuName) setAlert("Please enter a name for your menu!");
-    createMenu();
+      return;
+    } else if (!menuName) {
+      setAlert("Please enter a name for your menu!");
+      return;
+    }
+    if (!alert && menuName) createMenu();
   };
 
   const createMenu = async () => {
@@ -36,20 +39,16 @@ export default function AddMenuModal({ setShowModal }) {
       body: JSON.stringify({ name: menuName }),
     })
       .then((res) => res.json())
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        console.error(e);
+      });
 
-    console.log(data);
-    mutate([...data.menus, menuName]);
-    setMenuName("");
+    mutate({ menus: [...data.menus, menuName] });
+    setAlert("");
+    setShowModal(false);
   };
 
-  if (error) return <>{console.error(error)}</>;
-  if (isLoading)
-    return (
-      <div className="w-screen h-screen flex flex-col bg-white z-10 justify-center items-center text-center">
-        <Loading />
-      </div>
-    );
+  if (error) return <></>;
   return (
     <div
       ref={modalRef}

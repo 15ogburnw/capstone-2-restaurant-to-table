@@ -20,7 +20,14 @@ import useSWR from "swr";
 import Loading from "../Loading";
 
 export default function Sidebar() {
-  const { data, isLoading, error } = useSWR("/api/user/menus");
+  const { data, isLoading, error, mutate } = useSWR("/api/user/menus");
+
+  const menuSWRCall = {
+    data,
+    isLoading,
+    error,
+    mutate,
+  };
 
   const router = useRouter();
   const [hoverMenu, setHoverMenu] = useState(false);
@@ -59,17 +66,11 @@ export default function Sidebar() {
   // --FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR (FIGURE OUT WHY THE CURRENT LOGO IS FAILING TO LOAD SOMETIMES)
   // --Style this error message with a toast or something
   if (error) return <h1>Something Went Wrong! {console.error(error)}</h1>;
-  else if (isLoading)
-    return (
-      <div className="h-screen w-screen flex flex-col justify-center items-center absolute bg-white z-10">
-        <Loading />
-      </div>
-    );
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
       <Link href="/dashboard">
         <SVG
-          src="/rtt-logos/rtt-icon.svg"
+          src="/img/rtt-logos/rtt-icon.svg"
           className="h-8 w-auto inline mr-3"
           alt="logo"
         />
@@ -217,7 +218,8 @@ export default function Sidebar() {
           <nav className="mt-4 mx-3 space-y-3 ">
             {data ? (
               <>
-                {data?.menus?.map((val, idx, newArr) => {
+                {console.log(data)}
+                {data.menus.map((val, idx, newArr) => {
                   let color = getColor(idx);
                   return (
                     <SideBarMenuItem key={val} dotColor={color} name={val} />
@@ -225,7 +227,7 @@ export default function Sidebar() {
                 })}
               </>
             ) : (
-              console.log(data)
+              <Loading size={"md"} className="mt-3" />
             )}
           </nav>
         </div>

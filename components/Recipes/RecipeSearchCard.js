@@ -18,13 +18,14 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import useSWR from "swr";
 
 import Tooltip from "../TopTooltip";
-import Loading from "../Loading";
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
 export default function RecipeSearchCard({ recipe }) {
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const [tooltipShowing, setTooltipShowing] = useState(false);
+  const DEFAULT_BLUR_URL =
+    "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCAAEAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAj/xAAdEAACAgMAAwAAAAAAAAAAAAABAgMEAAYRBQcS/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgP/xAAcEQEAAAcBAAAAAAAAAAAAAAABAAIDBBFRsSH/2gAMAwEAAhEDEQA/AKx9TbPsK2N5o2/M3b6Utvux12u2HnaKJooZREn0SEjUyMFRQFUc4O9JYxhtPaRnb2LXcpLWQNcI/9k=";
 
   const {
     data: favoriteRecipes,
@@ -125,143 +126,134 @@ export default function RecipeSearchCard({ recipe }) {
       e.preventDefault();
     };
 
-    if (loadingFavorites || loadingSaved)
-      return (
-        <div className="absolute w-screen h-screen bg-white z-10 flex flex-col justify-center items-center">
-          <Loading />
-        </div>
-      );
-    else
-      return (
-        <Link href={`/dashboard/recipes/${recipe.id}`}>
-          <div className="flex flex-row items-center w-full border-b bg-white border-gray-400 hover:bg-gray-200">
-            <div className="my-2 ml-2 overflow-hidden relative h-44 w-44 flex-none">
-              <Image
-                width={180}
-                height={180}
-                className=" object-cover rounded-xl"
-                alt="recipe-image"
-                blurDataURL={recipe.placeholder}
-                placeholder="blur"
-                src={recipe.image}
-              />
+    return (
+      <Link href={`/dashboard/recipes/${recipe.id}`}>
+        <div className="flex flex-row items-center w-full border-b bg-white border-gray-400 hover:bg-gray-200">
+          <div className="my-2 ml-2 overflow-hidden relative h-44 w-44 flex-none">
+            <Image
+              width={180}
+              height={180}
+              className=" object-cover rounded-xl"
+              alt="recipe-image"
+              blurDataURL={recipe.placeholder ?? DEFAULT_BLUR_URL}
+              placeholder="blur"
+              src={recipe.image}
+            />
+          </div>
+          <div className="flex flex-col items-start justify-start align-top">
+            <div className=" px-4 py-1 text-md font-bold whitespace-nowrap">
+              {recipe.name}
             </div>
-            <div className="flex flex-col items-start justify-start align-top">
-              <div className=" px-4 py-1 text-md font-bold whitespace-nowrap">
-                {recipe.name}
-              </div>
-              <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
-                Serves: {recipe.servings}
-              </div>
-              <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
-                Total calories: {Math.floor(recipe.calories)}
-              </div>
+            <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
+              Serves: {recipe.servings}
+            </div>
+            <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
+              Total calories: {Math.floor(recipe.calories)}
+            </div>
 
-              <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
-                Total cook time:{" "}
-                {recipe.totalTime
-                  ? `${recipe.totalTime} minutes`
-                  : "Not provided"}
-              </div>
+            <div className=" px-4 py-1 text-sm font-semibold whitespace-nowrap">
+              Total cook time:{" "}
+              {recipe.totalTime
+                ? `${recipe.totalTime} minutes`
+                : "Not provided"}
+            </div>
 
-              <div
-                onMouseLeave={() => handleHover(null)}
-                className=" px-4 py-1 text-sm font-semibold whitespace-nowrap flex flex-row"
-              >
-                {!loadingFavorites ? (
-                  <div
-                    onClick={
-                      favoriteRecipes.includes(recipe.id)
-                        ? handleUnFavorite
-                        : handleFavorite
-                    }
-                    onMouseEnter={() => handleHover("heart")}
-                    onMouseLeave={() => handleHover(null)}
-                    className="h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait"
-                  >
-                    {hoveredIcon === "heart" ||
-                    favoriteRecipes.includes(recipe.id) ? (
-                      <HeartIconSolid className="text-red-500 stroke-2" />
-                    ) : (
-                      <HeartIcon className="text-red-500 stroke-2" />
-                    )}
-                    {hoveredIcon === "heart" && tooltipShowing ? (
-                      <Tooltip
-                        message={
-                          favoriteRecipes.includes(recipe.id)
-                            ? "Remove recipe from your favorites"
-                            : "Add recipe to your favorites"
-                        }
-                        adjustments="ml-3 bottom-14"
-                      />
-                    ) : null}
-                  </div>
-                ) : (
-                  <FontAwesomeIcon
-                    className="h-5 w-5 ml-3"
-                    icon={faCircleNotch}
-                    spin
-                  />
-                )}
-
-                {!loadingSaved ? (
-                  <div
-                    onClick={
-                      savedRecipes.includes(recipe.id)
-                        ? handleUnSave
-                        : handleSave
-                    }
-                    onMouseEnter={() => handleHover("save")}
-                    onMouseLeave={() => handleHover(null)}
-                    className="h-6 w-6 ml-3 cursor-pointer"
-                  >
-                    {hoveredIcon === "save" ||
-                    savedRecipes.includes(recipe.id) ? (
-                      <ArrowDownCircleIconSolid className="text-emerald-600 stroke-2" />
-                    ) : (
-                      <ArrowDownCircleIcon className="text-emerald-600 stroke-2" />
-                    )}
-                    {hoveredIcon === "save" && tooltipShowing ? (
-                      <Tooltip
-                        message={
-                          savedRecipes.includes(recipe.id)
-                            ? "Remove this recipe from your saved recipes"
-                            : "Save this recipe for later"
-                        }
-                        adjustments="ml-3 bottom-14"
-                      />
-                    ) : null}
-                  </div>
-                ) : (
-                  <FontAwesomeIcon
-                    className="h-5 w-5 ml-3"
-                    icon={faCircleNotch}
-                    spin
-                  />
-                )}
-
+            <div
+              onMouseLeave={() => handleHover(null)}
+              className=" px-4 py-1 text-sm font-semibold whitespace-nowrap flex flex-row"
+            >
+              {!loadingFavorites ? (
                 <div
-                  onClick={showAddOptions}
-                  onMouseEnter={() => handleHover("menu")}
+                  onClick={
+                    favoriteRecipes.includes(recipe.id)
+                      ? handleUnFavorite
+                      : handleFavorite
+                  }
+                  onMouseEnter={() => handleHover("heart")}
                   onMouseLeave={() => handleHover(null)}
-                  className="h-6 w-6 ml-3 cursor-pointer"
+                  className="h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait"
                 >
-                  {hoveredIcon === "menu" ? (
-                    <ClipboardDocumentListIconSolid className="text-blue-600 stroke-2" />
+                  {hoveredIcon === "heart" ||
+                  favoriteRecipes.includes(recipe.id) ? (
+                    <HeartIconSolid className="text-red-500 stroke-2" />
                   ) : (
-                    <ClipboardDocumentListIcon className="text-blue-600 stroke-2" />
+                    <HeartIcon className="text-red-500 stroke-2" />
                   )}
-                  {hoveredIcon === "menu" && tooltipShowing ? (
+                  {hoveredIcon === "heart" && tooltipShowing ? (
                     <Tooltip
-                      message="Add this recipe to a menu"
+                      message={
+                        favoriteRecipes.includes(recipe.id)
+                          ? "Remove recipe from your favorites"
+                          : "Add recipe to your favorites"
+                      }
                       adjustments="ml-3 bottom-14"
                     />
                   ) : null}
                 </div>
+              ) : (
+                <FontAwesomeIcon
+                  className="h-5 w-5 ml-3"
+                  icon={faCircleNotch}
+                  spin
+                />
+              )}
+
+              {!loadingSaved ? (
+                <div
+                  onClick={
+                    savedRecipes.includes(recipe.id) ? handleUnSave : handleSave
+                  }
+                  onMouseEnter={() => handleHover("save")}
+                  onMouseLeave={() => handleHover(null)}
+                  className="h-6 w-6 ml-3 cursor-pointer"
+                >
+                  {hoveredIcon === "save" ||
+                  savedRecipes.includes(recipe.id) ? (
+                    <ArrowDownCircleIconSolid className="text-emerald-600 stroke-2" />
+                  ) : (
+                    <ArrowDownCircleIcon className="text-emerald-600 stroke-2" />
+                  )}
+                  {hoveredIcon === "save" && tooltipShowing ? (
+                    <Tooltip
+                      message={
+                        savedRecipes.includes(recipe.id)
+                          ? "Remove this recipe from your saved recipes"
+                          : "Save this recipe for later"
+                      }
+                      adjustments="ml-3 bottom-14"
+                    />
+                  ) : null}
+                </div>
+              ) : (
+                <FontAwesomeIcon
+                  className="h-5 w-5 ml-3"
+                  icon={faCircleNotch}
+                  spin
+                />
+              )}
+
+              <div
+                onClick={showAddOptions}
+                onMouseEnter={() => handleHover("menu")}
+                onMouseLeave={() => handleHover(null)}
+                className="h-6 w-6 ml-3 cursor-pointer"
+              >
+                {hoveredIcon === "menu" ? (
+                  <ClipboardDocumentListIconSolid className="text-blue-600 stroke-2" />
+                ) : (
+                  <ClipboardDocumentListIcon className="text-blue-600 stroke-2" />
+                )}
+                {hoveredIcon === "menu" && tooltipShowing ? (
+                  <Tooltip
+                    message="Add this recipe to a menu"
+                    adjustments="ml-3 bottom-14"
+                  />
+                ) : null}
               </div>
             </div>
           </div>
-        </Link>
-      );
+        </div>
+      </Link>
+    );
   };
 }
