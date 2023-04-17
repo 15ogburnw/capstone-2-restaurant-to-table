@@ -5,8 +5,8 @@
       "type": "chrome",
       "request": "launch",
       "name": "Next: Chrome",
-      "url": "http://localhost:3002",
-      "webRoot": "${workspaceFolder}"
+      "url": "http://localhost:3000",
+      "webRoot": "/home/wade/Springboard/rtt-nextjs-final/"
     },
     {
       "type": "node",

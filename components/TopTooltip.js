@@ -8,7 +8,7 @@ export default function TopTooltip({ message, adjustments }) {
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6 absolute rotate-45 -translate-x-1/2 left-1/2 bottom-0.5 -mb-3 transform text-white dark:text-gray-800 fill-current"
+          className="w-6 h-6 absolute rotate-45 -translate-x-1/2 left-1/2 bottom-0.5 -mb-3 transform text-white dark:text-gray-800 fill-current"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >

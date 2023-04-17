@@ -1,55 +1,61 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import useSWR from "swr";
-import Loading from "../Loading";
 import useClickOutside from "@/lib/hooks/useClickOutside";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useSWRConfig } from "swr";
+import { useUser } from "@supabase/auth-helpers-react";
 
 export default function AddMenuModal({ setShowModal }) {
-  const [menuName, setMenuName] = useState("");
+  const [newMenuName, setNewMenuName] = useState("");
   const [alert, setAlert] = useState("");
   const modalRef = useRef(null);
   useClickOutside(modalRef, setShowModal);
+  const user = useUser();
+  const { mutate } = useSWRConfig();
 
-  const { data, error, isLoading, mutate } = useSWR("/api/user/menus");
+  let { data: menus } = useSWR("/api/user/menus");
 
   const handleChange = (e) => {
     const newVal = e.target.value;
-    setMenuName(newVal);
+    setNewMenuName(newVal);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault(e);
     setAlert("");
-    if (data?.menus.length > 0 && data.menus.includes(menuName)) {
-      setAlert("You already have a menu with this name, try a different one!");
-    } else if (!menuName) setAlert("Please enter a name for your menu!");
-    createMenu();
+    for (let menu of menus) {
+      if (menu.name === newMenuName) {
+        setAlert(
+          "You already have a menu with this name, try a different one!"
+        );
+      }
+    }
+    if (!newMenuName) setAlert("Please enter a name for your menu!");
+    else {
+      createMenu();
+    }
   };
 
   const createMenu = async () => {
-    await fetch("/api/user/menus", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: menuName }),
-    })
-      .then((res) => res.json())
-      .catch((e) => console.error(e));
+    try {
+      await mutate("/api/user/menus", async () => {
+        return fetch("/api/user/menus", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: newMenuName }),
+        });
+      });
 
-    console.log(data);
-    mutate([...data.menus, menuName]);
-    setMenuName("");
+      setNewMenuName("");
+      setShowModal(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  if (error) return <>{console.error(error)}</>;
-  if (isLoading)
-    return (
-      <div className="w-screen h-screen flex flex-col bg-white z-10 justify-center items-center text-center">
-        <Loading />
-      </div>
-    );
   return (
     <div
       ref={modalRef}
@@ -90,7 +96,7 @@ export default function AddMenuModal({ setShowModal }) {
             id="menu-name"
             placeholder="Enter a menu name"
             onChange={handleChange}
-            value={menuName}
+            value={newMenuName}
             className="flex h-10 px-4  text-sm text-gray-700 bg-white border border-gray-200 rounded-md  w-full mt-1  focus:border-emerald-400 focus:ring-emerald-300 focus:ring-opacity-40  focus:outline-none focus:ring"
           />
 
