@@ -1,3 +1,5 @@
+// RIGHT NOW IF YOU CLICK ANYWHERE ON THE SCREEN THE MODAL FOR MAKING A MENU DISAPPEARS,
+
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -60,6 +62,7 @@ export default function Sidebar() {
   // --FIX SO THAT THE NAVBAR COLLAPSES ON SMALLER SIZES - REFERENCE NOTUS TEMPLATE NAVBAR
   // --FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR (FIGURE OUT WHY THE CURRENT LOGO IS FAILING TO LOAD SOMETIMES)
   // --Style this error message with a toast or something
+  // -- try the routing thing again, because this wos drecting to the courthouse.
 
   return (
     <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
@@ -212,22 +215,24 @@ export default function Sidebar() {
                       dotColor={getColor(idx)}
                       name={menu.name}
                     />
-                  );
-                })}
-              </>
-            ) : null}
+                  </button>
+            ))
+              : null}
 
             {(!menus || menus.length === 0) && !isLoading ? (
               <button className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
                 <div className="flex items-center gap-x-2 ">
-                  <span>
-                    You don&apos;t have any menus yet! Create your first one to
-                    get started
-                  </span>
+                  {!isLoading ? (
+                    <span>
+                      You don&apos;t have any menus yet! Create your first one
+                      to get started
+                    </span>
+                  ) : (
+                    <Loading size="md" />
+                  )}
                 </div>
-              </button>
+              </div>
             ) : null}
-            {isLoading ? <Loading size="md" /> : null}
           </nav>
         </div>
       </div>

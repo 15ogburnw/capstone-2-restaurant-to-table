@@ -42,12 +42,11 @@ const handler = async (req, res) => {
           .eq("name", name)
           .select("id", "name");
         if (menus.error)
-          res.status(menus.status).json({ error: menus.statusText });
+          return res.status(menus.status).json({ error: menus.statusText });
         else {
           console.log("deleted menu", menus.data);
-          res.status(200).json(menus.data);
+          return res.status(200).json(menus.data);
         }
-        break;
 
       case "PATCH":
         menus = await supabaseServerClient
@@ -56,18 +55,17 @@ const handler = async (req, res) => {
           .eq("id", id)
           .select("id, name");
         if (menus.error)
-          res.status(menus.status).json({ error: menus.statusText });
+          return res.status(menus.status).json({ error: menus.statusText });
         else {
           console.log("menu after update", menus.data);
-          res.status(200).json(menus.data);
+          return res.status(200).json(menus.data);
         }
-        break;
 
       default:
-        res.status(400).json({ error: "Bad Request" });
+        return res.status(400).json({ error: "Bad Request" });
     }
   } catch (error) {
-    res.send(error);
+    return res.send(error);
   }
 };
 

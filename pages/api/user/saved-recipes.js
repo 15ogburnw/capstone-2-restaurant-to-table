@@ -16,22 +16,22 @@ const handler = async (req, res) => {
 			case "GET":
 				saved = await supabaseServerClient
 					.from("saved_recipes")
-					.select("recipe_id"));
-				if (error) res.send(error);
-				else {
-					const saved = data?.map((val) => val.recipe_id) || [];
-					console.log(saved);
-					res.status(200).json(saved);
-				}
-
-			case 'POST':
-				saved = await supabaseServerClient
-					.from('saved_recipes')
-					.insert({ recipe_id, user_id: user.id })
-					.select('recipe_id');
+					.select("recipe_id");
 				if (saved.error) throw saved.error;
 				else {
-					console.log('recipe successfully saved', saved.data);
+					saved = saved?.map((val) => val.recipe_id) || [];
+					console.log("The user has these recipes saved:", saved);
+					return res.status(200).json(saved);
+				}
+
+			case "POST":
+				saved = await supabaseServerClient
+					.from("saved_recipes")
+					.insert({ recipe_id, user_id: user.id })
+					.select("recipe_id");
+				if (saved.error) throw saved.error;
+				else {
+					console.log("recipe successfully saved", saved.data);
 					return res.status(201).json(saved.data);
 				}
 
@@ -39,15 +39,16 @@ const handler = async (req, res) => {
 				saved = await supabaseServerClient
 					.from("saved_recipes")
 					.delete()
-					.eq("recipe_id", recipe_id));
-				if (error) res.send(error);
+					.eq("recipe_id", recipe_id)
+					.select("recipe_id");
+				if (saved.error) throw saved.error;
 				else {
 					console.log("recipe successfully deleted", saved.data);
 					return res.status(200).json(saved.data);
 				}
 
 			default:
-				return res.status(400).json({ error: 'Bad Request' });
+				return res.status(400).json({ error: "Bad Request" });
 		}
 	} catch (error) {
 		return res.send(error);
