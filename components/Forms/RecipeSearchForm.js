@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { useState } from "react";
-import FilterForm from "./FilterForm";
+import FilterForm from "./FilterForm/FilterForm";
 import { ChevronDoubleUpIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
