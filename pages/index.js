@@ -4,6 +4,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import {useState} from 'react'
 
+import "react-toastify/dist/ReactToastify.css";
+
 // TODO: BUILD OUT LANDING PAGE
 export default function LandingPage() {
   const router = useRouter();

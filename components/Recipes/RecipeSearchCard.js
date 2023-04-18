@@ -13,7 +13,7 @@ import {
   ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
 } from "@heroicons/react/24/solid";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useSWRConfig } from "swr";
@@ -51,11 +51,12 @@ export default function RecipeSearchCard({ recipe }) {
     [recipe.id]
   );
 
-  const showTooltip = () => {
-    (async () => {
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      setTooltipShowing(true);
-    })();
+  const showTooltip = (e) => {
+    if (e.target.name === null)
+      return setTooltipShowing(false)(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 600));
+        setTooltipShowing(true);
+      })();
   };
 
   const handleHover = (name) => {
@@ -67,21 +68,17 @@ export default function RecipeSearchCard({ recipe }) {
     }
   };
 
-  const handleSave = async (e) => {
+  const toggleSave = async (e) => {
     e.preventDefault();
     try {
       mutate(
         "/api/user/saved-recipes",
-        fetch("/api/user/saved-recipes", postInit),
+        fetch("/api/user/saved-recipes", postOptions),
         {
-          optimisticData: (newSave, savedRecipes) => {
+          optimisticData: (savedRecipes, newSave) => {
             const {
               data: { saves },
             } = savedRecipes;
-            // const {
-            //   data: { message },
-            // } = savedRecipes;
-            // setToast(message);
 
             return [...saves, newSave];
           },
@@ -95,17 +92,21 @@ export default function RecipeSearchCard({ recipe }) {
   const handleUnSave = async (e) => {
     e.preventDefault();
     try {
-      await fetch("/api/user/saved-recipes", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ recipe_id: recipe.id }),
-      });
+      mutate(
+        "/api/user/saved-recipes",
+        fetch("/api/user/saved-recipes", deleteOptions),
+        {
+          optimisticData: (savedRecipes, newSave) => {
+            const {
+              data: { saves },
+            } = savedRecipes;
+
+            return [...saves, newSave];
+          },
+        }
+      );
     } catch (e) {
       console.error(e);
-    } finally {
-      mutate("/api/user/saved-recipes");
     }
   };
 
@@ -185,11 +186,7 @@ export default function RecipeSearchCard({ recipe }) {
           >
             {favorites ? (
               <div
-                onClick={
-                  favorites?.includes(recipe.id)
-                    ? handleUnFavorite
-                    : handleFavorite
-                }
+                onClick={() => toggleFavorite()}
                 onMouseEnter={() => handleHover("heart")}
                 onMouseLeave={() => handleHover(null)}
                 className="h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait"
@@ -202,7 +199,7 @@ export default function RecipeSearchCard({ recipe }) {
                 {hoveredIcon === "heart" && tooltipShowing ? (
                   <Tooltip
                     message={
-                      favorites?.includes(recipe.id)
+                      favorite
                         ? "Remove recipe from your favorites"
                         : "Add recipe to your favorites"
                     }
@@ -220,7 +217,7 @@ export default function RecipeSearchCard({ recipe }) {
 
             {saved ? (
               <div
-                onClick={saved?.includes(recipe.id) ? handleUnSave : handleSave}
+                onClick={toggleSave}
                 onMouseEnter={() => handleHover("save")}
                 onMouseLeave={() => handleHover(null)}
                 className="h-6 w-6 ml-3 cursor-pointer"
