@@ -3,15 +3,19 @@ import { useState, useRef } from "react";
 import useSWR from "swr";
 import useClickOutside from "@/lib/hooks/useClickOutside";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import useSWRMutation from "swr/mutation";
+import useSWRMutation, { mutate } from "swr/mutation";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function AddMenuModal() {
   const [newMenuName, setNewMenuName] = useState("");
-  const modalRef = useRef(null);
+
   const [showModal, setShowModal] = useState(false);
-  const [toast, setToast] = useState({ message: "", type: null });
-  useClickOutside(modalRef, setShowModal);
+
   let { data: menus } = useSWR("/api/user/menus");
+  const modalRef = useRef(null);
+  useClickOutside(modalRef, setShowModal);
+
+  // TODO: ALERTS AREN'T DISAPPEARING ON THE MODAL PAGE AFTER IT IS CLOSED.
 
   const handleChange = (e) => {
     const newVal = e.target.value;
@@ -45,7 +49,7 @@ export default function AddMenuModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault(e);
-    setToast({ message: "", type: null });
+
     for (let menu of menus) {
       if (menu.name === newMenuName) {
         setToast({
@@ -65,6 +69,8 @@ export default function AddMenuModal() {
         setShowModal(false);
       }
     }
+
+    setNewMenuName("");
   };
 
   return (
@@ -113,7 +119,7 @@ export default function AddMenuModal() {
                 className="flex h-10 px-4  text-sm text-gray-700 bg-white border border-gray-200 rounded-md  w-full mt-1  focus:border-emerald-400 focus:ring-emerald-300 focus:ring-opacity-40  focus:outline-none focus:ring"
               />
 
-              {toast.message ? (
+              {toast.message && showModal ? (
                 <p className="text-red-500 font-semibold sm:-mb-5 mt-1 text-sm text-center">
                   {toast.message}
                 </p>
@@ -128,7 +134,7 @@ export default function AddMenuModal() {
                 </button>
 
                 <button
-                  type="submit"
+                  onClick={() => handleSubmit()}
                   className=" w-full px-4 py-3  text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-emerald-400 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-40"
                 >
                   Create Your Menu

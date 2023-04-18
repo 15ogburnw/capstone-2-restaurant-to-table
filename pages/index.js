@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 
+import "react-toastify/dist/ReactToastify.css";
+
 // TODO: BUILD OUT LANDING PAGE
 export default function LandingPage({ restaurants }) {
   const router = useRouter();

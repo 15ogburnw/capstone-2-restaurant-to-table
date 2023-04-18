@@ -7,6 +7,7 @@ import RecipeSearchCard from "@/components/Recipes/RecipeSearchCard";
 import NoResults from "@/components/Search/NoResults";
 import Loading from "@/components/Loading";
 import RecipeSearchForm from "@/components/Forms/RecipeSearchForm";
+import useSWR, { preload, useSWRConfig } from "swr";
 
 // TODO:
 // --make results cards look a bit better (decide what final info I want on them),
@@ -14,16 +15,16 @@ import RecipeSearchForm from "@/components/Forms/RecipeSearchForm";
 // --add results to local storage so the user can navigate back
 // --add tooltips to save, favorite, and add buttons
 
-export default function RecipeSearchPage() {
-  const INITIAL_RESULTS = {
-    items: [],
-    totalResults: null,
-    totalPages: null,
-    currentPage: null,
-    currentPageItems: null,
-    nextPageURL: null,
-  };
+const INITIAL_RESULTS = {
+  items: [],
+  totalResults: null,
+  totalPages: null,
+  currentPage: null,
+  currentPageItems: null,
+  nextPageURL: null,
+};
 
+export default function RecipeSearchPage() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(INITIAL_RESULTS);
   const [activeSearch, setActiveSearch] = useState(false);
