@@ -19,25 +19,27 @@ export async function middleware(req) {
     if (session?.user) {
       // Authentication successful, forward request to protected route.
       return res;
-    }
-
-    // Auth condition not met, redirect to landing page.
-    const redirectUrl = req.nextUrl.clone();
-    redirectUrl.pathname = "/";
-
-    return NextResponse.redirect(redirectUrl);
-  }
-
-  //   for auth routes and the landing page, if there is a user logged in redirect to dashboard
-  if (
-    req.nextUrl.pathname.match(/^\/$/) ||
-    req.nextUrl.pathname.startsWith("/auth")
-  ) {
-    if (session?.user) {
+    } else {
+      // Auth condition not met, redirect to landing page.
       const redirectUrl = req.nextUrl.clone();
-      redirectUrl.pathname = "/dashboard";
+      redirectUrl.pathname = "/";
+
       return NextResponse.redirect(redirectUrl);
     }
   }
-  return res;
+  //   for auth routes and the landing page, if there is a user logged in redirect to dashboard
+  if (
+    (req.nextUrl.pathname.match(/^\/$/) ||
+      req.nextUrl.pathname.startsWith("/auth")) &&
+    session?.user
+  ) {
+    const redirectUrl = req.nextUrl.clone();
+    redirectUrl.pathname = "/dashboard";
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (req.nextUrl.pathname.match(/^\/$/)) {
+    return NextResponse.rewrite("/landing", req.nextUrl);
+  }
+  if (req.nextUrl.pathname.ma) return res;
 }
