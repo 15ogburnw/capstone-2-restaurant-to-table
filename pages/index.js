@@ -1,16 +1,29 @@
+import Loading from "@/components/Loading";
+import useTimeout from "@/lib/hooks/useTimeout";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import TimeoutRefreshesModal from "@/components/TimeoutRefreshesModal";
 
-import "react-toastify/dist/ReactToastify.css";
-
-// TODO: BUILD OUT LANDING PAGE
-export default function LandingPage({ restaurants }) {
+export default function Index() {
+  const supabase = useSupabaseClient();
+  const { timeout, error } = useTimeout(30000);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
-  const handleAuthRedirect = (e) => {
-    e.preventDefault();
-    router.push("/auth/login");
-  };
+  useEffect(() => {
+    const handleLoad = async () => {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+      if (session) await router.push("/dashboard");
+      if (session === null && !error) await router.push("/landing");
+      setLoading(false);
+    };
+    handleLoad();
+  }, [router, supabase.auth]);
 
   return (
     <>
@@ -22,21 +35,22 @@ export default function LandingPage({ restaurants }) {
       </Head>
 
       <main>
-        <h1>This is the landing page</h1>
-        <div className=" flex flex-auto items-center justify-end mr-6 lg:w-1/2 space-x-6 justify-self-end">
-          <button
-            onClick={handleAuthRedirect}
-            className="px-6 col-span-2 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-600 rounded-lg hover:bg-green-500 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-80"
-          >
-            Login
-          </button>
-          <button
-            onClick={handleAuthRedirect}
-            className="px-6 col-span-2 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80"
-          >
-            Signup
-          </button>
-        </div>
+        {loading ? <Loading screen /> : null}
+
+        {/* TODO: MAKE THIS TIMEOUT PROMPT, BUT GET MENUS MODAL WORKING AGAIN FIRST BECAUSE IT IS BASICALLY THE SAME CONCEPT */}
+        {timeout ? (
+          <TimeoutRefreshesModal totalRetries={3} timeoutLength={30000} />
+        ) : null}
+        {/* TODO: ERROR HANDLING */}
+        {error ? (
+          <div>
+            <h1>
+              Error Loading Session! Let&apos;s figure out how to take care of
+              this with Sentry!
+            </h1>
+            {console.error(error)}
+          </div>
+        ) : null}
       </main>
     </>
   );
