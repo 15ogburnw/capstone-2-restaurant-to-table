@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useSWRConfig } from "swr";
 
-import Tooltip from "../TopTooltip";
+import Tooltip from "../Tooltips/TopTooltip";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
