@@ -14,7 +14,7 @@ export default function AddMenuModal() {
   const [showing, setShowing] = useClickOutside(modalRef);
   const user = useUser();
 
-  // TODO: ALERTS AREN'T DISAPPEARING ON THE MODAL PAGE AFTER IT IS CLOSED.
+  // TODO: ALERTS AREN'T DISAPPEARING ON THE MODAL PAGE AFTER IT IS CLOSED. MODAL POPS UP EVERY TIME I CLICK ON THE PAGE OUTSIDE OF IT, EVEN IF ITS CLOSED
 
   const handleChange = (e) => {
     const newVal = e.target.value;
@@ -80,64 +80,64 @@ export default function AddMenuModal() {
                   Create a New Menu
                 </h3>
 
-                <p className="mt-1 text-sm text-gray-500 ">
-                  Curate a custom collection: Just give your new menu a name and
-                  get started organizing your favorite recipes however you like!
-                </p>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="mt-2 flex-auto">
-              <label
-                className="text-sm text-gray-700 font-bold"
-                htmlFor="menu-name"
-              >
-                Menu Name
-              </label>
-
-              <input
-                type="text"
-                name="menu-name"
-                id="menu-name"
-                placeholder="Enter a menu name"
-                onChange={handleChange}
-                value={newMenuName}
-                className="flex h-10 px-4  text-sm text-gray-700 bg-white border border-gray-200 rounded-md  w-full mt-1  focus:border-emerald-400 focus:ring-emerald-300 focus:ring-opacity-40  focus:outline-none focus:ring"
-              />
-
-              {toast.message && showing ? (
-                <p className="text-red-500 font-semibold sm:-mb-5 mt-1 text-sm text-center">
-                  {toast.message}
-                </p>
-              ) : null}
-
-              <div className="sm:mt-7 flex flex-col items-center sm:flex-row  sm:-mx-2">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowing(false);
-                  }}
-                  className="w-full px-4 py-3 my-3 sm:my-0 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-300 rounded-md sm:w-1/2 sm:mx-2  hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
-                >
-                  Cancel
-                </button>
-
-                <button
-                  onClick={handleSubmit}
-                  onMouseEnter={() =>
-                    preload("/api/user/menus", (url) =>
-                      fetch(url).then((res) => res.json())
-                    )
-                  }
-                  className=" w-full px-4 py-3  text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-emerald-400 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-40"
-                >
-                  Create Your Menu
-                </button>
-              </div>
-            </form>
+            <p className="mt-1 text-sm text-gray-500 ">
+              Curate a custom collection: Just give your new menu a name and get
+              started organizing your favorite recipes however you like!
+            </p>
           </div>
         </div>
-      ) : null}
-    </>
-  );
+
+        <form onSubmit={handleSubmit} className="mt-2 flex-auto">
+          <label
+            className="text-sm text-gray-700 font-bold"
+            htmlFor="menu-name"
+          >
+            Menu Name
+          </label>
+
+          <input
+            type="text"
+            name="menu-name"
+            id="menu-name"
+            placeholder="Enter a menu name"
+            onChange={handleChange}
+            value={newMenuName}
+            className="flex h-10 px-4  text-sm text-gray-700 bg-white border border-gray-200 rounded-md  w-full mt-1  focus:border-emerald-400 focus:ring-emerald-300 focus:ring-opacity-40  focus:outline-none focus:ring"
+          />
+
+          {toast.message && showing ? (
+            <p className="text-red-500 font-semibold sm:-mb-5 mt-1 text-sm text-center">
+              {toast.message}
+            </p>
+          ) : null}
+
+          <div className="sm:mt-7 flex flex-col items-center sm:flex-row  sm:-mx-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setShowing(false);
+              }}
+              className="w-full px-4 py-3 my-3 sm:my-0 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-300 rounded-md sm:w-1/2 sm:mx-2  hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={handleSubmit}
+              onMouseEnter={() =>
+                preload("/api/user/menus", (url) =>
+                  fetch(url).then((res) => res.json())
+                )
+              }
+              className=" w-full px-4 py-3  text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-emerald-400 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-40"
+            >
+              Create Your Menu
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>;
+  } else {
+    return <></>;
+  }
 }
