@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 
-export default function TimeoutRefreshes({ maxRefreshAttempts = 3 }) {
+// Modal popup window to be shown when an important request times out. The idea is to prompt the user for the option to try again or go back. I may or may not end up
+// implementing this
+export default function TimeoutModal({ maxRefreshAttempts = 3 }) {
   let [refreshes, setRefreshes] = useState(0);
-  const refreshesHandler = useCallback(() => {
+  const router = useRouter();
+  const refreshHandler = useCallback(() => {
     setRefreshes(refreshes++);
 
     if (refreshes >= maxRefreshAttempts) {
@@ -14,11 +17,11 @@ export default function TimeoutRefreshes({ maxRefreshAttempts = 3 }) {
           },
         }
       ).status(400);
+      throw maxReached;
     }
-    throw maxReached;
   }, [maxRefreshAttempts, refreshes]);
 
-  useEffect(() => {});
+  useEffect(() => {}, []);
 
   return <></>;
 }
