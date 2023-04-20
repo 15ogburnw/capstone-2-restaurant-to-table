@@ -205,18 +205,21 @@ export default function Sidebar() {
           </div>
 
           <nav className="mt-4 mx-3 space-y-3 ">
-            {(!menus || menus.length > 0) && !isLoading ? (
-              <>
-                {console.log(menus)}
-                {menus.map((menu, idx) => {
-                  return (
-                    <SideBarMenuItem
-                      key={menu.name}
-                      dotColor={getColor(idx)}
-                      name={menu.name}
-                    />
-                  </button>
-            ))
+            {console.log(menus)}
+            {menus?.length > 0
+              ? menus.map((menu, idx) => (
+                <Link
+                  href={`user/menus/${menu.id}`}
+                  key={menu.id}
+                  className="w-full h-ful mx-2 my-2 px-4"
+                >
+                  <SideBarMenuItem
+                    key={menu.name}
+                    dotColor={getColor(idx)}
+                    name={menu.name}
+                  />
+                </button>
+              ))
               : null}
 
             {(!menus || menus.length === 0) && !isLoading ? (
