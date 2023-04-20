@@ -13,14 +13,12 @@ import {
   ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
 } from "@heroicons/react/24/solid";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
-import { useSWRConfig } from "swr";
+import { useSWRConfig, preload } from "swr";
 
 import Tooltip from "../Tooltips/TopTooltip";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
@@ -29,26 +27,35 @@ export default function RecipeSearchCard({ recipe }) {
   const [tooltipShowing, setTooltipShowing] = useState(false);
   const { mutate } = useSWRConfig();
 
+  useEffect(() => {
+    const fetcher = (url) => fetch(url).then((res) => res.json());
+    const favorites = preload("/api/user/favorite-recipes", fetcher);
+    const saves = preload("/api/user/saved-recipes", fetcher);
+    const menus = preload("/api/user/menus", fetcher);
+  }, []);
+
   const postOptions = useMemo(
-    () => ({
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ recipe_id: recipe.id }),
-    }),
-    [recipe.id]
+    (url, { arg }) =>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ arg }),
+      }),
+    []
   );
 
   const deleteOptions = useMemo(
-    () => ({
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ recipe_id: recipe.id }),
-    }),
-    [recipe.id]
+    (url, { arg }) =>
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ arg }),
+      }),
+    []
   );
 
   const showTooltip = (e) => {
