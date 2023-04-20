@@ -216,7 +216,7 @@ export default function FilterForm() {
         {dietLabelsCollapsed ? (
           <FontAwesomeIcon
             name="diet-labels-group"
-            icon={faAnglesDown}
+            icon={dietLabelsCollapsed ? faAnglesDown : faAnglesUp}
             onClick={toggleCollapse}
             className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
           />

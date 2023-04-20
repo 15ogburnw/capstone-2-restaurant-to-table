@@ -5,14 +5,12 @@ import { SWRConfig, preload } from "swr";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-fetcher = (resource, init) => fetch(resource, init).then((res) => res.json());
+export const fetcher = (resource, init) =>
+  fetch(resource, init).then((res) => res.json());
 
 // prefetch all existing data for the current user, since we know they will be logged in if they made it this far.
 
 export default function Dashboard({ children }) {
-  const fetcher = (resource, init) =>
-    fetch(resource, init).then((res) => res.json());
-
   useEffect(() => {
     async function getInitialInfo() {
       const initialFavorites = await preload(
@@ -21,7 +19,6 @@ export default function Dashboard({ children }) {
       );
       const initialSaves = preload("/api/user/saved-recipes", fetcher);
       const menus = preload("/api/user/menus", fetcher, { refreshInterval: 0 });
-      const firstFive = setInterval(Promise.resolve(), 5000);
       console.log(initialFavorites);
       console.log(initialSaves);
       console.log(menus);
@@ -34,8 +31,6 @@ export default function Dashboard({ children }) {
 
     <SWRConfig
       value={{
-        refreshInterval: 20000,
-
         fetcher,
 
         onError: (error, key) => {
@@ -48,8 +43,8 @@ export default function Dashboard({ children }) {
           // Never retry on 404.
           if (error.status === 404) return;
 
-          // Only retry up to 5 times.
-          if (retryCount >= 5) return;
+          // Only retry up to 3 times.
+          if (retryCount >= 3) return;
 
           // Retry after 5 seconds.
           setTimeout(() => revalidate({ retryCount }), 5000);
