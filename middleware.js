@@ -39,7 +39,7 @@ export async function middleware(req) {
   }
 
   if (req.nextUrl.pathname.match(/^\/$/)) {
-    return NextResponse.rewrite("/landing", req.nextUrl);
+    return NextResponse.rewrite(new URL("/landing", req.url));
   }
   if (req.nextUrl.pathname.ma) return res;
 }
