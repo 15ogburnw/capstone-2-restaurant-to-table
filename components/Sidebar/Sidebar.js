@@ -12,21 +12,20 @@ import {
 } from "@heroicons/react/24/outline";
 import SVG from "react-inlinesvg";
 import { useRouter } from "next/router";
-import SideBarMenuItem from "../Menus/SidebarMenuItem";
-import AddMenuModal from "../Menus/AddMenuModal";
+import SideBarMenuItem from "./SidebarMenuItem";
+import AddMenuModal from "../Modals/AddMenuModal";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-
-import useSWR, { mutate } from "swr";
+import { useState, useRef } from "react";
+import useSWR, { mutate, preload } from "swr";
 import Loading from "../Loading";
 
+const fetcher = (source, init) => fetch(source, init).then((res = res.json()));
+preload("/api/user/menus", fetcher);
+
 export default function Sidebar() {
-  const { data: menus, isLoading } = useSWR("/api/user/menus");
-
   const router = useRouter();
-  const [hoverMenu, setHoverMenu] = useState(false);
-
+  const { data: menus } = useSWR("/api/user/menus");
   const COLORS = [
     "bg-red-500",
     "bg-orange-500",
@@ -36,6 +35,8 @@ export default function Sidebar() {
     "bg-purple-500",
     "bg-pink-500",
   ];
+
+  const menuModalRef = useRef(null);
 
   const getColor = (idx) => {
     if (idx < COLORS.length) return COLORS[idx];
@@ -47,13 +48,13 @@ export default function Sidebar() {
 
   const handleSignOut = (e) => {
     e.preventDefault();
-    const clearCache = () =>
-      mutate(() => true, undefined, { revalidate: false });
+    const clearCache = async () =>
+      await mutate(() => true, undefined, { revalidate: false });
     async function signOut() {
       const { error } = await supabase.auth.signOut();
-      if (error) console.error(error);
-      clearCache();
-      router.push("/");
+      if (error) throw Error;
+      await clearCache();
+      await router.push("/");
     }
     signOut();
   };
@@ -187,6 +188,7 @@ export default function Sidebar() {
             <div
               onMouseEnter={() => {
                 setHoverMenu(true);
+                preload("/api/users/menus");
               }}
               onMouseLeave={() => setHoverMenu(false)}
             >
