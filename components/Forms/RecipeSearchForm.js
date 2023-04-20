@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from "formik";
 import { useState } from "react";
-import FilterForm from "./FilterForm/FilterForm";
+import FilterForm from "./FilterForm";
+import filters from "@/lib/edamam/filters";
 import { ChevronDoubleUpIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +23,7 @@ export default function RecipeSearchForm({
   };
 
   const [filtersShowing, setFiltersShowing] = useState(false);
+  const [newQuery, setNewQuery] = useState("");
 
   const showFilters = (e) => {
     e.preventDefault();

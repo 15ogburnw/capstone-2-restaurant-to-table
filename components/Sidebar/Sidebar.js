@@ -218,13 +218,17 @@ export default function Sidebar() {
             {console.log(menus)}
             {menus?.length > 0
               ? menus.map((menu, idx) => (
-                  <button key={menu.id} className="w-full h-ful mx-2 my-2 px-4">
+                  <Link
+                    href={`user/menus/${menu.id}`}
+                    key={menu.id}
+                    className="w-full h-ful mx-2 my-2 px-4"
+                  >
                     <SideBarMenuItem
                       key={menu.name}
                       dotColor={getColor(idx)}
                       name={menu.name}
                     />
-                  </button>
+                  </Link>
                 ))
               : null}
 
