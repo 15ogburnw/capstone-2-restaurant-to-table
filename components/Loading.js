@@ -8,7 +8,8 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 export default function Loading({ size }) {
   let spinner;
   let message;
-  let screen;
+  const container =
+    size === "screen" ? "min-w-screen min-h-screen" : "w-full h-full";
   switch (size) {
     case "xl":
       spinner = "text-5xl";
@@ -26,7 +27,6 @@ export default function Loading({ size }) {
     case "screen":
       spinner = "text-8xl";
       message = "text-4xl mt-6";
-      screen = "w-screen h-screen";
       break;
   }
 
