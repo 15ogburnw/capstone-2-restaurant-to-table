@@ -6,7 +6,6 @@ export default function LoadingButton({ originalButton }) {
   console.log(classes);
 
   return (
-    <>
       <button
         type="button"
         className={`${classes} disabled disabled:bg-emerald-200 disabled:border-emerald-200 sm:w-55 sm-`}
@@ -14,7 +13,6 @@ export default function LoadingButton({ originalButton }) {
         <FontAwesomeIcon icon={faCircleNotch} spin />
         <span className="text-emerald-400 font-semibold">Loading...</span>
       </button>
-      )
-    </>
+ 
   );
 }

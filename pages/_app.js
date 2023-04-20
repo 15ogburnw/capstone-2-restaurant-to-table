@@ -17,17 +17,17 @@ export default function App({ Component, pageProps }) {
   /* TODO: CREATE CUSTOM ERROR HANDLING HERE FOR THE ERROR BOUNDARY */
 
   return (
-    <>
+    <ErrorBoundary>
       <SessionContextProvider
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession}
       >
-        <ToastContainer autoClose={4000} />
-        {/* TODO: CREATE CUSTOM ERROR HANDLING HERE */}
+        <ToastContainer />
+
         <Layout>
           <Component {...pageProps} />;
         </Layout>
       </SessionContextProvider>
-    </>
+    </ErrorBoundary>
   );
 }
