@@ -1,23 +1,21 @@
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import LoadingButton from "@/components/LoadingButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function LandingPage() {
-  const supabase = useSupabaseClient();
-  const user = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const loginButton = useRef(null);
-  const signupButton = useRef(null);
 
   const handleAuthRedirect = (e) => {
-    console.log(e.target);
+    setLoading(true);
+    e.preventDefault();
     goToAuth(e.target.name);
   };
   const goToAuth = async (type) => {
     if (type === "login") await router.push("/auth/login");
     if (type === "signup") await router.push("/auth/signup");
+    setLoading(false);
   };
 
   return (
@@ -29,18 +27,23 @@ export default function LandingPage() {
         <button
           name="login"
           onClick={handleAuthRedirect}
-          originalRef={loginButton}
           className="rounded-lg py-2 px-6 my-2 mx-2 disabled disabled:bg-emerald-200 disabled:border-emerald-200 sm:w-55 sm- text-xl w-auto h-auto bg-gray-100 border border-gray-400 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
         >
           Login
         </button>
         <button
-          name="login"
+          name="signup"
           onClick={handleAuthRedirect}
-          originalRef={signupButton}
           className="rounded-lg py-2 px-6 my-2 mx-2 disabled disabled:bg-emerald-200 disabled:border-emerald-200 sm:w-55 sm- text-xl w-auto h-auto bg-gray-100 border border-gray-400 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
         >
-          Sign Up
+          {loading ? (
+            <>
+              <FontAwesomeIcon icon={faCircleNotch} spin />
+              <div className="text-emerald-400 font-semibold">Loading...</div>)
+            </>
+          ) : (
+            "Sign Up"
+          )}
         </button>
       </div>
       <div className="flex flex-row align-middle items-center justify-center"></div>

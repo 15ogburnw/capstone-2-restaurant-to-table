@@ -2,7 +2,7 @@ import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
   const supabase = useSupabaseClient();
@@ -19,12 +19,13 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values) => {
+    console.log(router);
+    console.log(values);
     const { data, error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     });
-
-    if (data) router.push("/");
+    if (data) router.push("/dashboard");
 
     // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
     if (error) console.error(error);

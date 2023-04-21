@@ -13,6 +13,10 @@ export async function middleware(req) {
     data: { session },
   } = await supabase.auth.getSession();
 
+  if (req.nextUrl.pathname.match(/^\/$/)) {
+    return NextResponse.redirect(new URL("/landing", req.nextUrl));
+  }
+
   //   for all routes that require you to be logged in
   if (req.nextUrl.pathname.startsWith("/dashboard")) {
     // Check if there is an authenticated user
@@ -29,7 +33,7 @@ export async function middleware(req) {
   }
   //   for auth routes and the landing page, if there is a user logged in redirect to dashboard
   if (
-    (req.nextUrl.pathname.match(/^\/$/) ||
+    (req.nextUrl.pathname.startsWith("/landing") ||
       req.nextUrl.pathname.startsWith("/auth")) &&
     session?.user
   ) {
@@ -38,8 +42,5 @@ export async function middleware(req) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (req.nextUrl.pathname.match(/^\/$/)) {
-    return NextResponse.rewrite(new URL("/landing", req.url));
-  }
-  if (req.nextUrl.pathname.ma) return res;
+  return res;
 }
