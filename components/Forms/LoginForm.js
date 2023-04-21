@@ -54,6 +54,18 @@ export default function LoginForm() {
     password: yup.string().required("Password is required"),
   });
 
+  const onSubmit = async (values) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (data) router.push("/");
+
+    // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
+    if (error) console.error(error);
+  };
+
   return (
     <Formik
       initialValues={{
