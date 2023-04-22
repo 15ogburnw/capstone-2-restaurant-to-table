@@ -9,7 +9,13 @@ export async function middleware(req) {
   const path = req.nextUrl.pathname;
 
   // Create authenticated Supabase Client.
-  const supabase = createMiddlewareSupabaseClient({ req, res });
+  const supabase = createMiddlewareSupabaseClient(
+    { req, res },
+    {
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    }
+  );
 
   // Check if we have a session
   const {
