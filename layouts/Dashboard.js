@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { SWRConfig, preload } from "swr";
 import { useEffect } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
+import Script from "next/script";
 
 // prefetch all existing data for the current user, since we know they will be logged in if they made it this far.
 
@@ -73,6 +74,10 @@ export default function Dashboard({ children }) {
         {children}
       </div>
       <Footer />
+      <Script
+        src="https://developer.edamam.com/attribution/badge.js"
+        strategy="afterInteractive"
+      />
     </SWRConfig>
   );
 }
