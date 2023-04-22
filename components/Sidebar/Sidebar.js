@@ -20,7 +20,7 @@ import { useState, useRef } from "react";
 import useSWR, { mutate, preload } from "swr";
 import Loading from "../Loading";
 
-const fetcher = (source, init) => fetch(source, init).then((res = res.json()));
+const fetcher = (source, init) => fetch(source, init).then((res) => res.json());
 preload("/api/user/menus", fetcher);
 
 export default function Sidebar() {
@@ -36,7 +36,8 @@ export default function Sidebar() {
     "bg-pink-500",
   ];
 
-  const menuModalRef = useRef(null);
+  const [hoverModalBtn, setHoverModalBtn] = useState(false);
+  const modalButtonRef = useRef(null);
 
   const getColor = (idx) => {
     if (idx < COLORS.length) return COLORS[idx];
@@ -197,12 +198,13 @@ export default function Sidebar() {
             <h2 className="text-base font-semibold text-gray-800 ">My Menus</h2>
             <div
               onMouseEnter={() => {
-                setHoverMenu(true);
+                setHoverModalBtn(true);
                 preload("/api/users/menus");
               }}
-              onMouseLeave={() => setHoverMenu(false)}
+              onMouseLeave={() => setHoverModalBtn(false)}
+              ref={modalButtonRef}
             >
-              {hoverMenu ? (
+              {hoverModalBtn ? (
                 <FontAwesomeIcon
                   icon={faSquarePlusSolid}
                   className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
@@ -218,41 +220,38 @@ export default function Sidebar() {
 
           <nav className="mt-4 mx-3 space-y-3 ">
             {console.log(menus)}
-            {menus?.length > 0
-              ? menus.map((menu, idx) => (
-                  <Link
-                    href={`user/menus/${menu.id}`}
-                    key={menu.id}
-                    className="w-full h-ful mx-2 my-2 px-4"
-                  >
-                    <SideBarMenuItem
-                      key={menu.name}
-                      dotColor={getColor(idx)}
-                      name={menu.name}
-                    />
-                  </Link>
-                ))
-              : null}
+            {menus?.length > 0 &&
+              menus.map((menu, idx) => (
+                <Link
+                  href={`user/menus/${menu.id}`}
+                  key={menu.id}
+                  className="w-full h-ful mx-2 my-2 px-4"
+                >
+                  <SideBarMenuItem
+                    key={menu.name}
+                    dotColor={getColor(idx)}
+                    name={menu.name}
+                  />
+                </Link>
+              ))}
 
-            {!menus || menus?.length <= 0 ? (
-              <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
-                <div className="flex items-center gap-x-2 ">
-                  {!isLoading ? (
-                    <span>
-                      You don&apos;t have any menus yet! Create your first one
-                      to get started
-                    </span>
-                  ) : (
-                    <Loading size="md" />
-                  )}
-                </div>
+            <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
+              <div className="flex items-center gap-x-2 ">
+                {!menus || menus.length === 0 ? (
+                  <span>
+                    You don&apos;t have any menus yet! Create your first one to
+                    get started
+                  </span>
+                ) : (
+                  <Loading size="md" />
+                )}
               </div>
-            ) : null}
+            </div>
           </nav>
         </div>
       </div>
 
-      <AddMenuModal />
+      <AddMenuModal modalButtonRef={modalButtonRef} />
     </aside>
   );
 }
