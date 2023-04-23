@@ -19,13 +19,19 @@ import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-i
 import { useState, useRef } from "react";
 import useSWR, { mutate, preload } from "swr";
 import Loading from "../Loading";
-
-const fetcher = (source, init) => fetch(source, init).then((res) => res.json());
-preload("/api/user/menus", fetcher);
+import ClientOnlyPortal from "../HOF/ClientOnlyPortal";
+import useCloseWithOutsideClick from "@/lib/hooks/useCloseWithOutsideClick";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function Sidebar() {
   const router = useRouter();
-  const { data: menus } = useSWR("/api/user/menus");
+  //get current user's menus
+  const { data: menus, isLoading } = useSWR("/api/user/menus");
+
+  // initialize client for supabase
+  const supabase = useSupabaseClient();
+
+  // possible colors for list of user menus in sidebar
   const COLORS = [
     "bg-red-500",
     "bg-orange-500",
@@ -36,8 +42,12 @@ export default function Sidebar() {
     "bg-pink-500",
   ];
 
+  // hover state for button that opens modal
   const [hoverModalBtn, setHoverModalBtn] = useState(false);
-  const modalButtonRef = useRef(null);
+
+  // reference modal and set it to close if the user clicks outside its bounds
+  const modalRef = useRef(null);
+  const [modalOpen, setModalOpen] = useCloseWithOutsideClick(modalRef);
 
   const getColor = (idx) => {
     if (idx < COLORS.length) return COLORS[idx];
@@ -49,8 +59,12 @@ export default function Sidebar() {
 
   const handleSignOut = (e) => {
     e.preventDefault();
+
+    // clears the swr cache
     const clearCache = async () =>
       await mutate(() => true, undefined, { revalidate: false });
+
+    // sign out of supabase, clear cache, and redirect to landing page
     async function signOut() {
       const { error } = await supabase.auth.signOut();
       if (error) throw Error;
@@ -199,10 +213,11 @@ export default function Sidebar() {
             <div
               onMouseEnter={() => {
                 setHoverModalBtn(true);
-                preload("/api/users/menus");
+                preload("/api/user/menus", (url) =>
+                  fetch(url).then((res) => res.json())
+                );
               }}
               onMouseLeave={() => setHoverModalBtn(false)}
-              ref={modalButtonRef}
             >
               {hoverModalBtn ? (
                 <FontAwesomeIcon
@@ -219,7 +234,7 @@ export default function Sidebar() {
           </div>
 
           <nav className="mt-4 mx-3 space-y-3 ">
-            {console.log(menus)}
+            {console.log("My menus:", menus)}
             {menus?.length > 0 &&
               menus.map((menu, idx) => (
                 <Link
@@ -242,16 +257,16 @@ export default function Sidebar() {
                     You don&apos;t have any menus yet! Create your first one to
                     get started
                   </span>
-                ) : (
-                  <Loading size="md" />
-                )}
+                ) : null}
+                {isLoading && <Loading size="md" />}
               </div>
             </div>
           </nav>
         </div>
       </div>
-
-      <AddMenuModal modalButtonRef={modalButtonRef} />
+      <ClientOnlyPortal selector="#modals">
+        {modalOpen && <AddMenuModal ref={modalRef} />}
+      </ClientOnlyPortal>
     </aside>
   );
 }
