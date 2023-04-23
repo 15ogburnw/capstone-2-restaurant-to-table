@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({ Component, pageProps }) {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
-
   const Layout = Component.layout || (({ children }) => <>{children}</>);
 
   // TODO: IMPLEMENT TOAST MESSAGES FOR ALL USER FETCHING DATA/ERROR HANDLING
@@ -16,17 +15,13 @@ export default function App({ Component, pageProps }) {
 
 
   return (
-    <ErrorBoundary>
-      <SessionContextProvider
-        supabaseClient={supabaseClient}
-        initialSession={pageProps.initialSession}
-      >
-        <ToastContainer />
-
-        <Layout>
-          <Component {...pageProps} />;
-        </Layout>
-      </SessionContextProvider>
-    </ErrorBoundary>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <Layout>
+        <Component {...pageProps} />;
+      </Layout>
+    </SessionContextProvider>
   );
 }
