@@ -16,11 +16,11 @@ import SideBarMenuItem from "./SidebarMenuItem";
 import AddMenuModal from "../Modals/AddMenuModal";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import useSWR, { mutate, preload } from "swr";
 import Loading from "../Loading";
 import ClientOnlyPortal from "../HOF/ClientOnlyPortal";
-import useCloseWithOutsideClick from "@/lib/hooks/useCloseWithOutsideClick";
+import useModal from "@/lib/hooks/useModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function Sidebar() {
@@ -46,8 +46,7 @@ export default function Sidebar() {
   const [hoverModalBtn, setHoverModalBtn] = useState(false);
 
   // reference modal and set it to close if the user clicks outside its bounds
-  const modalRef = useRef(null);
-  const [modalOpen, setModalOpen] = useCloseWithOutsideClick(modalRef);
+  const [showModal, setShowModal] = useState(false);
 
   const getColor = (idx) => {
     if (idx < COLORS.length) return COLORS[idx];
@@ -72,6 +71,10 @@ export default function Sidebar() {
       await router.push("/");
     }
     signOut();
+  };
+
+  const handleOpenModal = (e) => {
+    setShowModal(true);
   };
 
   // TODO:
@@ -208,6 +211,7 @@ export default function Sidebar() {
                 );
               }}
               onMouseLeave={() => setHoverModalBtn(false)}
+              onClick={() => setShowModal(true)}
             >
               {hoverModalBtn ? (
                 <FontAwesomeIcon
