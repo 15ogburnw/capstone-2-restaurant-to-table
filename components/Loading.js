@@ -1,6 +1,3 @@
-import "@fortawesome/fontawesome-svg-core/styles.css";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
@@ -32,8 +29,7 @@ export default function Loading({ size }) {
 
   return (
     <div
-      className={`flex align-middle flex-col text-center text-emerald-500 justify-center ${screen ? "w-screen h-screen" : "w-full h-full"
-        } items-center`}
+      className={`flex align-middle flex-col text-center text-emerald-500 justify-center ${container} items-center`}
     >
       <FontAwesomeIcon
         className={`${spinner} flex-initial`}
@@ -44,6 +40,5 @@ export default function Loading({ size }) {
         Loading... please wait a moment
       </p>
     </div>
-
   );
 }
