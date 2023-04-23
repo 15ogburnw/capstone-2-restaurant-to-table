@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 
 const LoginForm = () => {
   const supabase = useSupabaseClient();
+
   const router = useRouter();
 
   const inputStyles = {
@@ -19,16 +20,24 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(router);
-    console.log(values);
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     });
-    if (data) router.push("/dashboard");
+
+    if (!error) {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      console.log(session);
+    }
+
+    // else {
+    //   const newSession = await supabase.auth.refreshSession();
+    //   console.log(newSession);
+    // }
 
     // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
-    if (error) console.error(error);
   };
 
   return (

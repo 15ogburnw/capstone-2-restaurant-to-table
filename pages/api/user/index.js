@@ -8,7 +8,7 @@ const handler = async (req, res) => {
 
   if (req.method === "GET") {
     try {
-      const {
+      let {
         data: { user },
       } = await supabaseServerClient.auth.getUser();
       if (!user) return res.json(404).json({ message: "User not found" });

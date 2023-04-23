@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fresh-install": "rm -rf node_modules/ && rm -rf .next/ && rm -rf yarn.lock && yarn && yarn dev",
-    "supabase": "supabase init"
+    "fresh-install": "rm -rf node_modules/ && rm -rf .next/ && rm -rf yarn.lock && yarn && yarn dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
@@ -17,10 +16,9 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@heroicons/react": "^2.0.17",
-    "@sentry/nextjs": "^7.49.0",
-    "@supabase/auth-helpers-nextjs": "^0.5.6",
+    "@supabase/auth-helpers-nextjs": "^0.6.1",
     "@supabase/auth-helpers-react": "^0.3.1",
-    "@supabase/supabase-js": "^2.12.1",
+    "@supabase/supabase-js": "^2.21.0",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "formik": "^2.2.9",
@@ -35,6 +33,7 @@
     "react-inlinesvg": "^3.0.2",
     "react-toastify": "^9.1.2",
     "sharp": "^0.32.0",
+    "start": "^5.1.0",
     "string-similarity": "^4.0.4",
     "swr": "^2.1.2",
     "toastify-js": "^1.12.0",
@@ -45,8 +44,6 @@
     "autoprefixer": "^10.4.14",
     "eslint-config-prettier": "^8.8.0",
     "postcss": "^8.4.21",
-    "supabase": "^1.50.11",
-    "supabase-cli": "^0.0.21",
     "tailwindcss": "^3.2.7"
   }
 }
