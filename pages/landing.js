@@ -39,7 +39,7 @@ export default function LandingPage() {
           {loading ? (
             <>
               <FontAwesomeIcon icon={faCircleNotch} spin />
-              <div className="text-emerald-400 font-semibold">Loading...</div>)
+              <div className="text-emerald-400 font-semibold">Loading...</div>
             </>
           ) : (
             "Sign Up"

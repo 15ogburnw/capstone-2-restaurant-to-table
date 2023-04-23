@@ -6,6 +6,13 @@ const nextConfig = {
     buildActivity: true,
     buildActivityPosition: "bottom-left",
   },
+  redirects: async () => [
+    {
+      source: "/",
+      destination: "/landing",
+      permanent: false,
+    },
+  ],
   images: {
     remotePatterns: [
       {

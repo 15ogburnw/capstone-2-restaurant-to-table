@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import useSWR, { preload } from "swr";
 
@@ -6,32 +6,33 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import useSWRMutation, { mutate } from "swr/mutation";
 import { toast } from "react-toastify";
 import { useUser } from "@supabase/auth-helpers-react";
-import ClientOnlyPortal from "../HOF/ClientOnlyPortal";
-import useCloseWithOutsideClick from "@/lib/hooks/useCloseWithOutsideClick";
-import { useRef } from "react";
 
-const AddMenuModal = forwardRef((props, ref) => {
+const AddMenuModal = ({ setShowModal }) => {
   const [newMenuName, setNewMenuName] = useState("");
   const user = useUser();
   const { data: menus } = useSWR("/api/user/menus");
 
-  // TODO: ALERTS AREN'T DISAPPEARING ON THE MODAL PAGE AFTER IT IS CLOSED. MODAL POPS UP EVERY TIME I CLICK ON THE PAGE OUTSIDE OF IT, EVEN IF ITS CLOSED
+  const modalRef = useRef(null);
 
   const handleChange = (e) => {
     const newVal = e.target.value;
     setNewMenuName(newVal);
   };
 
-  const createMenu = async (url, { arg }) => (
-    url,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ arg }).then((res) => res.json()),
-    }
-  );
+  useEffect(() => {
+    const outsideModalClick = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        setShowModal(false);
+      }
+    };
+    document.addEventListener("click", outsideModalClick);
+
+    return () => document.removeEventListener("click", outsideModalClick);
+  }, [setShowModal]);
+
+  const createMenu = async (url, { arg }) => {
+    // mutation function to create a new menu
+  };
 
   const { trigger, isMutating } = useSWRMutation(
     "/api/user/menus",
@@ -56,18 +57,19 @@ const AddMenuModal = forwardRef((props, ref) => {
   const handleSubmit = (e) => {
     e.preventDefault(e);
     trigger({ name: newMenuName, user_id: user.id });
-    setOpen(false);
+    setShowModal(false);
   };
 
   return (
     <div
-      ref={ref}
+      ref={modalRef}
       className=" fixed z-20 m-auto h-[40%] sm:h-1/3 max-w-sm inset-x-0 inset-y-0 p-4 bg-white rounded-lg overflow-hidden shadow-[-6px_6px_20px_2px_rgba(0,0,0,0.3)]  sm:p-6"
     >
       <div className="">
         <div className="relative">
           <XMarkIcon
-            onClick={() => setOpen(false)}
+            id="close-modal-btn"
+            onClick={() => setShowModal(false)}
             className=" hover:cursor-pointer right-1 -mr-1 -mt-3 absolute w-7 h-7 hover:stroke-[3px] stroke-[2px]"
           ></XMarkIcon>
           <div className="mt-2 text-center">
@@ -113,7 +115,7 @@ const AddMenuModal = forwardRef((props, ref) => {
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setOpen(false);
+                setShowModal(false);
               }}
               className="w-full px-4 py-3 my-3 sm:my-0 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-300 rounded-md sm:w-1/2 sm:mx-2  hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
             >
@@ -136,7 +138,8 @@ const AddMenuModal = forwardRef((props, ref) => {
       </div>
     </div>
   );
-});
+};
+
 AddMenuModal.displayName = AddMenuModal;
 
 export default AddMenuModal;
