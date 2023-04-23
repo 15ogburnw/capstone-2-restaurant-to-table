@@ -63,7 +63,6 @@ export default function LoginForm() {
     if (data) router.push("/");
 
     // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
-    if (error) console.error(error);
   };
 
   return (
