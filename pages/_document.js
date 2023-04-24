@@ -7,8 +7,8 @@ export default function Document() {
       <div id="modals" />
       <body>
         <Main />
+
         <NextScript />
-        <div id="modals" />
       </body>
     </Html>
   );
