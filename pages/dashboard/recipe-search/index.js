@@ -3,10 +3,11 @@ import { useState } from "react";
 import { truncateRecipe, recipePagination } from "@/lib/edamam/helpers";
 import Pagination from "@/components/Pagination";
 import SearchResults from "@/components/Search/SearchResults";
-import RecipeSearchCard from "@/components/Recipes/RecipeSearchCard";
+import RecipeSearchCard from "@/components/Search/RecipeSearchCard";
 import NoResults from "@/components/Search/NoResults";
 import Loading from "@/components/Loading";
 import RecipeSearchForm from "@/components/Forms/RecipeSearchForm";
+import useSWR, { preload, useSWRConfig } from "swr";
 
 // TODO:
 // --make results cards look a bit better (decide what final info I want on them),
@@ -14,16 +15,16 @@ import RecipeSearchForm from "@/components/Forms/RecipeSearchForm";
 // --add results to local storage so the user can navigate back
 // --add tooltips to save, favorite, and add buttons
 
-export default function RecipeSearchPage() {
-  const INITIAL_RESULTS = {
-    items: [],
-    totalResults: null,
-    totalPages: null,
-    currentPage: null,
-    currentPageItems: null,
-    nextPageURL: null,
-  };
+const INITIAL_RESULTS = {
+  items: [],
+  totalResults: null,
+  totalPages: null,
+  currentPage: null,
+  currentPageItems: null,
+  nextPageURL: null,
+};
 
+export default function RecipeSearchPage() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(INITIAL_RESULTS);
   const [activeSearch, setActiveSearch] = useState(false);
@@ -145,10 +146,9 @@ export default function RecipeSearchPage() {
               : null}
           </div>
         </div>
-
+        {searchLoading ? <Loading size="xl" container={true} /> : null}
         <div className="flex align-middle flex-col text-center justify-center w-full h-full items-center">
           {/* If the search is loading, display a loading message */}
-          {searchLoading ? <Loading /> : null}
 
           {/* If there are no recipes in the results state, there is an active search, and it's not loading, display a no results message */}
 
@@ -156,7 +156,7 @@ export default function RecipeSearchPage() {
             <NoResults query={query} type="recipes" />
           ) : null}
           {/* If there's not an active search, display a message prompting the user to search for a recipe */}
-          {!activeSearch ? (
+          {!activeSearch && !searchLoading ? (
             <div className="text-gray-500 text-xl md:text-2xl ">
               Hungry? Search for a recipe!
             </div>

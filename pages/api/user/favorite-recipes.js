@@ -5,44 +5,63 @@ const handler = async (req, res) => {
     req,
     res,
   });
-  try {
-    if (req.method === "GET") {
-      //   query the database and get the user's favorite recipes
+  const {
+    data: { user },
+    error,
+  } = await supabaseServerClient.auth.getUser();
+  const { recipe_id } = req.body;
 
-      let { data, error } = await supabaseServerClient
+  if (error) return res.status(error.status).json({ error: error.message });
+  let favorites;
+  switch (req.method) {
+    case "GET":
+      favorites = await supabaseServerClient
         .from("favorite_recipes")
         .select("recipe_id");
-      if (error) res.status(400).json({ message: error.message });
-      const favoriteRecipes = data?.map((val) => val.recipe_id) || [];
+      if (favorites.error)
+        return res
+          .status(favorites.error.code)
+          .json({ error: favorites.error });
+      else {
+        favorites = favorites.data?.map((val) => val.recipe_id) || [];
+        console.log("here are your favorite recipes:", favorites);
+        return res.status(200).json(favorites);
+      }
 
-      res.status(200).json({ favoriteRecipes });
-    } else if (req.method === "DELETE") {
-      const { recipe_id } = req.body || null;
-      let { error } = await supabaseServerClient
+    case "POST":
+      favorites = await supabaseServerClient
+        .from("favorite_recipes")
+        .insert({ recipe_id, user_id: user.id })
+        .select("recipe_id");
+      if (favorites.error)
+        return res
+          .status(favorites.error.code)
+          .json({ error: favorites.error });
+      else {
+        console.log("recipe successfully added to favorites:", favorites.data);
+        return res.status(201).json(favorites.data);
+      }
+
+    case "DELETE":
+      favorites = await supabaseServerClient
         .from("favorite_recipes")
         .delete()
-        .eq("recipe_id", recipe_id);
-      if (error) res.status(400).json({ message: error.message });
-      res
-        .status(200)
-        .json({ message: "Recipe successfully removed from favorites" });
-    } else if (req.method === "POST") {
-      const { recipe_id } = req.body || null;
-      const user = await supabaseServerClient.auth.getUser();
-      let { error } = await supabaseServerClient
-        .from("favorite-recipes")
-        .insert({ recipe_id, user_id: user.id });
-      if (error) res.status(400).json({ message: error.message });
-      res
-        .status(201)
-        .json({ message: "Recipe successfully added to your favorites" });
-    } else {
-      res.status(400).json({ message: "Method not allowed" });
-    }
-  } catch (e) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong, please try again later" });
+        .eq("recipe_id", recipe_id)
+        .select("recipe_id");
+      if (favorites.error)
+        return res
+          .status(favorites.error.code)
+          .json({ error: favorites.error });
+      else {
+        console.log(
+          "recipe successfully removed from favorites",
+          favorites.data
+        );
+        return res.status(200).json(favorites.data);
+      }
+
+    default:
+      return res.status(400).json("Bad Request");
   }
 };
 

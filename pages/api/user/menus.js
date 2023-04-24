@@ -1,39 +1,68 @@
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const handler = async (req, res) => {
-  try {
-    const supabaseServerClient = createServerSupabaseClient({
-      req,
-      res,
-    });
-    if (req.method === "GET") {
-      let { data, error } = await supabaseServerClient
-        .from("menus")
-        .select("name");
-      if (error) res.status(400).json({ message: error.message });
+  // console.log(req);
+  const supabaseServerClient = createServerSupabaseClient({
+    req,
+    res,
+  });
+  const resp = await supabaseServerClient.auth.getSession();
+  const { name, id } = req.body;
 
-      const menus = data?.map((val) => val.name) || [];
-      res.status(200).json({ menus });
-    } else if (req.method === "POST") {
-      const { name } = req.body;
-      let { error } = await supabaseServerClient.from("menus").insert({ name });
-      if (error) res.status(400).json({ message: error.message });
-
-      res.status(201).json({ message: "Menu successfully created" });
-    } else if (req.method === "DELETE") {
-      // TODO: BUILD THIS
-    } else if (req.method === "PATCH") {
-      // TODO: BUILD THIS
+  console.log(resp);
+  if (req.method === "GET") {
+    const { menus, error } = await supabaseServerClient
+      .from("menus")
+      .select("id, name");
+    if (error) {
+      res.status(menus.status).json({ error: menus.statusText });
+    } else if (menus) {
+      res.status(200).json(menus);
     } else {
-      res.status(400).json({ message: "Bad Request" });
+      res.status(400).json({ error: "Method not allowed" });
     }
-  } catch (e) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong, please try again later" });
+  } else {
+    res.status(500).json;
   }
-};
 
-// TODO: TRACK DOWN THE COMPONENT THAT DISABLES THE MODAL WHEN YOU CLICK OFF OF IT
+  // case "POST":
+  //   menus = await supabaseServerClient
+  //     .from("menus")
+  //     .insert({ name: name, user_id: user.id })
+  //     .select("id, name");
+  //   if (menus.error)
+  //     res.status(menus.status).json({ error: menus.statusText });
+  //   else {
+  //     console.log("menu successfully added:", menus.data);
+  //     res.status(201).json(menus.data);
+  //   }
+  //   break;
+
+  // case "DELETE":
+  //   menus = await supabaseServerClient
+  //     .from("menus")
+  //     .delete()
+  //     .eq("name", name)
+  //     .select("id", "name");
+  //   if (menus.error)
+  //     return res.status(menus.status).json({ error: menus.statusText });
+  //   else {
+  //     console.log("deleted menu", menus.data);
+  //     return res.status(200).json(menus.data);
+  //   }
+
+  // case "PATCH":
+  //   menus = await supabaseServerClient
+  //     .from("menus")
+  //     .update({ name: name })
+  //     .eq("id", id)
+  //     .select("id, name");
+  //   if (menus.error)
+  //     return res.status(menus.status).json({ error: menus.statusText });
+  //   else {
+  //     console.log("menu after update", menus.data);
+  //     return res.status(200).json(menus.data);
+  //   }
+};
 
 export default handler;

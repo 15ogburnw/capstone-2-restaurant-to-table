@@ -1,9 +1,12 @@
 import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
+
 import { NextResponse } from "next/server";
 
 export async function middleware(req) {
   // Create a base response
   const res = NextResponse.next();
+
+  const path = req.nextUrl.pathName;
 
   // Create authenticated Supabase Client.
   const supabase = createMiddlewareSupabaseClient({ req, res });
@@ -13,31 +16,15 @@ export async function middleware(req) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  //   for all routes that require you to be logged in
-  if (req.nextUrl.pathname.startsWith("/dashboard")) {
-    // Check if there is an authenticated user
-    if (session?.user) {
-      // Authentication successful, forward request to protected route.
-      return res;
-    }
-
-    // Auth condition not met, redirect to landing page.
-    const redirectUrl = req.nextUrl.clone();
-    redirectUrl.pathname = "/";
-
-    return NextResponse.redirect(redirectUrl);
+  // if we don't have a session and the user is trying to go to the dashboard, redirect to landing page
+  if (!session?.user && path?.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/landing", req.url));
   }
 
-  //   for auth routes and the landing page, if there is a user logged in redirect to dashboard
-  if (
-    req.nextUrl.pathname.match(/^\/$/) ||
-    req.nextUrl.pathname.startsWith("/auth")
-  ) {
-    if (session?.user) {
-      const redirectUrl = req.nextUrl.clone();
-      redirectUrl.pathname = "/dashboard";
-      return NextResponse.redirect(redirectUrl);
-    }
+  // If the user is logged in and attempts to access an authentication page, redirect to the dashboard
+  if (session?.user && path?.startsWith("/auth")) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
+
   return res;
 }
