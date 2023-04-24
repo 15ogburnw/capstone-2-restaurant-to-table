@@ -1,13 +1,17 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import {useState} from 'react'
 
 // TODO: BUILD OUT LANDING PAGE
-export default function LandingPage({ restaurants }) {
+export default function LandingPage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleAuthRedirect = (e) => {
+  const handleAuthRedirect = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
-    router.push("/auth/login");
+    await router.push("/auth/login");
+    setIsLoading(false)
   };
 
   return (

@@ -1,6 +1,15 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true,
-	"editor.formatOnSaveMode": "file",
-	"files.autoSave": "onWindowChange"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "files.autoSave": "onWindowChange",
+  "npm-intellisense.packageSubfoldersIntellisense": true,
+  "npm-intellisense.showBuildInLibs": true,
+  "npm-intellisense.scanDevDependencies": true,
+  "tsimporter.doubleQuotes": true,
+  "tsimporter.preferRelative": true,
+  "breadcrumbs.enabled": true,
+  "editor.formatOnPaste": true,
+  "editor.autoIndent": "advanced",
+  "editor.find.addExtraSpaceOnTop": true
 }
