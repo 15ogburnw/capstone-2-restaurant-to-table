@@ -2,29 +2,28 @@ import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import Loading from "@/components/Loading";
-import { useSessionContext } from "@supabase/auth-helpers-react";
-import { Router, useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-
 const LoginForm = () => {
   const router = useRouter();
-  const { supabaseClient } = useSessionContext();
-  const [errorMessage, setErrorMessage] = useState("");
   const inputStyles = {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
   };
 
   const loginUser = async (values) => {
-    const body = values;
-    const { url, headers } = supabaseClient?.auth?.admin;
-    return fetch(url, { body, headers, method: "POST" }).then((res) =>
-      res.json()
-    );
+    console.log(values);
+    return fetch("/api/user/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ login: values }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   const {
@@ -32,7 +31,27 @@ const LoginForm = () => {
     isMutating,
     reset,
     error: loginError,
-  } = useSWRMutation("/api/user/", loginUser);
+  } = useSWRMutation("/api/user/auth/login", loginUser, {
+    onError: (err, key, config) => {
+      console.log(
+        "Within on error func: (err.message,key,config)",
+        err,
+        key,
+        config
+      );
+      reset();
+    },
+    onSuccess: async (resp, key, config) => {
+      console.log(
+        "Within on success func: (user,key,config)",
+        resp.error.message,
+        key,
+        config
+      );
+      // await router.redirect("/dashboard");
+      reset();
+    },
+  });
 
   const loginSchema = yup.object().shape({
     email: yup.string().email("Invalid email").required("Email is required"),
@@ -40,24 +59,7 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values) => {
-    const { email, password } = values;
-
-    await trigger(values, {
-      onError: (err, key, config) => {
-        console.log("Within on error func: (err,key,config)", err, key, config);
-      },
-      onSuccess: async (user, key, config) => {
-        console.log(
-          "Within on success func: (err,key,config)",
-          user,
-          key,
-          config
-        );
-        await router.redirect("/dashboard");
-      },
-    });
-
-    reset();
+    trigger(values);
   };
 
   if (isMutating) return <Loading size="lg" />;
@@ -77,9 +79,9 @@ const LoginForm = () => {
             <p className="mt-3 text-xl text-center text-gray-600">
               Welcome back!
             </p>
-            <div className="text-red-500 font-normal text-sm text-center my-1">
+            <div className="">
               {loginError && (
-                <p className="text-red-500 font-medium text-medium text-center py-1">
+                <p className="text-red-500 font-medium text-medium text-center my-2">
                   Something went wrong! Please try again later
                 </p>
               )}

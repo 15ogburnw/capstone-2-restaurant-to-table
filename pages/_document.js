@@ -4,10 +4,11 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
+      <div id="modals" />
       <body>
         <Main />
+
         <NextScript />
-        <div id="modals" />
       </body>
     </Html>
   );
