@@ -3,12 +3,21 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "files.autoSave": "onWindowChange",
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+  "npm-intellisense.packageSubfoldersIntellisense": true,
+>>>>>>> e3767c3 (signin sheet almost working again)
+  "npm-intellisense.showBuildInLibs": true,
+>>>>>>> a4e90ff (signin sheet almost working again)
   "npm-intellisense.scanDevDependencies": true,
   "tsimporter.doubleQuotes": true,
   "tsimporter.preferRelative": true,
   "breadcrumbs.enabled": true,
   "editor.formatOnPaste": true,
   "editor.autoIndent": "advanced",
+<<<<<<< HEAD
   "editor.find.addExtraSpaceOnTop": true,
   "tailwindCSS.hovers": true,
   "npm-intellisense.packageSubfoldersIntellisense": true,
@@ -285,10 +294,17 @@
   "todo-tree.tree.expanded": true,
   "todo-tree.tree.hideTreeWhenEmpty": true,
   "todo-tree.tree.showCountsInTree": true,
+<<<<<<< HEAD
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true,
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   }
+=======
+  "todo-tree.tree.sortTagsOnlyViewAlphabetically": true
+=======
+  "editor.find.addExtraSpaceOnTop": true
+>>>>>>> e3767c3 (signin sheet almost working again)
+>>>>>>> a4e90ff (signin sheet almost working again)
 }
