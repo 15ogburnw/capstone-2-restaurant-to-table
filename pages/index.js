@@ -1,8 +1,21 @@
 // This page is mainly just for adding metadata, links, and scripts to the head of my app
 
 import Head from "next/head";
+import { useRouter } from "next/router";
+import {useState} from 'react'
 
-export default function Index() {
+// TODO: BUILD OUT LANDING PAGE
+export default function LandingPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleAuthRedirect = async (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    await router.push("/auth/login");
+    setIsLoading(false)
+  };
+
   return (
     <>
       <Head>

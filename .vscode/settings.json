@@ -3,6 +3,10 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "files.autoSave": "onWindowChange",
+<<<<<<< HEAD
+=======
+  "npm-intellisense.packageSubfoldersIntellisense": true,
+>>>>>>> e3767c3 (signin sheet almost working again)
   "npm-intellisense.showBuildInLibs": true,
   "npm-intellisense.scanDevDependencies": true,
   "tsimporter.doubleQuotes": true,
@@ -10,6 +14,7 @@
   "breadcrumbs.enabled": true,
   "editor.formatOnPaste": true,
   "editor.autoIndent": "advanced",
+<<<<<<< HEAD
   "editor.find.addExtraSpaceOnTop": true,
   "tailwindCSS.hovers": true,
   "npm-intellisense.packageSubfoldersIntellisense": true,
@@ -327,4 +332,7 @@
   "todo-tree.tree.hideTreeWhenEmpty": true,
   "todo-tree.tree.showCountsInTree": true,
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true
+=======
+  "editor.find.addExtraSpaceOnTop": true
+>>>>>>> e3767c3 (signin sheet almost working again)
 }
