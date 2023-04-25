@@ -16,6 +16,7 @@
   "editor.formatOnPaste": true,
   "editor.autoIndent": "advanced",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "editor.find.addExtraSpaceOnTop": true,
   "tailwindCSS.hovers": true,
   "npm-intellisense.packageSubfoldersIntellisense": true,
@@ -339,4 +340,11 @@
 =======
   "simpleBrowser.focusLockIndicator.enabled": true
 >>>>>>> 71b3a5d (still a mess with menus database)
+=======
+  "editor.find.addExtraSpaceOnTop": true,
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  }
+>>>>>>> e18dbf8 (fully converted to yarn)
 }
