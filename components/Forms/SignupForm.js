@@ -1,12 +1,21 @@
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import {
+  useSupabaseClient,
+  useSessionContext,
+} from "@supabase/auth-helpers-react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-const SignupForm = () => {
+export default function SignupForm() {
   const supabase = useSupabaseClient();
+  const { session } = useSessionContext();
   const router = useRouter();
+
+  useEffect(() => {
+    if (session) router.push("/dashboard");
+  }, [session, router]);
 
   const inputStyles = {
     valid: "focus:border-emerald-400",
@@ -242,6 +251,4 @@ const SignupForm = () => {
       )}
     </Formik>
   );
-};
-
-export default SignupForm;
+}

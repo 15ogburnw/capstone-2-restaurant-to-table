@@ -1,22 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function LandingPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const { session } = useSessionContext();
 
-  const handleAuthRedirect = (e) => {
-    setLoading(true);
-    e.preventDefault();
-    goToAuth(e.target.name);
-  };
-  const goToAuth = async (type) => {
-    if (type === "login") await router.push("/auth/login");
-    if (type === "signup") await router.push("/auth/signup");
-    setLoading(false);
-  };
+  useEffect(() => {
+    if (session) {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
 
   return (
     <section className="flex flex-col justify-center items-center w-screen h-screen">
@@ -25,21 +23,41 @@ export default function LandingPage() {
       </h1>
       <div className="flex flex-row align-middle items-center justify-center ">
         <button
-          name="login"
-          onClick={handleAuthRedirect}
+          onClick={() => {
+            setLoginLoading(true);
+            router.push("/auth/login");
+          }}
           className="rounded-lg py-2 px-6 my-2 mx-2 disabled disabled:bg-emerald-200 disabled:border-emerald-200 sm:w-55 sm- text-xl w-auto h-auto bg-gray-100 border border-gray-400 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
         >
-          Login
+          {loginLoading ? (
+            <>
+              <FontAwesomeIcon
+                className="inline text-emerald-500 mr-2"
+                icon={faCircleNotch}
+                spin
+              />
+              <span className="text-emerald-400 font-semibold">Loading...</span>
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
         <button
           name="signup"
-          onClick={handleAuthRedirect}
+          onClick={() => {
+            setSignupLoading(true);
+            router.push("/auth/signup");
+          }}
           className="rounded-lg py-2 px-6 my-2 mx-2 disabled disabled:bg-emerald-200 disabled:border-emerald-200 sm:w-55 sm- text-xl w-auto h-auto bg-gray-100 border border-gray-400 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
         >
-          {loading ? (
+          {signupLoading ? (
             <>
-              <FontAwesomeIcon icon={faCircleNotch} spin />
-              <div className="text-emerald-400 font-semibold">Loading...</div>
+              <FontAwesomeIcon
+                className="inline text-emerald-500 mr-2"
+                icon={faCircleNotch}
+                spin
+              />
+              <span className="text-emerald-400 font-semibold">Loading...</span>
             </>
           ) : (
             "Sign Up"

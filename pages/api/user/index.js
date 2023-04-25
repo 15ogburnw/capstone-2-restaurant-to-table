@@ -18,12 +18,12 @@ const handler = async (req, res) => {
    */
 
   if (req.method === "DELETE") {
-    const [error, data, resp] =
-      ({ error, data } =
-      resp =
-        await supabase.from("auth.users").delete().eq(id, user.id));
+    // const [error, data, resp] =
+    //   ({ error, data } =
+    //   resp =
+    //     await supabase.from("auth.users").delete().eq(id, user.id));
 
-    console.log(resp, error, data);
+    // console.log(resp, error, data);
     // const [res, error, user] =
     //   ({ error, data: user } =
     //   res =
@@ -37,12 +37,12 @@ const handler = async (req, res) => {
   }
 
   if (req.method === "GET") {
-    const [error, data, resp] =
-      ({ error, data } =
-      resp =
-        await supabase.from("auth.users").select("*").eq("id", user.id));
+    const { error, data } = await supabase
+      .from("auth.users")
+      .select("*")
+      .eq("id", user.id);
 
-    console.log("resp:", resp, "error:", error, "data:", data);
+    console.log("error:", error, "data:", data);
   }
 };
 
