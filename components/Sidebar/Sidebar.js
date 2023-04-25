@@ -56,20 +56,20 @@ export default function Sidebar() {
     }
   };
 
+  // sign out of supabase, clear cache, and redirect to landing page
   const handleSignOut = (e) => {
     e.preventDefault();
 
     // clears the swr cache
-    const clearCache = async () =>
-      await mutate(() => true, undefined, { revalidate: false });
-
-    // sign out of supabase, clear cache, and redirect to landing page
-    async function signOut() {
+    const signOut = async () => {
       const { error } = await supabase.auth.signOut();
-      if (error) throw Error;
-      await clearCache();
-      await router.push("/");
-    }
+      if (error) throw new Error();
+
+      // clear the SWR cache
+      await mutate(() => true, undefined, { revalidate: false });
+      router.push("/landing");
+    };
+
     signOut();
   };
 

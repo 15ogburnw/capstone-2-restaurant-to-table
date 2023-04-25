@@ -5,9 +5,12 @@
   "files.autoSave": "onWindowChange",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   "npm-intellisense.packageSubfoldersIntellisense": true,
 >>>>>>> e3767c3 (signin sheet almost working again)
+=======
+>>>>>>> 9214ec8 (fixed authentication and database connection)
   "npm-intellisense.showBuildInLibs": true,
   "npm-intellisense.scanDevDependencies": true,
   "tsimporter.doubleQuotes": true,
@@ -342,9 +345,19 @@
 >>>>>>> 71b3a5d (still a mess with menus database)
 =======
   "editor.find.addExtraSpaceOnTop": true,
+  "tailwindCSS.hovers": true,
+  "npm-intellisense.packageSubfoldersIntellisense": true,
+  "npm-intellisense.recursivePackageJsonLookup": true,
+  "editor.minimap.autohide": true,
+  "editor.formatOnType": false,
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
+<<<<<<< HEAD
   }
 >>>>>>> e18dbf8 (fully converted to yarn)
+=======
+  },
+  "eslint.nodePath": ".yarn/sdks"
+>>>>>>> 9214ec8 (fixed authentication and database connection)
 }

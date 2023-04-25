@@ -11,6 +11,7 @@ import {faCircleNotch} from "@fortawesome/free-solid-svg-icons"
 export default function SignupForm() {
   const { session } = useSessionContext();
   const supabase = useSupabaseClient();
+  const { session } = useSessionContext();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState();

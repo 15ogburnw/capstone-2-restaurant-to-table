@@ -22,6 +22,10 @@ export default function LoginForm() {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
   };
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const supabase = useSupabaseClient();
+  const { session } = useSessionContext();
 
   useEffect(() => {
     if (session) {
@@ -111,84 +115,81 @@ export default function LoginForm() {
               </svg>
             </div>
 
-              <span className="w-5/6 px-4 py-3 font-bold text-center">
-                Sign in with Google
-              </span>
-            </a>
+            <span className="w-5/6 px-4 py-3 font-bold text-center">
+              Sign in with Google
+            </span>
+          </a>
 
-            {/* Login with email horizontal line break */}
-            <div className="flex items-center justify-between mt-3">
-              <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
+          {/* Login with email horizontal line break */}
+          <div className="flex items-center justify-between mt-3">
+            <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
 
-              <span className="text-sm text-center text-green-500 font-semibold">
-                Or login with Email
-              </span>
+            <span className="text-sm text-center text-green-500 font-semibold">
+              Or login with Email
+            </span>
 
-              <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
+            <span className="w-1/5 border border-green-400 lg:w-1/4"></span>
+          </div>
+
+          {/* Email input */}
+          <div className="mt-4">
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-base font-bold text-gray-600 "
+                htmlFor="email"
+              >
+                Email
+              </label>
             </div>
 
-            {/* Email input */}
-            <div className="mt-4">
-              <div className="flex justify-between">
-                <label
-                  className="block mb-2 text-base font-bold text-gray-600 "
-                  htmlFor="email"
-                >
-                  Email
-                </label>
-              </div>
-
-              <Field
-                className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
+            <Field
+              className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
             ${
               errors.email && touched.email
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-                name="email"
-                placeholder="Email"
-              />
-              {touched.email && errors.email ? (
-                <div className="text-sm text-red-500 mt-1 font-medium">
-                  {errors.email}
-                </div>
-              ) : null}
+              name="email"
+              placeholder="Email"
+            />
+            {touched.email && errors.email ? (
+              <div className="text-sm text-red-500 mt-1 font-medium">
+                {errors.email}
+              </div>
+            ) : null}
+          </div>
+
+          {/* Password input with forgot password link */}
+          <div className="mt-3">
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-base font-bold text-gray-600 "
+                htmlFor="loggingPassword"
+              >
+                Password
+              </label>
+              <a href="#" className="text-sm text-emerald-500 hover:underline">
+                Forget Password?
+              </a>
             </div>
 
-            {/* Password input with forgot password link */}
-            <div className="mt-3">
-              <div className="flex justify-between">
-                <label
-                  className="block mb-2 text-base font-bold text-gray-600 "
-                  htmlFor="loggingPassword"
-                >
-                  Password
-                </label>
-                <a
-                  href="#"
-                  className="text-sm text-emerald-500 hover:underline"
-                >
-                  Forget Password?
-                </a>
-              </div>
-
-              <Field
-                name="password"
-                placeholder="Password"
-                className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
+            <Field
+              name="password"
+              placeholder="Password"
+              className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
             ${
               errors.password && touched.password
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-                type="password"
-              />
-              {touched.password && errors.password ? (
-                <div className="text-sm text-red-500 mt-1 font-medium">
-                  {errors.password}
-                </div>
-              ) : null}
-            </div>
+              type="password"
+            />
+            {touched.password && errors.password ? (
+              <div className="text-sm text-red-500 mt-1 font-medium">
+                {errors.password}
+              </div>
+            ) : null}
+          </div>
 
           {/* Sign In Button */}
           <div className="mt-6">
@@ -212,11 +213,11 @@ export default function LoginForm() {
             </button>
           </div>
 
-            {/* Sign up redirect link */}
-            <div className="flex items-center justify-center mt-4">
-              <span className="text-sm text-center text-green-500 font-semibold mr-3">
-                Need to make an account?
-              </span>
+          {/* Sign up redirect link */}
+          <div className="flex items-center justify-center mt-4">
+            <span className="text-sm text-center text-green-500 font-semibold mr-3">
+              Need to make an account?
+            </span>
 
             <Link
               href="/auth/signup"
