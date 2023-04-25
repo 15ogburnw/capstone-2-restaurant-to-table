@@ -9,22 +9,6 @@ const handler = async (req, res) => {
   const resp = await supabaseServerClient.auth.getSession();
   const { name, id } = req.body;
 
-  console.log(resp);
-  if (req.method === "GET") {
-    const { menus, error } = await supabaseServerClient
-      .from("menus")
-      .select("id, name");
-    if (error) {
-      res.status(menus.status).json({ error: menus.statusText });
-    } else if (menus) {
-      res.status(200).json(menus);
-    } else {
-      res.status(400).json({ error: "Method not allowed" });
-    }
-  } else {
-    res.status(500).json;
-  }
-
   // case "POST":
   //   menus = await supabaseServerClient
   //     .from("menus")
