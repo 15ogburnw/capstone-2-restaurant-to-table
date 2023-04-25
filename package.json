@@ -1,4 +1,47 @@
 {
   "name": "rtt-nextjs-final",
-  "packageManager": "yarn@3.5.0"
+  "packageManager": "yarn@3.5.0",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --dir pages lib components layouts",
+    "fresh-install": "rm -rf .next/ && rm -rf yarn.lock && yarn && yarn dev"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@heroicons/react": "^2.0.17",
+    "@supabase/auth-helpers-nextjs": "^0.6.1",
+    "@supabase/auth-helpers-react": "^0.3.1",
+    "@supabase/supabase-js": "^2.21.0",
+    "eslint": "8.36.0",
+    "eslint-config-next": "13.2.4",
+    "formik": "^2.2.9",
+    "fuse.js": "^6.6.2",
+    "jsonwebtoken": "^9.0.0",
+    "next": "13.2.4",
+    "plaiceholder": "^2.5.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-error-boundary": "^4.0.4",
+    "react-inlinesvg": "^3.0.2",
+    "react-toastify": "^9.1.2",
+    "sharp": "^0.32.0",
+    "swr": "^2.1.2",
+    "toastify-js": "^1.12.0",
+    "yup": "^1.0.2"
+  },
+  "devDependencies": {
+    "@yarnpkg/sdks": "^3.0.0-rc.42",
+    "autoprefixer": "^10.4.14",
+    "eslint-config-prettier": "^8.8.0",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
+  }
 }

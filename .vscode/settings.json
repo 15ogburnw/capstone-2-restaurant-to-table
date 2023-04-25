@@ -11,5 +11,9 @@
   "breadcrumbs.enabled": true,
   "editor.formatOnPaste": true,
   "editor.autoIndent": "advanced",
-  "editor.find.addExtraSpaceOnTop": true
+  "editor.find.addExtraSpaceOnTop": true,
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  }
 }
