@@ -3853,6 +3853,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"goober@npm:^2.1.10":
+  version: 2.1.13
+  resolution: "goober@npm:2.1.13"
+  peerDependencies:
+    csstype: ^3.0.10
+  checksum: 0c00b90d26d1a2fad432e311fd4f47bc9fef1eee2a733158d9e2c72a89cf76d414090d063a8d20fe378f2b2b8087df0a83b0f00a3244d1466b97a0d3b14344a7
+  languageName: node
+  linkType: hard
+
 "gopd@npm:^1.0.1":
   version: 1.0.1
   resolution: "gopd@npm:1.0.1"
@@ -5859,6 +5868,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hot-toast@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "react-hot-toast@npm:2.4.0"
+  dependencies:
+    goober: ^2.1.10
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 910214496d6821af8e643c5f7087eff6c76f1395756f3d6cf1fc07a599c582c443cbb5a4cadfc58205acf0845b77a2a10a4ca49b385e772b72edc57dfd38d016
+  languageName: node
+  linkType: hard
+
 "react-inlinesvg@npm:^3.0.2":
   version: 3.0.2
   resolution: "react-inlinesvg@npm:3.0.2"
@@ -6151,10 +6172,12 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-error-boundary: ^4.0.4
+    react-hot-toast: ^2.4.0
     react-inlinesvg: ^3.0.2
     react-toastify: ^9.1.2
     sharp: ^0.32.0
     styled-components: ^5.3.10
+    sweetalert2: ^11.7.3
     swr: ^2.1.5
     tailwindcss: ^3.3.2
     toastify-js: ^1.12.0
@@ -6655,6 +6678,13 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 53b1e247e68e05db7b3808b99b892bd36fb096e6fba213a06da7fab22045e97597db425c724f2bbd6c99a3c295e1e73f3e4de78592289f38431049e1277ca0ae
+  languageName: node
+  linkType: hard
+
+"sweetalert2@npm:^11.7.3":
+  version: 11.7.3
+  resolution: "sweetalert2@npm:11.7.3"
+  checksum: 6d31e6b0fb7fca21ed34c34be97d23043349d2f1c89005bf370245388b057926cf147c33301ced90ac2fe15bada7d3e4277073b5cc36e6c131a9a6f99525ff5a
   languageName: node
   linkType: hard
 
