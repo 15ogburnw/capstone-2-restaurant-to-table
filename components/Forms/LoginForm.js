@@ -22,8 +22,6 @@ export default function LoginForm() {
 		valid: "focus:border-emerald-400",
 		invalid: "border-red-400",
 	};
-	const [errorMessage, setErrorMessage] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		if (session) {
