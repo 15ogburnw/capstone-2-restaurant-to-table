@@ -4,7 +4,7 @@ import Link from "next/link";
 import Loading from "@/components/Loading";
 
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { useSessionContext } from "@supabase/auth-helpers-react";
@@ -12,40 +12,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginForm() {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { session } = useSessionContext();
+
+  const { supabaseClient } = useSessionContext();
 
   const inputStyles = {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
   };
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (session)
-      async () => {
-        console.log(session, "in function");
-        console.log(supabaseClient);
+    if (!supabaseClient) {
+      router.push("/landing");
+    }
+  }, [router, supabaseClient]);
 
-        router.push("/dashboard");
-      };
-    else console.log(session);
-  }, [session, router]);
+  const handleLogin = async (values) => {
+    setLoading(true);
+    if (values) {
+      const { data: user, error } =
+        await supabaseClient.auth.signInWithPassword({
+          username: values.username,
+          password: values.password,
+        });
+      setLoading(false);
+    }
 
-  const handleLogin = (values) => {
-    const supabaseLogin = async () => {
-      setIsLoading(true);
-
-      const { error } = await session?.supabaseClient.auth.signInWithPassword(
-        values
-      );
-      console.log(session, error);
-      if (error) {
-        setErrorMessage("Login failed! Please try again");
-      }
-    };
-    supabaseLogin();
+    if (error) {
+      setErrorMessage("Login failed! Please try again");
+      console.error(error);
+    }
   };
 
   const loginSchema = yup.object().shape({
@@ -73,7 +71,7 @@ export default function LoginForm() {
               {errorMessage}
             </p>
           </div>
-          {/* Google Sign In Button */}
+          {/* TODO: decide about Google Sign In and remove Button if not*/}
           <a
             href="#"
             className="flex items-center justify-center mt-4 text-green-500 transition-colors duration-300 transform border-2 border-emerald-200 rounded-lg  hover:bg-emerald-400 hover:text-white hover:border-white"
@@ -180,9 +178,9 @@ export default function LoginForm() {
             <button
               type="submit"
               className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 "
-              disabled={!isValid || isLoading}
+              disabled={!isValid || loading}
             >
-              {!isLoading ? (
+              {!loading ? (
                 "Sign In"
               ) : (
                 <div className="flex flex-row align-middle justify-center items-center">
