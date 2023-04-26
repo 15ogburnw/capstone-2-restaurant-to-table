@@ -1,17 +1,11 @@
 import "../styles/globals.css";
 
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
-import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { useState, useMemo } from "react";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 export default function App({ Component, pageProps }) {
-  const [supabaseClient] = useState(() =>
-    createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    )
-  );
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   const Layout = Component.layout || (({ children }) => <>{children}</>);
 
