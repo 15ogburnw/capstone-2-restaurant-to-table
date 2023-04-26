@@ -2,39 +2,44 @@ import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import Loading from "@/components/Loading";
-import {
-  useSupabaseClient,
-  useSessionContext,
-} from "@supabase/auth-helpers-react";
+
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginForm() {
   const router = useRouter();
+  const { session } = useSessionContext();
+
   const inputStyles = {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
   };
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const supabase = useSupabaseClient();
-  const { session } = useSessionContext();
 
   useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-    }
+    if (session)
+      async () => {
+        console.log(session, "in function");
+        console.log(supabaseClient);
+
+        router.push("/dashboard");
+      };
+    else console.log(session);
   }, [session, router]);
 
   const handleLogin = (values) => {
     const supabaseLogin = async () => {
       setIsLoading(true);
 
-      const { error } = await supabase.auth.signInWithPassword(values);
+      const { error } = await session?.supabaseClient.auth.signInWithPassword(
+        values
+      );
       console.log(session, error);
       if (error) {
         setErrorMessage("Login failed! Please try again");
