@@ -24,8 +24,6 @@ export default function LoginForm() {
 	};
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
-	const supabase = useSupabaseClient();
-	const { session } = useSessionContext();
 
 	useEffect(() => {
 		if (session) {
