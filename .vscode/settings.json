@@ -358,6 +358,12 @@
 >>>>>>> e18dbf8 (fully converted to yarn)
 =======
   },
+<<<<<<< HEAD
   "eslint.nodePath": ".yarn/sdks"
 >>>>>>> 9214ec8 (fixed authentication and database connection)
+=======
+  "eslint.nodePath": ".yarn/sdks",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+>>>>>>> 709b66f (still working on auth)
 }
