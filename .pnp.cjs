@@ -50,6 +50,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jsonwebtoken", "npm:9.0.0"],\
             ["next", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:13.3.1"],\
             ["plaiceholder", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.5.0"],\
+            ["pnp-webpack-plugin", "npm:1.7.0"],\
             ["postcss", "npm:8.4.23"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:18.2.0"],\
@@ -7051,6 +7052,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["pnp-webpack-plugin", [\
+        ["npm:1.7.0", {\
+          "packageLocation": "./.yarn/cache/pnp-webpack-plugin-npm-1.7.0-f6c94efb72-a41716d136.zip/node_modules/pnp-webpack-plugin/",\
+          "packageDependencies": [\
+            ["pnp-webpack-plugin", "npm:1.7.0"],\
+            ["ts-pnp", "virtual:f6c94efb72da698edc23c95ed60dce17fd5eefc9b285f3b3aee8db345bcd495351cf161d6ba8d0f66984085c26681fa41ddd68a1b7d366f81606ea5d8745bd42#npm:1.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["postcss", [\
         ["npm:8.4.14", {\
           "packageLocation": "./.yarn/cache/postcss-npm-8.4.14-c0d448b728-fe58766ff3.zip/node_modules/postcss/",\
@@ -7901,6 +7912,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jsonwebtoken", "npm:9.0.0"],\
             ["next", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:13.3.1"],\
             ["plaiceholder", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.5.0"],\
+            ["pnp-webpack-plugin", "npm:1.7.0"],\
             ["postcss", "npm:8.4.23"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:18.2.0"],\
@@ -8834,6 +8846,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/node",\
             "@types/swc__core",\
             "@types/swc__wasm",\
+            "@types/typescript",\
+            "typescript"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["ts-pnp", [\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/ts-pnp-npm-1.2.0-43620de7df-c2a698b85d.zip/node_modules/ts-pnp/",\
+          "packageDependencies": [\
+            ["ts-pnp", "npm:1.2.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:f6c94efb72da698edc23c95ed60dce17fd5eefc9b285f3b3aee8db345bcd495351cf161d6ba8d0f66984085c26681fa41ddd68a1b7d366f81606ea5d8745bd42#npm:1.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/ts-pnp-virtual-04186d9d5c/0/cache/ts-pnp-npm-1.2.0-43620de7df-c2a698b85d.zip/node_modules/ts-pnp/",\
+          "packageDependencies": [\
+            ["ts-pnp", "virtual:f6c94efb72da698edc23c95ed60dce17fd5eefc9b285f3b3aee8db345bcd495351cf161d6ba8d0f66984085c26681fa41ddd68a1b7d366f81606ea5d8745bd42#npm:1.2.0"],\
+            ["@types/typescript", null],\
+            ["typescript", null]\
+          ],\
+          "packagePeers": [\
             "@types/typescript",\
             "typescript"\
           ],\

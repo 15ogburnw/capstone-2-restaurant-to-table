@@ -1,20 +1,19 @@
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
-import {
-  useSupabaseClient,
-  useSessionContext,
-} from "@supabase/auth-helpers-react";
-import { useEffect } from "react";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { getAuthRedirectURL } from "@/lib/supabase/helpers";
 
 export default function SignupForm() {
-  const supabase = useSupabaseClient();
-  const { session } = useSessionContext();
+  const { session, supabaseClient } = useSessionContext();
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
-    if (session) router.push("/dashboard");
+    if (session) router.push("/landing");
+    console.log(session);
   }, [session, router]);
 
   const inputStyles = {
@@ -38,15 +37,23 @@ export default function SignupForm() {
       .required("You must confirm your password"),
   });
 
-  const onSubmit = async (values) => {
-    const { data, error } = await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
+  const handleSignup = async (values) => {
+    console.log(values);
+    const { email, password } = values;
+    setLoading(true);
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: { redirectTo: () => getAuthRedirectURL() },
     });
+    if (error) {
+      setErrorMessage("Something went wrong! Please try again");
+      console.error(error);
+    }
+    setLoading(false);
 
     if (data) router.push("/dashboard");
-    // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH SIGNUP
-    if (error) console.error(error);
   };
 
   return (
@@ -58,7 +65,7 @@ export default function SignupForm() {
         confirmPassword: "",
       }}
       validationSchema={registerSchema}
-      onSubmit={onSubmit}
+      onSubmit={handleSignup}
       validateOnMount
     >
       {({ errors, touched, isValid }) => (
@@ -66,8 +73,12 @@ export default function SignupForm() {
           <p className="mt-3 text-xl text-center text-gray-600">
             Welcome to Restaurant to Table!
           </p>
-
-          {/* Google Sign In Button */}
+          <div className="">
+            <p className="text-red-500 font-medium text-medium text-center my-2">
+              {errorMessage}
+            </p>
+          </div>
+          {/* TODO: Remove Google Sign In Button? */}
           <a
             href="#"
             className="flex items-center justify-center mt-4 text-green-500 transition-colors duration-300 transform border-2 border-emerald-200 rounded-lg  hover:bg-emerald-400 hover:text-white hover:border-white"

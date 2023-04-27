@@ -2,7 +2,6 @@ import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import Loading from "@/components/Loading";
-
 import { useRouter } from "next/router";
 import { useState, useEffect, useMemo } from "react";
 import useSWR from "swr";
@@ -10,13 +9,14 @@ import useSWRMutation from "swr/mutation";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { getAuthRedirectURL } from "@/lib/supabase/helpers";
 
 export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const { supabaseClient } = useSessionContext();
+  const { session, supabaseClient } = useSessionContext();
 
   const inputStyles = {
     valid: "focus:border-emerald-400",
@@ -24,26 +24,30 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    if (!supabaseClient) {
+    if (session) {
       router.push("/landing");
+      console.log(session);
     }
-  }, [router, supabaseClient]);
+  }, [router, session]);
 
   const handleLogin = async (values) => {
+    console.log(values);
+    const { email, password } = values;
     setLoading(true);
-    if (values) {
-      const { data: user, error } =
-        await supabaseClient.auth.signInWithPassword({
-          username: values.username,
-          password: values.password,
-        });
-      setLoading(false);
-    }
 
+    const { data: user, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password,
+      options: {
+        redirectTo: () => getAuthRedirectURL(),
+      },
+    });
     if (error) {
       setErrorMessage("Login failed! Please try again");
       console.error(error);
     }
+    setLoading(false);
+    if (data) router.push("/dashboard");
   };
 
   const loginSchema = yup.object().shape({
