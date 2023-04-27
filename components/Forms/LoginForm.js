@@ -31,7 +31,6 @@ export default function LoginForm() {
   }, [router, session]);
 
   const handleLogin = async (values) => {
-    console.log(values);
     const { email, password } = values;
     setLoading(true);
 

@@ -10,10 +10,13 @@ export default function SignupForm() {
   const { session, supabaseClient } = useSessionContext();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState();
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
-    if (session) router.push("/landing");
-    console.log(session);
+    if (session) {
+      router.push("/landing");
+      console.log(session);
+    }
   }, [session, router]);
 
   const inputStyles = {
@@ -38,7 +41,6 @@ export default function SignupForm() {
   });
 
   const handleSignup = async (values) => {
-    console.log(values);
     const { email, password } = values;
     setLoading(true);
 
