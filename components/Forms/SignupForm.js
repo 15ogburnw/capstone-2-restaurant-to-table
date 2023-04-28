@@ -51,24 +51,20 @@ export default function SignupForm() {
 	) => {
 		const { email, password } = values;
 
-		const { error } = await supabase.auth.signUp(
-			{
-				email,
-				password,
-			},
-			{
-				options: {
-					redirectTo: () => getAuthRedirectURL(),
-				},
-			}
-		);
-
+		const { data, error } = await supabaseClient.auth.signUp({
+			email,
+			password,
+			// options: { redirectTo: () => getAuthRedirectURL() },
+		});
 		if (error) {
-			setErrorMessage('Something went wrong! Please try again');
+			setErrorMessage("Something went wrong! Please try again");
 			console.error(error);
 			console.log(error.message);
-			setLoading(false);
+			setLoading(false)
 		}
+		if (data) console.log(data);
+
+		setLoading(false);
 	};
 
 	return (
