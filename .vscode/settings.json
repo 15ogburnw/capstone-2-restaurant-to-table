@@ -347,7 +347,17 @@
 =======
   "eslint.nodePath": ".yarn/sdks",
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
+<<<<<<< HEAD
   "typescript.enablePromptUseWorkspaceTsdk": true
 >>>>>>> 709b66f (still working on auth)
+<<<<<<< HEAD
 >>>>>>> d63e195 (still working on auth)
+=======
+=======
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
+>>>>>>> 4758199 (made a devcontainer)
+>>>>>>> 681cf18 (made a devcontainer)
 }
