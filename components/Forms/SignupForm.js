@@ -14,7 +14,7 @@ export default function SignupForm() {
 
   useEffect(() => {
     if (session) {
-      router.push("/landing");
+      router.push("/dashboard");
       console.log(session);
     }
   }, [session, router]);
@@ -47,15 +47,15 @@ export default function SignupForm() {
     const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
-      options: { redirectTo: () => getAuthRedirectURL() },
+      // options: { redirectTo: () => getAuthRedirectURL() },
     });
     if (error) {
       setErrorMessage("Something went wrong! Please try again");
       console.error(error);
     }
-    setLoading(false);
+    if (data) console.log(data);
 
-    if (data) router.push("/dashboard");
+    setLoading(false);
   };
 
   return (
