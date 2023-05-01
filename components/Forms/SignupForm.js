@@ -250,7 +250,7 @@ export default function SignupForm() {
           <div className="mt-6">
             <button
               type="submit"
-              className="rounded-lg py-2 px-6 my-2 mx-2 disabled disabled:bg-emerald-200 disabled:border-emerald-200 sm:w-55 sm- text-xl w-auto h-auto bg-gray-100 border border-gray-400 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
+              className="rounded-lg py-2 px-6 my-2 w-full disabled:bg-gray-200 disabled:border-gray-200 flex-1 text-xl h-auto bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
               disabled={!isValid || isSubmitting}
             >
               {isSubmitting ? (
@@ -265,7 +265,7 @@ export default function SignupForm() {
                   </span>
                 </>
               ) : (
-                <span className="text-emerald-400 font-semibold">
+                <span className="text-emerald-500 font-semibold">
                   Create Your Account
                 </span>
               )}

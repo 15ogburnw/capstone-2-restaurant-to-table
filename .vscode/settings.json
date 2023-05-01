@@ -35,7 +35,7 @@
   "files.associations": {
     "\"*.extension\"": "\"js\""
   },
-  "editor.columnSelection": false,
+  "editor.columnSelection":true,
   "editor.defaultFoldingRangeProvider": null,
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,
@@ -192,7 +192,6 @@
   ],
   "terminal.integrated.cursorStyle": "line",
   "terminal.integrated.rightClickBehavior": "default",
-  "terminal.integrated.tabs.defaultColor": null,
   "terminal.integrated.tabs.defaultIcon": "device-desktop",
   "remote.autoForwardPorts": true,
   "remote.downloadExtensionsLocally": true,
