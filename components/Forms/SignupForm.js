@@ -11,7 +11,6 @@ import {faCircleNotch} from "@fortawesome/free-solid-svg-icons"
 export default function SignupForm() {
   const { session } = useSessionContext();
   const supabase = useSupabaseClient();
-  const { session } = useSessionContext();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState();
@@ -47,22 +46,30 @@ export default function SignupForm() {
     values,
     { isSubmitting, setValues, setErrors, setTouched }
   ) => {
+  const handleSignup = async (
+    values,
+    { isSubmitting, setValues, setErrors, setTouched }
+  ) => {
     const { email, password } = values;
 
-    const { data, error } = await supabaseClient.auth.signUp({
-      email,
-      password,
-      // options: { redirectTo: () => getAuthRedirectURL() },
-    });
+    const { error } = await supabase.auth.signUp(
+      {
+        email,
+        password,
+      },
+      {
+        options: {
+          redirectTo: "/dashboard",
+        },
+      }
+    );
+
     if (error) {
       setErrorMessage("Something went wrong! Please try again");
       console.error(error);
       console.log(error.message);
       setLoading(false)
     }
-    if (data) console.log(data);
-
-    setLoading(false);
   };
 
   return (
