@@ -35,7 +35,7 @@
   "files.associations": {
     "\"*.extension\"": "\"js\""
   },
-  "editor.columnSelection":true,
+  "editor.columnSelection":false,
   "editor.defaultFoldingRangeProvider": null,
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,

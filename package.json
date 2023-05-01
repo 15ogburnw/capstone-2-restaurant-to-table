@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --dir layouts",
+    "lint": "next lint --dir layouts --dir pages --dir components --dir lib",
     "fresh-install": "rm -rf .next/ && rm -rf yarn.lock && yarn && yarn dev"
   },
   "dependencies": {
