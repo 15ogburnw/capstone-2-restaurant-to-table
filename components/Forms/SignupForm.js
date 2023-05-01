@@ -1,13 +1,12 @@
-import { Formik, Field, Form } from 'formik';
-import * as yup from 'yup';
-import Link from 'next/link';
-import { useSessionContext } from '@supabase/auth-helpers-react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { FontAwesomeIcon } from '@fortawesome/fontawesome-free';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { getAuthRedirectURL } from '@/lib/supabase/helpers';
+import { Formik, Field, Form } from "formik";
+import * as yup from "yup";
+import Link from "next/link";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/fontawesome-free";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 
 export default function SignupForm() {
 	const { session } = useSessionContext();
@@ -44,7 +43,7 @@ export default function SignupForm() {
 	});
 
 	/* TODO: Add functionality for including basic user metadata along with signup. Do I want to include a name with the supabase object or keep
-    it all on the public table?
+	it all on the public table?
    */
 	const handleSignup = async (
 		values,
@@ -146,11 +145,10 @@ export default function SignupForm() {
 
 						<Field
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
-            ${
-							errors.name && touched.name
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            ${errors.name && touched.name
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							name='name'
 							placeholder='Please enter your name'
 						/>
@@ -173,11 +171,10 @@ export default function SignupForm() {
 
 						<Field
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
-            ${
-							errors.email && touched.email
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            ${errors.email && touched.email
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							name='email'
 							placeholder='Please enter your email'
 						/>
@@ -202,11 +199,10 @@ export default function SignupForm() {
 							name='password'
 							placeholder='Please enter your password'
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
-            ${
-							errors.password && touched.password
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            ${errors.password && touched.password
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							type='password'
 						/>
 						{touched.password && errors.password ? (
@@ -230,11 +226,10 @@ export default function SignupForm() {
 							name='confirmPassword'
 							placeholder='Please confirm your password'
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
-            ${
-							errors.confirmPassword && touched.confirmPassword
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            ${errors.confirmPassword && touched.confirmPassword
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							type='password'
 						/>
 						{touched.confirmPassword && errors.confirmPassword ? (
