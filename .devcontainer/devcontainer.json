@@ -1,0 +1,27 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/ubuntu:jammy",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/akhildevelops/devcontainer-features/apt:latest": {},
+    "ghcr.io/devcontainers/features/node:latest": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers-contrib/features/jshint:2": {},
+    "ghcr.io/devcontainers-contrib/features/jest:2": {},
+    "ghcr.io/devcontainers-contrib/features/tldr:2": {}
+ },
+  "hostRequirements": {
+    "cpus": 4
+  },
+  "waitFor": "onCreateCommand",
+  "updateContentCommand": "yarn install",
+  "postCreateCommand": "",
+  "postAttachCommand": {
+    "server": "yarn dev"
+  },
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "pages/index.js"
+      ]
+    }
+  },
