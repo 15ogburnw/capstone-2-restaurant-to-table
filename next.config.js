@@ -1,7 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
-
+  reactStrictMode: true,
+  poweredByHeader: false,
+  devIndicators: {
+    buildActivity: true,
+    buildActivityPosition: "bottom-left",
+  },
+  redirects: async () => [
+    {
+      source: "/",
+      destination: "/landing",
+      permanent: false,
+    },
+  ],
   images: {
     remotePatterns: [
       {
@@ -26,6 +37,7 @@ const nextConfig = {
       },
     ],
   },
+  assetPrefix: "./",
 };
 
 module.exports = nextConfig;

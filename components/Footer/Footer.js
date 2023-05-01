@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import EdamamLogo from "../EdamamLogo";
 
 // TODO: MAKE THIS MY OWN
 
@@ -61,7 +62,7 @@ export default function Footer() {
           <Link href="#" className="">
             {merakiLogo}
           </Link>
-
+          <EdamamLogo color="white" />
           <div className="flex flex-wrap justify-center mt-6 -mx-4">
             <Link
               href="#"

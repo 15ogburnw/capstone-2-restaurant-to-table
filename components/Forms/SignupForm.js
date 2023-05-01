@@ -1,12 +1,25 @@
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/fontawesome-free";
+import { faCircleNotch } from "@fortawesome/free-regular-svg-icons";
 
-const SignupForm = () => {
+export default function SignupForm() {
+  const { session } = useSessionContext();
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState();
+  const [loading, setLoading] = useState();
+
+  useEffect(() => {
+    if (session) {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
 
   const inputStyles = {
     valid: "focus:border-emerald-400",
@@ -29,15 +42,29 @@ const SignupForm = () => {
       .required("You must confirm your password"),
   });
 
-  const onSubmit = async (values) => {
-    const { data, error } = await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-    });
+  const handleSignup = async (
+    values,
+    { isSubmitting, setValues, setErrors, setTouched }
+  ) => {
+    const { email, password } = values;
 
-    if (data) router.push("/dashboard");
-    // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH SIGNUP
-    if (error) console.error(error);
+    const { error } = await supabase.auth.signUp(
+      {
+        email,
+        password,
+      },
+      {
+        options: {
+          redirectTo: "/dashboard",
+        },
+      }
+    );
+
+    if (error) {
+      setErrorMessage("Something went wrong! Please try again");
+      console.error(error);
+      console.log(error.message);
+    }
   };
 
   return (
@@ -49,16 +76,20 @@ const SignupForm = () => {
         confirmPassword: "",
       }}
       validationSchema={registerSchema}
-      onSubmit={onSubmit}
+      onSubmit={handleSignup}
       validateOnMount
     >
-      {({ errors, touched, isValid }) => (
+      {({ errors, touched, isValid, isSubmitting }) => (
         <Form>
           <p className="mt-3 text-xl text-center text-gray-600">
             Welcome to Restaurant to Table!
           </p>
-
-          {/* Google Sign In Button */}
+          <div className="">
+            <p className="text-red-500 font-medium text-medium text-center my-2">
+              {errorMessage}
+            </p>
+          </div>
+          {/* TODO: Remove Google Sign In Button? */}
           <a
             href="#"
             className="flex items-center justify-center mt-4 text-green-500 transition-colors duration-300 transform border-2 border-emerald-200 rounded-lg  hover:bg-emerald-400 hover:text-white hover:border-white"
@@ -215,13 +246,29 @@ const SignupForm = () => {
           </div>
 
           {/* Sign Up Button */}
+
           <div className="mt-6">
             <button
               type="submit"
-              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 "
-              disabled={!isValid}
+              className="rounded-lg py-2 px-6 my-2 w-full disabled:bg-gray-200 disabled:border-gray-200 flex-1 text-xl h-auto bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
+              disabled={!isValid || isSubmitting}
             >
-              Create Account
+              {isSubmitting ? (
+                <>
+                  <FontAwesomeIcon
+                    className="inline text-emerald-500 mr-2"
+                    icon={faCircleNotch}
+                    spin
+                  />
+                  <span className="text-emerald-400 font-semibold">
+                    Loading...
+                  </span>
+                </>
+              ) : (
+                <span className="text-emerald-500 font-semibold">
+                  Create Your Account
+                </span>
+              )}
             </button>
           </div>
 
@@ -242,6 +289,4 @@ const SignupForm = () => {
       )}
     </Formik>
   );
-};
-
-export default SignupForm;
+}

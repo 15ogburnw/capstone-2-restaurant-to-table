@@ -19,7 +19,7 @@ export default function LoginPage() {
         <div className="flex justify-center mx-auto">
           <SVG
             className="h-8 w-auto inline flex-none"
-            src="/rtt-logos/rtt-icon.svg"
+            src="/img/rtt-logos/rtt-icon.svg"
             alt="logo"
           />
         </div>

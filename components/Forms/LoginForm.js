@@ -1,34 +1,58 @@
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Router, useRouter } from "next/router";
+import Loading from "@/components/Loading";
+import { useRouter } from "next/router";
+import { useState, useEffect, useMemo } from "react";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { getAuthRedirectURL } from "@/lib/supabase/helpers";
 
-const LoginForm = () => {
-  const supabase = useSupabaseClient();
+export default function LoginForm() {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const { session, supabaseClient } = useSessionContext();
 
   const inputStyles = {
     valid: "focus:border-emerald-400",
     invalid: "border-red-400",
   };
 
+  useEffect(() => {
+    if (session) {
+      router.push("/landing");
+      console.log(session);
+    }
+  }, [router, session]);
+
+  const handleLogin = async (values) => {
+    const { email, password } = values;
+    setLoading(true);
+
+    const { data: user, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password,
+      options: {
+        redirectTo: () => getAuthRedirectURL(),
+      },
+    });
+    if (error) {
+      setErrorMessage("Login failed! Please try again");
+      console.error(error);
+    }
+    setLoading(false);
+    if (data) router.push("/dashboard");
+  };
+
   const loginSchema = yup.object().shape({
     email: yup.string().email("Invalid email").required("Email is required"),
     password: yup.string().required("Password is required"),
   });
-
-  const onSubmit = async (values) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: values.email,
-      password: values.password,
-    });
-
-    if (data) router.push("/");
-
-    // TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
-    if (error) console.error(error);
-  };
 
   return (
     <Formik
@@ -37,7 +61,7 @@ const LoginForm = () => {
         password: "",
       }}
       validationSchema={loginSchema}
-      onSubmit={onSubmit}
+      onSubmit={handleLogin}
       validateOnMount
     >
       {({ errors, touched, isValid }) => (
@@ -45,8 +69,12 @@ const LoginForm = () => {
           <p className="mt-3 text-xl text-center text-gray-600">
             Welcome back!
           </p>
-
-          {/* Google Sign In Button */}
+          <div className="">
+            <p className="text-red-500 font-medium text-medium text-center my-2">
+              {errorMessage}
+            </p>
+          </div>
+          {/* TODO: decide about Google Sign In and remove Button if not*/}
           <a
             href="#"
             className="flex items-center justify-center mt-4 text-green-500 transition-colors duration-300 transform border-2 border-emerald-200 rounded-lg  hover:bg-emerald-400 hover:text-white hover:border-white"
@@ -153,9 +181,20 @@ const LoginForm = () => {
             <button
               type="submit"
               className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 "
-              disabled={!isValid}
+              disabled={!isValid || loading}
             >
-              Sign In
+              {!loading ? (
+                "Sign In"
+              ) : (
+                <div className="flex flex-row align-middle justify-center items-center">
+                  <FontAwesomeIcon
+                    className="w-4 h-4"
+                    icon={faCircleNotch}
+                    spin
+                  />{" "}
+                  <span>Loading</span>{" "}
+                </div>
+              )}
             </button>
           </div>
 
@@ -176,6 +215,4 @@ const LoginForm = () => {
       )}
     </Formik>
   );
-};
-
-export default LoginForm;
+}

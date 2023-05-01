@@ -27,7 +27,7 @@ export default function RecipePage({ recipe }) {
   );
 }
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const { id } = params;
   const url = `${EDAMAM_API_URL}/${id}?type=public&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_API_KEY}`;
 
@@ -35,9 +35,12 @@ export async function getServerSideProps({ params }) {
     .then((res) => res.json())
     .catch((e) => console.error(e));
 
-  const { base64: placeholder } = await getPlaiceholder(data.recipe.image);
-  data.recipe.placeholder = placeholder;
-
+  try {
+    const { base64: placeholder } = await getPlaiceholder(data.recipe.image);
+    data.recipe.placeholder = placeholder;
+  } catch (e) {
+    data.recipe.placeholder = null;
+  }
   const recipe = truncateRecipe(data);
   console.log(recipe);
   return { props: { recipe } };
