@@ -2,12 +2,15 @@ import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { getAuthRedirectURL } from "@/lib/supabase/helpers";
+import { FontAwesomeIcon } from "@fortawesome/fontawesome-free";
+import { faCircleNotch } from "@fortawesome/free-regular-svg-icons";
 
 export default function SignupForm() {
-  const { session, supabaseClient } = useSessionContext();
+  const { session } = useSessionContext();
+  const supabase = useSupabaseClient();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState();
   const [loading, setLoading] = useState();
@@ -15,7 +18,6 @@ export default function SignupForm() {
   useEffect(() => {
     if (session) {
       router.push("/dashboard");
-      console.log(session);
     }
   }, [session, router]);
 
@@ -40,22 +42,29 @@ export default function SignupForm() {
       .required("You must confirm your password"),
   });
 
-  const handleSignup = async (values) => {
+  const handleSignup = async (
+    values,
+    { isSubmitting, setValues, setErrors, setTouched }
+  ) => {
     const { email, password } = values;
-    setLoading(true);
 
-    const { data, error } = await supabaseClient.auth.signUp({
-      email,
-      password,
-      // options: { redirectTo: () => getAuthRedirectURL() },
-    });
+    const { error } = await supabase.auth.signUp(
+      {
+        email,
+        password,
+      },
+      {
+        options: {
+          redirectTo: "/dashboard",
+        },
+      }
+    );
+
     if (error) {
       setErrorMessage("Something went wrong! Please try again");
       console.error(error);
+      console.log(error.message);
     }
-    if (data) console.log(data);
-
-    setLoading(false);
   };
 
   return (
@@ -70,7 +79,7 @@ export default function SignupForm() {
       onSubmit={handleSignup}
       validateOnMount
     >
-      {({ errors, touched, isValid }) => (
+      {({ errors, touched, isValid, isSubmitting }) => (
         <Form>
           <p className="mt-3 text-xl text-center text-gray-600">
             Welcome to Restaurant to Table!
@@ -237,13 +246,29 @@ export default function SignupForm() {
           </div>
 
           {/* Sign Up Button */}
+
           <div className="mt-6">
             <button
               type="submit"
-              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 "
-              disabled={!isValid}
+              className="rounded-lg py-2 px-6 my-2 mx-2 disabled disabled:bg-emerald-200 disabled:border-emerald-200 sm:w-55 sm- text-xl w-auto h-auto bg-gray-100 border border-gray-400 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold"
+              disabled={!isValid || isSubmitting}
             >
-              Create Account
+              {isSubmitting ? (
+                <>
+                  <FontAwesomeIcon
+                    className="inline text-emerald-500 mr-2"
+                    icon={faCircleNotch}
+                    spin
+                  />
+                  <span className="text-emerald-400 font-semibold">
+                    Loading...
+                  </span>
+                </>
+              ) : (
+                <span className="text-emerald-400 font-semibold">
+                  Create Your Account
+                </span>
+              )}
             </button>
           </div>
 
