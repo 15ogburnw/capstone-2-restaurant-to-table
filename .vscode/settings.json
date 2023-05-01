@@ -41,7 +41,16 @@
   "path-intellisense.autoTriggerNextSuggestion": true,
   "editor.insertSpaces": false,
   "editor.renderWhitespace": "boundary",
+<<<<<<< HEAD
   "editor.guides.highlightActiveBracketPair": true,
+=======
+  "files.associations": {
+    "\"*.extension\"": "\"js\""
+  },
+<<<<<<< HEAD
+  "editor.columnSelection":false,
+  "editor.defaultFoldingRangeProvider": null,
+>>>>>>> 897cf7a (preparing to merge to main)
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,
   "editor.foldingHighlight": true,
@@ -379,6 +388,9 @@
     "\"*.extension\"": "\"js\""
   },
   "editor.columnSelection": false,
+=======
+  "editor.columnSelection":true,
+>>>>>>> bc0a6aa (preparing to merge to main)
   "editor.defaultFoldingRangeProvider": null,
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,
@@ -535,7 +547,6 @@
   ],
   "terminal.integrated.cursorStyle": "line",
   "terminal.integrated.rightClickBehavior": "default",
-  "terminal.integrated.tabs.defaultColor": null,
   "terminal.integrated.tabs.defaultIcon": "device-desktop",
   "remote.autoForwardPorts": true,
   "remote.downloadExtensionsLocally": true,
