@@ -37,7 +37,7 @@ const nextConfig = {
       },
     ],
   },
-  assetPrefix: "./",
+  // assetPrefix: "./",
 };
 
 module.exports = nextConfig;
