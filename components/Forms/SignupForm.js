@@ -42,9 +42,6 @@ export default function SignupForm() {
 			.required('You must confirm your password'),
 	});
 
-	/* TODO: Add functionality for including basic user metadata along with signup. Do I want to include a name with the supabase object or keep
-	it all on the public table?
-   */
 	const handleSignup = async (
 		values,
 		{ isSubmitting, setValues, setErrors, setTouched }
