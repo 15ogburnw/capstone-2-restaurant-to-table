@@ -230,6 +230,8 @@
   "git.enableSmartCommit": true,
   "git.inputValidationLength": 100,
   "git.mergeEditor": true,
+  "workbench.settings.editor": "json",
+  "workbench.se,
   "git.openAfterClone": "always",
   "git.pruneOnFetch": true,
   "git.repositoryScanIgnoredFolders": [
