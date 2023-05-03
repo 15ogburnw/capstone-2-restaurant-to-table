@@ -6,13 +6,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
-  "npm-intellisense.packageSubfoldersIntellisense": true,
->>>>>>> e3767c3 (signin sheet almost working again)
 =======
->>>>>>> 9214ec8 (fixed authentication and database connection)
+
+
+>>>>>>> d4858be (trying out new devcontainer)
+  "npm-intellisense.packageSubfoldersIntellisense": true,
+
   "npm-intellisense.showBuildInLibs": true,
 >>>>>>> a4e90ff (signin sheet almost working again)
   "npm-intellisense.scanDevDependencies": true,
@@ -21,8 +24,7 @@
   "breadcrumbs.enabled": true,
   "editor.formatOnPaste": true,
   "editor.autoIndent": "advanced",
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   "editor.find.addExtraSpaceOnTop": true,
   "tailwindCSS.hovers": true,
   "npm-intellisense.packageSubfoldersIntellisense": true,
@@ -47,7 +49,6 @@
   "files.associations": {
     "\"*.extension\"": "\"js\""
   },
-<<<<<<< HEAD
   "editor.columnSelection":false,
   "editor.defaultFoldingRangeProvider": null,
 >>>>>>> 897cf7a (preparing to merge to main)
@@ -317,6 +318,7 @@
   }
 =======
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true
+<<<<<<< HEAD
 =======
   "editor.find.addExtraSpaceOnTop": true
 >>>>>>> e3767c3 (signin sheet almost working again)
@@ -330,6 +332,9 @@
 >>>>>>> e03ea14 (still a mess with menus database)
 =======
 =======
+=======
+
+>>>>>>> d4858be (trying out new devcontainer)
   "editor.find.addExtraSpaceOnTop": true,
   "tailwindCSS.hovers": true,
   "npm-intellisense.packageSubfoldersIntellisense": true,
@@ -388,9 +393,6 @@
     "\"*.extension\"": "\"js\""
   },
   "editor.columnSelection": false,
-=======
-  "editor.columnSelection":true,
->>>>>>> bc0a6aa (preparing to merge to main)
   "editor.defaultFoldingRangeProvider": null,
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,
@@ -413,7 +415,7 @@
   "editor.smartSelect.selectLeadingAndTrailingWhitespace": false,
   "editor.stablePeek": true,
   "editor.stickyScroll.enabled": false,
-  "editor.hover.sticky": true,
+  "editor.hover.sticky": false,
   "editor.renderLineHighlight": "all",
   "editor.renderLineHighlightOnlyWhenFocus": false,
   "editor.tabCompletion": "on",
@@ -670,9 +672,6 @@
   "thunder-client.httpLibrary": "axios",
   "tsimporter.filesToExclude": [
     "**/.git/**",
-    "**/node_modules/**",
-    "**/.hg/**",
-    "**/.svn/**",
     "**/.yarn/**",
     "**/.pnp.*/**"
   ],
@@ -682,6 +681,10 @@
   "todo-tree.tree.hideTreeWhenEmpty": true,
   "todo-tree.tree.showCountsInTree": true,
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true
+<<<<<<< HEAD
 >>>>>>> b47c8a9 (before editing for resolve)
 >>>>>>> 4c1dfbc (before editing for resolve)
+=======
+
+>>>>>>> d4858be (trying out new devcontainer)
 }
