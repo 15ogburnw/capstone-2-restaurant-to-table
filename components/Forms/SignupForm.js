@@ -6,6 +6,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/fontawesome-free";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
