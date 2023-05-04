@@ -6,7 +6,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/fontawesome-free";
-import {faCircleNotch} from "@fortawesome/free-solid-svg-icons"
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function SignupForm() {
   const { session } = useSessionContext();
@@ -46,10 +46,6 @@ export default function SignupForm() {
     values,
     { isSubmitting, setValues, setErrors, setTouched }
   ) => {
-  const handleSignup = async (
-    values,
-    { isSubmitting, setValues, setErrors, setTouched }
-  ) => {
     const { email, password } = values;
 
     const { error } = await supabase.auth.signUp(
@@ -68,7 +64,7 @@ export default function SignupForm() {
       setErrorMessage("Something went wrong! Please try again");
       console.error(error);
       console.log(error.message);
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -259,7 +255,7 @@ export default function SignupForm() {
               disabled={!isValid || isSubmitting}
             >
               {isSubmitting ? (
-                <>
+                <span>
                   <FontAwesomeIcon
                     className="inline text-emerald-500 mr-2"
                     icon={faCircleNotch}
@@ -268,7 +264,7 @@ export default function SignupForm() {
                   <span className="text-emerald-400 font-semibold">
                     Loading...
                   </span>
-                </>
+                </span>
               ) : (
                 <span className="text-emerald-500 font-semibold">
                   Create Your Account
