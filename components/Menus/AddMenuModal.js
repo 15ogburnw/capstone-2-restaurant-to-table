@@ -58,10 +58,10 @@ export default function AddMenuModal() {
     setShowing(false);
   };
 
-  if (error) return <></>;
-  return (
-    <>
-      {showing ? (
+  if (error) return (<div></div>)
+  else {return 
+    (<div>
+      {showing ? 
         <div
           ref={modalRef}
           className=" fixed z-20 m-auto h-[40%] sm:h-1/3 max-w-sm inset-x-0 inset-y-0 p-4 bg-white rounded-lg overflow-hidden shadow-[-6px_6px_20px_2px_rgba(0,0,0,0.3)]  sm:p-6"
@@ -135,9 +135,8 @@ export default function AddMenuModal() {
             </button>
           </div>
         </form>
-      </div>
-    </div>;
-  } else {
-    return <></>;
+      </div> 
+    </div>:null}
+    </div>)
   }
 }

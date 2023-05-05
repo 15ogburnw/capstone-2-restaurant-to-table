@@ -1,9 +1,5 @@
-import "@fortawesome/fontawesome-svg-core/styles.css";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function Loading({ size }) {
@@ -43,7 +39,6 @@ export default function Loading({ size }) {
       <p className={`text-center ${message} flex-initial font-medium`}>
         Loading... please wait a moment
       </p>
-    </div>
     </div>
   );
 }

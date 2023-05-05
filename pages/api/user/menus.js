@@ -6,9 +6,23 @@ const handler = async (req, res) => {
     req,
     res,
   });
-  const resp = await supabaseServerClient.auth.getSession();
+  const user = await supabaseServerClient.auth.getUser();
   const { name, id } = req.body;
 
+  let data;
+  let menus;
+  switch (req.method) {
+    case "GET":
+      data = await supabaseServerClient
+        .from("menus")
+        .select("id, name")
+        .eq("user_id", user.id);
+
+      if (data.error) res.status(400).json({ error: "you have no menus" });
+      else res.status(200).json({ menus: data });
+    default:
+      res.status(500).end();
+  }
   // case "POST":
   //   menus = await supabaseServerClient
   //     .from("menus")

@@ -19,14 +19,15 @@
     "**/.yarn": true,
     "**/.pnp.*": true
   },
-  "eslint.nodePath": ".yarn/sdks",
+  "eslint.nodePath": "./.yarn/sdks",
   "terminal.integrated.copyOnSelection": true,
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+  "prettier.prettierPath": ".yarn/sdks",
   "path-intellisense.absolutePathTo": "",
   "path-intellisense.absolutePathToWorkspace": true,
   "path-intellisense.autoTriggerNextSuggestion": true,
   "editor.insertSpaces": false,
   "editor.renderWhitespace": "boundary",
+  "editor.guides.highlightActiveBracketPair": true,
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,
   "editor.foldingHighlight": true,
@@ -257,11 +258,9 @@
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.ignoreTsConfigBaseUrl": true,
   "prettier.bracketSameLine": true,
-  "prettier.configPath": ".editorconfig",
   "prettier.enableDebugLogs": true,
   "prettier.insertPragma": false,
   "prettier.jsxSingleQuote": true,
-  "prettier.requireConfig": true,
   "prettier.resolveGlobalModules": true,
   "prettier.singleQuote": true,
   "prettier.useTabs": true,
@@ -287,5 +286,7 @@
   "todo-tree.tree.expanded": true,
   "todo-tree.tree.hideTreeWhenEmpty": true,
   "todo-tree.tree.showCountsInTree": true,
-  "todo-tree.tree.sortTagsOnlyViewAlphabetically": true
+  "todo-tree.tree.sortTagsOnlyViewAlphabetically": true,
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
