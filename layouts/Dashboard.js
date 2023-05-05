@@ -1,44 +1,32 @@
 import Sidebar from '@/components/Sidebar';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import { SWRConfig } from 'swr';
+import { SWRConfig, preload } from 'swr';
 import { useUser } from '@supabase/auth-helpers-react';
 import Script from 'next/script';
-import toast from 'react-toastify';
 
 
 export default function Dashboard({ children }) {
 	const user = useUser();
+	const user = useUser();
 
 	return (
 		// TODO: CUSTOMIZE THESE DEFAULTS AS NECESSARY
-		// THE ERROR HANDLING FOR THIS IS JUST A PLACEHOLDER, WILL NEED TO COME BACK TO IT
+
 		<SWRConfig
 			value={{
-				fetcher: async (args) => {
-					const res = await fetch(args);
-
-					if (!res.ok) {
-						const error = new Error(
-							'An error occurred while fetching the data.'
-						);
-						// Attach extra info to the error object.
-						error.info = await res.json();
-						error.status = res.status;
-						throw error;
-					}
-					return await res.json();
-				},
+				fetcher: (args) => fetch(args).then((res) => res.json()),
 
 				onError: (error, key) => {
 					if (error.status !== 403 && error.status !== 404) {
-						// TODO:We can send the error to Sentry (possibly),
-						// Make a toast message that says retrying if we are going to try again, and a final error if we are out of tries
-						console.log(error);
-						const errorToast = () => {
-							toast('Oh no! something went wrong', {
-								type: 'error',
-							});
+						// We can send the error to Sentry,
+
+						return {
+							error: {
+								message:
+									'Uh Oh, there was an error getting the information we needed',
+								key,
+							},
 						};
 					}
 				},
@@ -53,14 +41,16 @@ export default function Dashboard({ children }) {
 					if (error.status === 404) return;
 
 					if (!user) return;
+					if (!user) return;
 
+					// Only retry up to 3 times.
+					if (retryCount >= 3) return;
 					// Only retry up to 3 times.
 					if (retryCount >= 3) return;
 
 					// Retry after 3 seconds.
 					setTimeout(() => revalidate({ retryCount }), 3000);
 				},
-				revalidateOnFocus: false
 			}}>
 			<Navbar />
 			<div className='flex flex-row'>

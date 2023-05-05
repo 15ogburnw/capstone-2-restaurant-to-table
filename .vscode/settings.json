@@ -40,15 +40,20 @@
   "eslint.nodePath": "./.yarn/sdks",
   "terminal.integrated.copyOnSelection": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "prettier.prettierPath": ".yarn/sdks",
 =======
   "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
 >>>>>>> 560dda2 (not sure)
+=======
+  "prettier.prettierPath": ".yarn/sdks",
+>>>>>>> e5cbaae (Getting SWR integrated into Recipe Cards)
   "path-intellisense.absolutePathTo": "",
   "path-intellisense.absolutePathToWorkspace": true,
   "path-intellisense.autoTriggerNextSuggestion": true,
   "editor.insertSpaces": false,
   "editor.renderWhitespace": "boundary",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   "editor.guides.highlightActiveBracketPair": true,
@@ -61,6 +66,9 @@
 >>>>>>> 897cf7a (preparing to merge to main)
 =======
 >>>>>>> 560dda2 (not sure)
+=======
+  "editor.guides.highlightActiveBracketPair": true,
+>>>>>>> e5cbaae (Getting SWR integrated into Recipe Cards)
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,
   "editor.foldingHighlight": true,
@@ -459,11 +467,9 @@
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.ignoreTsConfigBaseUrl": true,
   "prettier.bracketSameLine": true,
-  "prettier.configPath": ".editorconfig",
   "prettier.enableDebugLogs": true,
   "prettier.insertPragma": false,
   "prettier.jsxSingleQuote": true,
-  "prettier.requireConfig": true,
   "prettier.resolveGlobalModules": true,
   "prettier.singleQuote": true,
   "prettier.useTabs": true,
@@ -489,6 +495,7 @@
   "todo-tree.tree.expanded": true,
   "todo-tree.tree.hideTreeWhenEmpty": true,
   "todo-tree.tree.showCountsInTree": true,
+<<<<<<< HEAD
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -499,4 +506,9 @@
 >>>>>>> d4858be (trying out new devcontainer)
 =======
 >>>>>>> 560dda2 (not sure)
+=======
+  "todo-tree.tree.sortTagsOnlyViewAlphabetically": true,
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+>>>>>>> e5cbaae (Getting SWR integrated into Recipe Cards)
 }
