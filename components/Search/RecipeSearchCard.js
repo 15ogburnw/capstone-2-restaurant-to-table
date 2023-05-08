@@ -44,14 +44,14 @@ export default function RecipeSearchCard({ recipe }) {
 	const [tooltipShowing, setTooltipShowing] = useState(false);
 
 	const {
-		data: favoriteRecipes,
+		data: favRecipes,
 		error: favError,
-		mutate: toggleFavorite,
-	} = useSWR('/api/user/favorite-recipes');
+		mutate: mutateFavs,
+	} = useSWR('/api/user/fav-recipes');
 	const {
 		data: savedRecipes,
 		error: saveError,
-		mutate: toggleSave,
+		mutate: mutateSave,
 	} = useSWR('/api/user/saved-recipes');
 
 	/**  TODO: MAKE THIS BETTER. HANDLE DIFFERENT TYPES OF ERRORS. IF THE USER DOESN'T HAVE ANY
@@ -85,66 +85,18 @@ export default function RecipeSearchCard({ recipe }) {
 
 	// TODO: GOING TO MAKE THESE INTO TWO TOGGLE FUNCTIONS. ON CLICK CALLBACKS WILL PASS THE REQUEST
 	// METHOD BASED ON THE USESWR CACHE VALUES. THEN EACH TIME THE CACHE CHANGES I CAN USE A CALLBACK TO
-	// SET SAVED AND FAVORITED STATE VALUES, WHICH WILL SIMPLIFY THE LOGIC BELOW.
-
-	const handleSave = async (e) => {
-		e.preventDefault();
-		try {
-			const resp = await toggleSave('/api/user/saved-recipes', {
-				recipe_id: recipe.id,
-				method: 'POST',
-			});
-			console.log(resp);
-		} catch (e) {
-			console.error(e);
-		}
-	};
-
-	const handleUnSave = async (e) => {
-		e.preventDefault();
-		try {
-			const resp = await toggleFavorite('/api/user/saved-recipes', {
-				recipe_id: recipe.id,
-				method: 'POST',
-			});
-			console.log(resp);
-		} catch (e) {
-			console.error(e);
-		}
-	};
+	// SET SAVED AND FAVD STATE VALUES, WHICH WILL SIMPLIFY THE LOGIC BELOW.
 
 	const handleFavorite = async (e) => {
 		e.preventDefault();
 		try {
-			await fetch('/api/user/favorite-recipes', {
+			const resp = await toggleSave(`/api/user/${type}-recipes`, {
+				recipe_id: recipe.id,
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ recipe_id: recipe.id }),
 			});
+			console.log(resp);
 		} catch (e) {
 			console.error(e);
-		} finally {
-			mutate('/api/user/favorite-recipes');
-		}
-	};
-
-	const handleUnFavorite = async (e) => {
-		e.preventDefault();
-
-		try {
-			fetch('/api/user/favorite-recipes', {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ recipe_id: recipe.id }),
-			});
-		} catch (e) {
-			console.error(e);
-		} finally {
-			mutate('/api/user/favorite-recipes');
 		}
 	};
 
@@ -186,13 +138,13 @@ export default function RecipeSearchCard({ recipe }) {
 					<div
 						onMouseLeave={() => handleHover(null)}
 						className=' px-4 py-1 text-sm font-semibold whitespace-nowrap flex flex-row'>
-						{favorites ? (
+						{favs ? (
 							<div
-								onClick={() => toggleFavorite()}
+								onClick={() => toggleFav()}
 								onMouseEnter={() => handleHover('heart')}
 								onMouseLeave={() => handleHover(null)}
 								className='h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait'>
-								{hoveredIcon === 'heart' || favorites?.includes(recipe.id) ? (
+								{hoveredIcon === 'heart' || favs?.includes(recipe.id) ? (
 									<HeartIconSolid className='text-red-500 stroke-2' />
 								) : (
 									<HeartIcon className='text-red-500 stroke-2' />
@@ -200,9 +152,9 @@ export default function RecipeSearchCard({ recipe }) {
 								{hoveredIcon === 'heart' && tooltipShowing ? (
 									<Tooltip
 										message={
-											favorite
-												? 'Remove recipe from your favorites'
-												: 'Add recipe to your favorites'
+											fav
+												? 'Remove recipe from your favs'
+												: 'Add recipe to your favs'
 										}
 										adjustments='ml-3 bottom-14'
 									/>
