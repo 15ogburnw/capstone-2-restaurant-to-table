@@ -1,7 +1,10 @@
 // TODO: DESIGN THIS RECIPE RESULT CARD
 
+// Next components
 import Image from 'next/image';
 import Link from 'next/link';
+
+// Icons
 import {
 	ArrowDownCircleIcon,
 	HeartIcon,
@@ -12,57 +15,58 @@ import {
 	HeartIcon as HeartIconSolid,
 	ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
 } from '@heroicons/react/24/solid';
-
-import { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import useSWR, { useSWRConfig, preload } from 'swr';
 
+import { useEffect, useMemo, useState } from 'react';
+
+// aesthetic components
 import Tooltip from '../Tooltips/TopTooltip';
 
-// TODO: MOVE THESE TO A SEPARATE FILE AND START CONSTRUCTING A HELPER CLASS/SET OF FUNCTIONS FOR MY API
-
-const updateRecipe = async (url, { recipe_id, method }) => {
-	return await fetch(url, {
-		method,
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ recipe_id }),
-	}).then((res) => res.json());
-};
+// Get data
+import useSWR, { useSWRConfig, preload } from 'swr';
+import useSWRMutation from 'swr/mutation';
+import { toggleRecipeStatus } from '@/lib/supabase/apiQueries';
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
+// preload user recipe data so we have it before we trigger changes
 const fetcher = (url) => fetch(url).then((res) => res.json());
-preload('/api/user/favorite-recipes', fetcher);
-preload('/api/user/saved-recipes', fetcher);
+const { data: originalFavorites } = preload(
+	'/api/user/favorite-recipes',
+	fetcher
+);
+const { data: originalSaves } = preload('/api/user/saved-recipes', fetcher);
 // const menus = preload('/api/user/menus', fetcher);
 
 export default function RecipeSearchCard({ recipe }) {
 	const [hoveredIcon, setHoveredIcon] = useState(null);
+	const [url, setUrl] = useState(null);
 	const [tooltipShowing, setTooltipShowing] = useState(false);
+	const [method, setMethod] = useState(null);
 
-	const {
-		data: favRecipes,
-		error: favError,
-		mutate: mutateFavs,
-	} = useSWR('/api/user/fav-recipes');
-	const {
-		data: savedRecipes,
-		error: saveError,
-		mutate: mutateSave,
-	} = useSWR('/api/user/saved-recipes');
-
-	/**  TODO: MAKE THIS BETTER. HANDLE DIFFERENT TYPES OF ERRORS. IF THE USER DOESN'T HAVE ANY
-	 * IT'S NOT A PROBLEM BUT WE WANT TO DISPLAY A MESSAGE FOR OTHER EDGE CASES
+	/** initialize an SWR mutate hook that returns a data object with favorites and saved recipes when
+	 * triggered
 	 */
-	if (favError) {
-		console.log(favError.code, favError.message);
-	}
-	if (saveError) {
-		console.log(saveError.code, saveError.message);
-	}
+
+	const { data, trigger, isMutating, reset } = useSWRMutation(
+		url,
+		toggleRecipeStatus,
+		{
+			onSuccess: ({ data, key, config }) => {
+				toast(`We have successfully mutated your data at key ${key}`, {
+					type: toast.TYPE.SUCCESS,
+				});
+				reset();
+			},
+			onError: (err, key, config) => {
+				toast(`Oh no! there was an error mutating your data at key ${key}`, {
+					type: toast.TYPE.ERROR,
+				});
+				reset();
+			},
+		}
+	);
 
 	// TODO: TRY OUT THE PACKAGE THAT I INSTALLED THAT HANDLES MODALS AND TOOLTIPS
 	const showTooltip = (e) => {
@@ -74,37 +78,38 @@ export default function RecipeSearchCard({ recipe }) {
 		return;
 	};
 
+	/**
+	 * sets the state for when a user is hovering over an icon on the card, and
+	 * shows a tooltip for it. Also sets a "url" state which we will use to
+	 * determine the appropriate endpoint to call for our backend
+	 */
 	const handleHover = (name) => {
 		setHoveredIcon(name);
 		if (name === null) {
 			setTooltipShowing(false);
+			setUrl(null);
 		} else {
 			showTooltip();
+			if (name === 'heart') setUrl('/api/user/favorite-recipes');
+			else if (name === 'save') setUrl('/api/user/saved-recipes');
 		}
 	};
 
-	// TODO: GOING TO MAKE THESE INTO TWO TOGGLE FUNCTIONS. ON CLICK CALLBACKS WILL PASS THE REQUEST
-	// METHOD BASED ON THE USESWR CACHE VALUES. THEN EACH TIME THE CACHE CHANGES I CAN USE A CALLBACK TO
-	// SET SAVED AND FAVD STATE VALUES, WHICH WILL SIMPLIFY THE LOGIC BELOW.
-
-	const handleFavorite = async (e) => {
+	/**
+	 * handle clicking on an icon by calling one of our mutate functions from above. We will use a loading spinner rather
+	 * than optimistic data loading for now
+	 */
+	const handleIconClick = async (e) => {
 		e.preventDefault();
-		try {
-			const resp = await toggleSave(`/api/user/${type}-recipes`, {
-				recipe_id: recipe.id,
-				method: 'POST',
-			});
-			console.log(resp);
-		} catch (e) {
-			console.error(e);
-		}
+		console.log(`on click at ${e.target}`, url, toggleRecipeStatus);
+		trigger({ url, recipe });
 	};
 
 	// TODO: NEED TO WRITE THIS FUNCTIONALITY
 	const showAddOptions = (e) => {
 		e.preventDefault();
 	};
-
+	console.log(data);
 	return (
 		<Link href={`/dashboard/recipes/${recipe.id}`}>
 			<div className='flex flex-row items-center w-full border-b bg-white border-gray-400 hover:bg-gray-200'>
@@ -138,13 +143,15 @@ export default function RecipeSearchCard({ recipe }) {
 					<div
 						onMouseLeave={() => handleHover(null)}
 						className=' px-4 py-1 text-sm font-semibold whitespace-nowrap flex flex-row'>
-						{favs ? (
+						{/* If the favorite recipes state is not currently loading or validating, show heart icon,
+							otherwise show a small loading spinner */}
+						{data && !isMutating ? (
 							<div
-								onClick={() => toggleFav()}
+								onClick={handleIconClick}
 								onMouseEnter={() => handleHover('heart')}
 								onMouseLeave={() => handleHover(null)}
 								className='h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait'>
-								{hoveredIcon === 'heart' || favs?.includes(recipe.id) ? (
+								{method === 'DELETE' ? (
 									<HeartIconSolid className='text-red-500 stroke-2' />
 								) : (
 									<HeartIcon className='text-red-500 stroke-2' />
@@ -152,9 +159,9 @@ export default function RecipeSearchCard({ recipe }) {
 								{hoveredIcon === 'heart' && tooltipShowing ? (
 									<Tooltip
 										message={
-											fav
-												? 'Remove recipe from your favs'
-												: 'Add recipe to your favs'
+											// 	fav
+											// 		? 'Remove recipe from your favs'
+											'Add recipe to your favs'
 										}
 										adjustments='ml-3 bottom-14'
 									/>
@@ -168,13 +175,13 @@ export default function RecipeSearchCard({ recipe }) {
 							/>
 						)}
 
-						{saved ? (
+						{data && !isMutating ? (
 							<div
-								onClick={toggleSave}
+								onClick={handleIconClick}
 								onMouseEnter={() => handleHover('save')}
 								onMouseLeave={() => handleHover(null)}
 								className='h-6 w-6 ml-3 cursor-pointer'>
-								{hoveredIcon === 'save' || saved?.includes(recipe.id) ? (
+								{hoveredIcon === 'save' || savedRecipes?.values ? (
 									<ArrowDownCircleIconSolid className='text-emerald-600 stroke-2' />
 								) : (
 									<ArrowDownCircleIcon className='text-emerald-600 stroke-2' />
@@ -182,7 +189,7 @@ export default function RecipeSearchCard({ recipe }) {
 								{hoveredIcon === 'save' && tooltipShowing ? (
 									<Tooltip
 										message={
-											saved?.includes(recipe.id)
+											savedRecipes?.values?.includes(recipe.id)
 												? 'Remove this recipe from your saved recipes'
 												: 'Save this recipe for later'
 										}
