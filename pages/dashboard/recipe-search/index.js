@@ -136,12 +136,7 @@ export default function RecipeSearchPage() {
 					<div className='bg-white w-full '>
 						{results?.items.length > 0
 							? results.currentPageItems.map((recipe) => (
-								<RecipeSearchCard
-									// getFavoriteRecipes={getFavoriteRecipes}
-									// getSavedRecipes={getSavedRecipes}
-									key={recipe.id}
-									recipe={recipe}
-								/>
+								<RecipeSearchCard key={recipe.id} recipe={recipe} />
 							))
 							: null}
 					</div>
