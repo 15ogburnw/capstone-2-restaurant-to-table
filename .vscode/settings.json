@@ -288,5 +288,8 @@
   "todo-tree.tree.showCountsInTree": true,
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true,
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "cSpell.words": [
+    "favs"
+  ]
 }

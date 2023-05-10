@@ -17,6 +17,7 @@ export default function Dashboard({ children }) {
 			value={{
 				fetcher: async (args) => {
 					const res = await fetch(args);
+
 					if (!res.ok) {
 						const error = new Error(
 							'An error occurred while fetching the data.'
@@ -33,9 +34,9 @@ export default function Dashboard({ children }) {
 					if (error.status !== 403 && error.status !== 404) {
 						// TODO:We can send the error to Sentry,
 						// Make a toast message that says retrying if we are going to try again, and a final error if we are out of tries
+						console.log(error);
 						const errorToast = () => {
 							toast('Oh no! something went wrong', {
-								position: 'top-center',
 								type: 'error',
 							});
 						};
