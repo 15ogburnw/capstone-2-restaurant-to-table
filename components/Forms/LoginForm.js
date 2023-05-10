@@ -25,17 +25,20 @@ export default function LoginForm() {
 
 	useEffect(() => {
 		if (session) {
+			setLoading(true);
 			router.push('/landing');
 		}
 	}, [router, session]);
 
 	const handleLogin = async (values) => {
-		const { email, password } = values;
 		setLoading(true);
+		const { email, password } = values;
 
 		const { data: user, error } = await supabaseClient.auth.signInWithPassword({
 			email,
 			password,
+
+			// TODO: CHECK IF THIS IS ACTUALLY DOING ANYTHING OR IF IT'S HITTING THE BOTTOM REDIRECT
 			options: {
 				redirectTo: () => getAuthRedirectURL(),
 			},
@@ -44,25 +47,15 @@ export default function LoginForm() {
 			setErrorMessage('Login failed! Please try again');
 			console.error(error);
 		}
-		setLoading(false);
+
 		if (user) router.push('/dashboard');
+		setLoading(false);
 	};
 
 	const loginSchema = yup.object().shape({
 		email: yup.string().email('Invalid email').required('Email is required'),
 		password: yup.string().required('Password is required'),
 	});
-
-	const onSubmit = async (values) => {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email: values.email,
-			password: values.password,
-		});
-
-		if (data) router.push('/');
-
-		// TODO: **FIGURE OUT WHAT'S GOING ON WITH THIS PAGE** NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
-	};
 
 	return (
 		<Formik
