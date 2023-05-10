@@ -98,8 +98,13 @@ export default function RecipeSearchCard({ recipe }) {
 	/**
 	 * handle clicking on an icon by calling one of our mutate functions from above. We will use a loading spinner rather
 	 * than optimistic data loading for now
+	 *
+	 *
+	 * TODO TIMELINE: GET THIS PAGE WORKING AGAIN!!! NEED TO BE ABLE TO ADD AND REMOVE SAVES AND FAVORITES, PAGINATE WITH SWR, AND NO EXTRANEOUS ERRORS. NEXT ==> WORK ON USER
+	 * THE REST OF THE USER CREATION PATHWAY AND BUILD OUT THE USER PROFILE PAGE. NEXT ==> BUILD OUT GUI FOR RECIPE PAGES AND MENU PAGES. ALONG THE WAY ==> IRON OUT ERROR HANDLING STRATEGIES AND OTHER ORGANIZATIONAL KINKS. NEXT ==> FIGURE OUT PLAN FOR RESTAURANT SEARCHING FUNCTIONALITY, THEN INTEGRATE RECOMMENDATIONS.
 	 */
 	const handleIconClick = async (e) => {
+		console.log(e);
 		e.preventDefault();
 		console.log(`on click at ${e.target}`, url, toggleRecipeStatus);
 		trigger({ url, recipe });

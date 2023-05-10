@@ -509,6 +509,13 @@
 =======
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true,
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
+<<<<<<< HEAD
   "typescript.enablePromptUseWorkspaceTsdk": true
 >>>>>>> e5cbaae (Getting SWR integrated into Recipe Cards)
+=======
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "cSpell.words": [
+    "favs"
+  ]
+>>>>>>> f471289 (fixing bugs with login pages from rebase)
 }
