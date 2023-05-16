@@ -69,8 +69,8 @@ export default function RecipeSearchCard({ recipe }) {
 	);
 
 	// TODO: TRY OUT THE PACKAGE THAT I INSTALLED THAT HANDLES MODALS AND TOOLTIPS
-	const showTooltip = (e) => {
-		if (e.target.name === null) return setTooltipShowing(false);
+	const showTooltip = (name) => {
+		if (name === null) return setTooltipShowing(false);
 		(async () => {
 			await new Promise((resolve) => setTimeout(resolve, 600));
 			setTooltipShowing(true);
