@@ -446,7 +446,6 @@
   "git-graph.openNewTabEditorGroup": "Beside",
   "git-graph.openToTheRepoOfTheActiveTextEditorDocument": true,
   "git-graph.repository.fetchAndPrune": true,
-  "gitHistory.includeRemoteBranches": true,
   "github.codespaces.connectionType": "separate thread",
   "github-enterprise.uri": "",
   "githubRepositories.autoFetch.enabled": false,
@@ -514,8 +513,14 @@
 >>>>>>> e5cbaae (Getting SWR integrated into Recipe Cards)
 =======
   "typescript.enablePromptUseWorkspaceTsdk": true,
+<<<<<<< HEAD
   "cSpell.words": [
     "favs"
   ]
 >>>>>>> f471289 (fixing bugs with login pages from rebase)
+=======
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+>>>>>>> b0a585a (reconciling local branch with codespace)
 }
