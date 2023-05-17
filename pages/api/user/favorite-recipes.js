@@ -15,6 +15,7 @@ const handler = async (req, res) => {
   if (error) return res.status(error.status).json({ error: error.message });
   let favorites;
 
+
   switch (req.method) {
     case "GET":
       /**If a GET request is sent to this endpoint, get all of the current user's favorite recipes.
