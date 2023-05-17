@@ -13,13 +13,26 @@ const handler = async (req, res) => {
 		let saved;
 
 		switch (req.method) {
+
+			/**If a GET request is sent to this endpoint, get all of the current user's favorite recipes.
+				* Since we have Row-level-security enabled, the logged-in user will only see their own favorites, so we can just grab all values matching
+				* an entry on the recipes table by querying the join table.
+				*TODO: **Test this logic**
+				*/
 			case 'GET':
 				saved = await supabaseServerClient
 					.from('saved_recipes')
-					.select('recipe_id');
-				if (saved.error) throw saved.error;
+					.select('recipe_id(id,name)');
+				if (saved.error) {
+					console.log(saved.error)
+					return res
+						.status(saved.error.code)
+						.json({ message: saved.error.message });
+				}
 				else {
-					saved = saved?.map((val) => val.recipe_id) || [];
+					console.log(saved.data)
+					saved = saved.data?.map((val) => val.recipe_id) || [];
+					console.log(saved)
 					console.log('The user has these recipes saved:', saved);
 					return res.status(200).json(saved);
 				}

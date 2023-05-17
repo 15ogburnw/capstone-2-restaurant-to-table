@@ -40,7 +40,7 @@ export default function RecipeSearchForm({
         className="relative flex items-center mt-4 md:mt-0 "
         initialValues={INITIAL_VALUES}
       >
-        {({ handleReset, resetForm, values }) => (
+        {({ resetForm, values }) => (
           <Form>
             <div>
               <div className="mt-6 md:flex md:items-center md:justify-start mb-3">
@@ -84,7 +84,7 @@ export default function RecipeSearchForm({
                   <button
                     className="w-1/2 px-5 py-2 disabled:bg-gray-200 disabled:border-gray-300 text-sm transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
                     onClick={() => {
-                      handleReset();
+                      resetForm();
                       resetResults();
                     }}
                     disabled={isLoading ? true : false}
@@ -107,8 +107,8 @@ export default function RecipeSearchForm({
                   <FilterForm />
                   <div
                     className={`flex overflow-hidden ${isLoading
-                        ? "border-gray-300 divide-gray-300"
-                        : "border-gray-400 divide-gray-400 hover:divide-emerald-400 hover:border-emerald-400"
+                      ? "border-gray-300 divide-gray-300"
+                      : "border-gray-400 divide-gray-400 hover:divide-emerald-400 hover:border-emerald-400"
                       }  col-auto w-full divide-x  bg-white border  rounded-lg rtl:flex-row-reverse`}
                   >
                     <button

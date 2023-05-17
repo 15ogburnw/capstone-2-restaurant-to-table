@@ -21,5 +21,9 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL("/landing", req.url));
   }
 
+  if (session && path.startsWith('/landing')) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
   return res;
 }

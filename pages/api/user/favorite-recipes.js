@@ -13,7 +13,7 @@ const handler = async (req, res) => {
 
   if (error) return res.status(error.status).json({ error: error.message });
   let favorites;
-  let recipes;
+
   switch (req.method) {
     case "GET":
       /**If a GET request is sent to this endpoint, get all of the current user's favorite recipes.
@@ -24,14 +24,19 @@ const handler = async (req, res) => {
       favorites = await supabaseServerClient
         .from("favorite_recipes")
         .select("recipe_id(id,name)");
-      if (favorites.error)
+      if (favorites.error) {
+        console.log(favorites.error)
         return res
           .status(favorites.error.code)
-          .json({ message: favorites.error });
+          .json({ message: favorites.error.message });
+      }
       else {
 
-        console.log("here are your favorite recipes:", favorites);
-        return res.status(200).json({ favorites });
+        console.log(favorites.data)
+        favorites = favorites.data?.map((val) => val.recipe_id) || [];
+        console.log(favorites)
+        console.log('The user has these favorite recipes:', favorites);
+        return res.status(200).json(favorites);
       }
 
     case "POST":
