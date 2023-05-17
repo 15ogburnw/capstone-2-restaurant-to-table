@@ -405,8 +405,12 @@
 =======
   "workbench.settings.editor": "json",
   "[jsonc]": {
+<<<<<<< HEAD
     "editor.defaultFormatter": "vscode.json-language-features"
 >>>>>>> 560dda2 (not sure)
+=======
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+>>>>>>> 16fa2bf (working on recipe search with SWR)
   },
   "eslint.format.enable": false,
   "eslint.ignoreUntitled": false,
