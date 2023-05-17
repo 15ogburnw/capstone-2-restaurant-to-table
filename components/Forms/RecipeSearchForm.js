@@ -1,7 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { useState } from "react";
 import FilterForm from "./FilterForm";
-import filters from "@/lib/edamam/filters";
 import { ChevronDoubleUpIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,7 +22,6 @@ export default function RecipeSearchForm({
   };
 
   const [filtersShowing, setFiltersShowing] = useState(false);
-  const [newQuery, setNewQuery] = useState("");
 
   const showFilters = (e) => {
     e.preventDefault();
@@ -108,11 +106,10 @@ export default function RecipeSearchForm({
                 <>
                   <FilterForm />
                   <div
-                    className={`flex overflow-hidden ${
-                      isLoading
+                    className={`flex overflow-hidden ${isLoading
                         ? "border-gray-300 divide-gray-300"
                         : "border-gray-400 divide-gray-400 hover:divide-emerald-400 hover:border-emerald-400"
-                    }  col-auto w-full divide-x  bg-white border  rounded-lg rtl:flex-row-reverse`}
+                      }  col-auto w-full divide-x  bg-white border  rounded-lg rtl:flex-row-reverse`}
                   >
                     <button
                       onClick={hideFilters}

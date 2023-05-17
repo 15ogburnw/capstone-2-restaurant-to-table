@@ -23,8 +23,8 @@ const handler = async (req, res) => {
 				.from('menus')
 				.select('id, name')
 				.eq('user_id', user.id);
-			menus = data.menus.data;
-			if (data.error)
+			menus = response.data;
+			if (response.error)
 				res
 					.status(400)
 					.json({ error: 'There was a problem retrieving your menus' });

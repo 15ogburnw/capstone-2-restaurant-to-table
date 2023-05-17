@@ -1,4 +1,4 @@
-// TODO: DESIGN THIS RECIPE RESULT CARD
+
 
 // Next components
 import Image from 'next/image';
@@ -18,13 +18,13 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
 // aesthetic components
 import Tooltip from '../Tooltips/TopTooltip';
 
 // Get data
-import useSWR, { useSWRConfig, preload } from 'swr';
+import { preload } from 'swr';
 import useSWRMutation from 'swr/mutation';
 import { toggleRecipeStatus } from '@/lib/supabase/apiQueries';
 
@@ -32,11 +32,11 @@ import { toggleRecipeStatus } from '@/lib/supabase/apiQueries';
 
 // preload user recipe data so we have it before we trigger changes
 const fetcher = (url) => fetch(url).then((res) => res.json());
-const { data: originalFavorites } = preload(
+preload(
 	'/api/user/favorite-recipes',
 	fetcher
 );
-const { data: originalSaves } = preload('/api/user/saved-recipes', fetcher);
+preload('/api/user/saved-recipes', fetcher);
 // const menus = preload('/api/user/menus', fetcher);
 
 export default function RecipeSearchCard({ recipe }) {
@@ -47,6 +47,7 @@ export default function RecipeSearchCard({ recipe }) {
 
 	/** initialize an SWR mutate hook that returns a data object with favorites and saved recipes when
 	 * triggered
+	 * TODO: Need to split this up into two separate hooks, one for favorites and one for saves. We explicitly define the url on each of these, and we dn't re-reference the url when calling each trigger function. remove the url state, and just add the url logic explicitly. Don't think we need the method state either, but how do we determine if a recipe is currently in favorites or saves?
 	 */
 
 	const { data, trigger, isMutating, reset } = useSWRMutation(
@@ -100,9 +101,14 @@ export default function RecipeSearchCard({ recipe }) {
 	 * than optimistic data loading for now
 	 *
 	 *
-	 * TODO TIMELINE: GET THIS PAGE WORKING AGAIN!!! NEED TO BE ABLE TO ADD AND REMOVE SAVES AND FAVORITES, PAGINATE WITH SWR, AND NO EXTRANEOUS ERRORS. NEXT ==> WORK ON USER
-	 * THE REST OF THE USER CREATION PATHWAY AND BUILD OUT THE USER PROFILE PAGE. NEXT ==> BUILD OUT GUI FOR RECIPE PAGES AND MENU PAGES. ALONG THE WAY ==> IRON OUT ERROR HANDLING STRATEGIES AND OTHER ORGANIZATIONAL KINKS. NEXT ==> FIGURE OUT PLAN FOR RESTAURANT SEARCHING FUNCTIONALITY, THEN INTEGRATE RECOMMENDATIONS.
+	 * TODO TIMELINE: 
+	 * FIRST ==> GET THIS PAGE WORKING AGAIN!!! NEED TO BE ABLE TO ADD AND REMOVE SAVES AND FAVORITES, PAGINATE WITH SWR, AND NO EXTRANEOUS ERRORS. 
+	 * NEXT ==> WORK ON USER - COMPLETE THE REST OF THE USER CREATION PATHWAY AND BUILD OUT THE USER PROFILE PAGE. 
+	 * NEXT ==> BUILD OUT GUI FOR RECIPE PAGES AND MENU PAGES. ALONG THE WAY ==> IRON OUT ERROR HANDLING STRATEGIES AND OTHER ORGANIZATIONAL KINKS. 
+	 * NEXT ==> FIGURE OUT PLAN FOR RESTAURANT SEARCHING FUNCTIONALITY, THEN INTEGRATE RECOMMENDATIONS.
 	 */
+
+	// TODO: CHANGE THIS LOGIC... REFERENCE THE HOVER STATE TO GET THE APPROPRIATE TRIGGER FUNCTION AND CALL IT
 	const handleIconClick = async (e) => {
 		console.log(e);
 		e.preventDefault();
@@ -110,7 +116,7 @@ export default function RecipeSearchCard({ recipe }) {
 		trigger({ url, recipe });
 	};
 
-	// TODO: NEED TO WRITE THIS FUNCTIONALITY
+	// TODO: NEED TO WRITE THIS FUNCTIONALITY... selection dropdown for adding recipe to a menu
 	const showAddOptions = (e) => {
 		e.preventDefault();
 	};
