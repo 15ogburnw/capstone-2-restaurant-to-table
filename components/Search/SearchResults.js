@@ -8,14 +8,24 @@ import { makeURL, truncateRecipe } from '@/lib/edamam/helpers';
 import useSWRInfinite from 'swr/infinite'
 
 
-const BASE_URL = 'http://localhost:3000'
-const fetcher = (url) => fetch(url)
-preload(`${BASE_URL}/api/user/favorite-recipes`, fetcher);
-preload(`${BASE_URL}/api/user/saved-recipes`, fetcher);
+
+// TODO: POTENTIALLY MOVE THIS INTO A SSR FUNCTION??
+const preloadRecipes = async () => {
+	const BASE_URL = 'http://localhost:3000'
+	const fetcher = (url) => fetch(url)
+	await preload(`${BASE_URL}/api/user/favorite-recipes`, fetcher);
+	// TODO: there is an error here that causes the cache to save /api/user/menus as the revalidation key instead of /api/user/favorite-recipes, and it is also skipping over saved recipes line - figure out what's going on.
+	await preload(`${BASE_URL}/api/user/saved-recipes`, fetcher);
+}
+
 
 export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	const currentPage = useState(1);
+
+	useEffect(() => {
+		preloadRecipes()
+	}, [])
 
 	const getKey = (pageIndex, previousPageData) => {
 		//API endpoint for searching Edamam recipes
@@ -44,12 +54,13 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 		isLoading,
 		error
 	} = useSWRInfinite(getKey,
-		fetcher
+		(url) => fetch(url).then((res) => res.json()), {}
 	);
 
 	useEffect(() => {
 		if (data) {
-			console.log(data)
+			console.log('search data has updated', data);
+			console.log('')
 		}
 	}, [data])
 

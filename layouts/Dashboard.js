@@ -60,6 +60,7 @@ export default function Dashboard({ children }) {
 					// Retry after 3 seconds.
 					setTimeout(() => revalidate({ retryCount }), 3000);
 				},
+				revalidateOnFocus: false
 			}}>
 			<Navbar />
 			<div className='flex flex-row'>
