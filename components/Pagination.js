@@ -1,3 +1,5 @@
+// **PROBABLY GOING TO GET RID OF THIS, DECIDED TO GO WITH SWR INFINITE WHICH WILL COMPLETELY CHANGE THIS LOGIC**
+
 export default function Pagination({
   results,
   handleNextPage,

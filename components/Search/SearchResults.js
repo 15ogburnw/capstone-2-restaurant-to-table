@@ -7,6 +7,7 @@ import Pagination from '../Pagination'
 import { makeURL, truncateRecipe } from '@/lib/edamam/helpers';
 import useSWRInfinite from 'swr/infinite'
 
+// **THIS IS A WORK IN PROGRESS, I AM CURRENTLY TROUBLESHOOTING MY IMPLEMENTATION OF SWR INFINITE, IT CURRENTLY ONLY GRABS DATA FROM ONE PAGE AND THEN GETS STUCK**
 
 const BASE_URL = 'http://localhost:3000'
 const fetcher = (url) => fetch(url)

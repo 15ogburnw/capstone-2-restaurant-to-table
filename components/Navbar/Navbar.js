@@ -1,4 +1,4 @@
-// TODO: STYLE THIS NAVBAR FOR MY OWN PURPOSES
+// TODO: STYLE THIS NAVBAR WITH LINKS THAT ARE APPLICABLE TO MY APP'S FUNCTIONALITY
 import Image from "next/image";
 
 export default function Navbar() {
@@ -12,7 +12,7 @@ export default function Navbar() {
                 width={200}
                 height={50}
                 className="w-auto h-6 sm:h-7"
-                src="https://merakiui.com/images/full-logo.svg"
+                src="https://en.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png"
                 alt=""
               />
             </a>
