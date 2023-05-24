@@ -19,8 +19,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 import { useState } from 'react';
-
-// aesthetic components
 import Tooltip from '../Tooltips/TopTooltip';
 
 // Get data
@@ -59,30 +57,6 @@ export default function RecipeSearchCard({ recipe }) {
 	}, [savedRecipes])
 
 
-	/** initialize an SWR mutate hook that returns a data object with favorites and saved recipes when
-	 * triggered
-	 * TODO: Need to split this up into two separate hooks, one for favorites and one for saves. We explicitly define the url on each of these, and we don't re-reference the url when calling each trigger function. remove the url state, and just add the url logic explicitly. Don't think we need the method state either, but how do we determine if a recipe is currently in favorites or saves?
-	 */
-
-	// const { data, trigger, isMutating, reset } = useSWRMutation(
-	// 	url,
-	// 	toggleRecipeStatus,
-	// 	{
-	// 		onSuccess: ({ data, key, config }) => {
-	// 			toast(`We have successfully mutated your data at key ${key}`, {
-	// 				type: toast.TYPE.SUCCESS,
-	// 			});
-	// 			reset();
-	// 		},
-	// 		onError: (err, key, config) => {
-	// 			toast(`Oh no! there was an error mutating your data at key ${key}`, {
-	// 				type: toast.TYPE.ERROR,
-	// 			});
-	// 			reset();
-	// 		},
-	// 	}
-	// );
-
 	// TODO: TRY OUT THE PACKAGE THAT I INSTALLED THAT HANDLES MODALS AND TOOLTIPS
 	const showTooltip = (name) => {
 		if (name === null) return setTooltipShowing(false);
@@ -95,8 +69,7 @@ export default function RecipeSearchCard({ recipe }) {
 
 	/**
 	 * sets the state for when a user is hovering over an icon on the card, and
-	 * shows a tooltip for it. Also sets a "url" state which we will use to
-	 * determine the appropriate endpoint to call for our backend
+	 * shows a tooltip for it. 
 	 */
 	const handleHover = (name) => {
 		setHoveredIcon(name);
@@ -115,7 +88,7 @@ export default function RecipeSearchCard({ recipe }) {
 	 * NEXT ==> FIGURE OUT PLAN FOR RESTAURANT SEARCHING FUNCTIONALITY, THEN INTEGRATE RECOMMENDATIONS.
 	 */
 
-	// TODO: CHANGE THIS LOGIC... REFERENCE THE HOVER STATE TO GET THE APPROPRIATE TRIGGER FUNCTION AND CALL IT
+	// TODO: NEED TO IMPLEMENT THE LOGIC FOR SWR TO MUTATE THE DATABASE WHEN AN ICON IS CLICKED
 	const handleIconClick = async (e) => {
 		console.log(e);
 		e.preventDefault();

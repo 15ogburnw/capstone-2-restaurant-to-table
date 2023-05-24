@@ -1,18 +1,18 @@
 import Sidebar from '@/components/Sidebar';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import { SWRConfig, preload } from 'swr';
+import { SWRConfig } from 'swr';
 import { useUser } from '@supabase/auth-helpers-react';
 import Script from 'next/script';
 import toast from 'react-toastify';
-// prefetch all existing data for the current user, since we know they will be logged in if they made it this far.
+
 
 export default function Dashboard({ children }) {
 	const user = useUser();
 
 	return (
 		// TODO: CUSTOMIZE THESE DEFAULTS AS NECESSARY
-
+		// THE ERROR HANDLING FOR THIS IS JUST A PLACEHOLDER, WILL NEED TO COME BACK TO IT
 		<SWRConfig
 			value={{
 				fetcher: async (args) => {
@@ -32,7 +32,7 @@ export default function Dashboard({ children }) {
 
 				onError: (error, key) => {
 					if (error.status !== 403 && error.status !== 404) {
-						// TODO:We can send the error to Sentry,
+						// TODO:We can send the error to Sentry (possibly),
 						// Make a toast message that says retrying if we are going to try again, and a final error if we are out of tries
 						console.log(error);
 						const errorToast = () => {
