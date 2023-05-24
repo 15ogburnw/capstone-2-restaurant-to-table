@@ -17,9 +17,15 @@ export async function middleware(req) {
   } = await supabase.auth.getSession();
 
   // if we don't have a session and the user is trying to go to the dashboard or access an api endpoint, redirect to landing page
-  if (!session && path.startsWith("/dashboard")) {
+  if (!session && (path.startsWith("/dashboard") || path.startsWith("/api"))) {
     return NextResponse.redirect(new URL("/landing", req.url));
+  }
+
+  if (session && (path.startsWith('/landing') || path.startsWith('/auth'))) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   return res;
 }
+
+export const config = {}

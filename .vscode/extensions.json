@@ -1,7 +1,6 @@
 {
   "recommendations": [
-    "arcanis.vscode-zipfs",
     "dbaeumer.vscode-eslint",
-    "riazxrazor.html-to-jsx"
+    "arcanis.vscode-zipfs"
   ]
 }

@@ -2,6 +2,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 
+
+
+// TODO: **THIS IS A PLACEHOLDER COMPONENT FOR FUTURE IMPLEMENTATION. IT IS INTENDED TO BE A DROPOWN MENU ON EACH RECIPE RESULT CARD THAT WILL PROVIDE A SELECTION
+// OF A THEIR PERSONAL MENUS TO ADD THE RECIPE TO**
 export default function CardDropdown({ options }) {
   const [isShowing, setIsShowing] = useState(false);
 

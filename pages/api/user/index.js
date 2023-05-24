@@ -5,7 +5,7 @@ const handler = async (req, res) => {
     req,
     res,
   });
-  const forbiddenMethods = ["GET", "POST", "HEAD", "PUT"];
+
   let {
     data: { user },
   } = await supabase.auth.getUser();
