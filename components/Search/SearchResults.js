@@ -75,7 +75,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 				{/* If I get search results, show all results for the ***first*** page */}
 				{data
 					? data[0].data?.map((recipe) => {
-						console.log(recipe)
+
 						recipe = truncateRecipe(recipe);
 						return (<RecipeSearchCard key={recipe.id} recipe={recipe} />)
 					})

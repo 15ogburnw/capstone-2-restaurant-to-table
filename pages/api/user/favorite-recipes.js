@@ -32,7 +32,6 @@ const handler = async (req, res) => {
       }
       else {
 
-        console.log(favorites.data)
         favorites = favorites.data?.map((val) => val.recipe_id) || [];
         console.log(favorites)
         console.log('The user has these favorite recipes:', favorites);
