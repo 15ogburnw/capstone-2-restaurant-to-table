@@ -11,7 +11,7 @@ const handler = async (req, res) => {
   } = await supabaseServerClient.auth.getUser();
   const { recipe_id } = req.body;
 
-  if (error) return res.status(error.status).json({ error: error.message });
+  if (error) return res.status(401).json({ message: 'Unauthorized' });
   let favorites;
 
   switch (req.method) {
@@ -31,10 +31,7 @@ const handler = async (req, res) => {
           .json({ message: favorites.error.message });
       }
       else {
-
-        console.log(favorites.data)
         favorites = favorites.data?.map((val) => val.recipe_id) || [];
-        console.log(favorites)
         console.log('The user has these favorite recipes:', favorites);
         return res.status(200).json(favorites);
       }
@@ -48,7 +45,9 @@ const handler = async (req, res) => {
        * TODO: **add upsert logic for this and test the endpoint**
        */
 
-      favorites = await supabaseServerClient
+
+      // NEED TO LOOK AT HOW THE DATA IS RETURNED FROM THIS SUPABASE CALL TO DETERMINE HOW HWE PRESENT IT TO THE FRONTEND
+      const newFav = await supabaseServerClient
         .from("favorite_recipes")
         .insert({ recipe_id, user_id: user.id })
         .select("recipe_id(id,name)");

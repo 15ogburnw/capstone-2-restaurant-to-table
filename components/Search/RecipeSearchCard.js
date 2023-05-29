@@ -18,7 +18,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // aesthetic components
 import Tooltip from '../Tooltips/TopTooltip';
@@ -31,33 +31,11 @@ import { toggleRecipeStatus } from '@/lib/supabase/apiQueries';
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
 
-export default function RecipeSearchCard({ recipe }) {
+export default function RecipeSearchCard({ recipe, favorites, saved }) {
 	const [hoveredIcon, setHoveredIcon] = useState(null);
 	// const [url, setUrl] = useState(null);
 	const [tooltipShowing, setTooltipShowing] = useState(false);
 	// const [method, setMethod] = useState(null);
-	const [favorites, setFavorites] = useState(null);
-	const [saved, setSaved] = useState(null);
-
-	const { data: favoriteRecipes } = useSWR('/api/user/favorite-recipes', (url) => fetch(url));
-	const { data: savedRecipes } = useSWR('/api/user/saved-recipes', (url) => fetch(url));
-
-	// when favorite recipes array changes, map its ID's to a separate array
-	useEffect(() => {
-		if (favoriteRecipes) {
-			setFavorites(favoriteRecipes.map((val) => val.id))
-		}
-
-	}, [favoriteRecipes])
-
-	// when saved recipes array changes, map its ID's to a separate array
-	useEffect(() => {
-		if (savedRecipes) {
-			setSaved(savedRecipes.map((val) => val.id))
-		}
-
-	}, [savedRecipes])
-
 
 	/** initialize an SWR mutate hook that returns a data object with favorites and saved recipes when
 	 * triggered
@@ -163,7 +141,7 @@ export default function RecipeSearchCard({ recipe }) {
 						className=' px-4 py-1 text-sm font-semibold whitespace-nowrap flex flex-row'>
 						{/* If the favorite recipes state is not currently loading or validating, show heart icon,
 							otherwise show a small loading spinner */}
-						{favoriteRecipes ? (
+						{favorites ? (
 							<div
 								onClick={handleIconClick}
 								onMouseEnter={() => handleHover('heart')}
@@ -193,7 +171,7 @@ export default function RecipeSearchCard({ recipe }) {
 							/>
 						)}
 
-						{savedRecipes ? (
+						{saved ? (
 							<div
 								onClick={handleIconClick}
 								onMouseEnter={() => handleHover('save')}

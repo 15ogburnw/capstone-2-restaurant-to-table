@@ -20,10 +20,11 @@ export default function Dashboard({ children }) {
 
 					if (!res.ok) {
 						const error = new Error(
-							'An error occurred while fetching the data.'
+
 						);
 						// Attach extra info to the error object.
-						error.info = await res.json();
+						const { message } = await res.json();
+						error.message = message
 						error.status = res.status;
 						throw error;
 					}
@@ -35,6 +36,7 @@ export default function Dashboard({ children }) {
 						// TODO:We can send the error to Sentry,
 						// Make a toast message that says retrying if we are going to try again, and a final error if we are out of tries
 						console.log(error);
+						console.log('oh no! there was an error')
 						const errorToast = () => {
 							toast('Oh no! something went wrong', {
 								type: 'error',

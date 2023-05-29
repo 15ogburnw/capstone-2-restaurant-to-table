@@ -13,7 +13,7 @@ export default function RecipeSearchForm({
   resetResults,
 }) {
   const INITIAL_VALUES = {
-    query: "",
+    q: "",
     mealTypes: [],
     dishTypes: [],
     cuisineTypes: [],
@@ -65,7 +65,7 @@ export default function RecipeSearchForm({
 
                 <Field
                   type="text"
-                  name="query"
+                  name="q"
                   placeholder="Search for a recipe"
                   className="block w-full  py-1.5 pr-5 text-gray-700 bg-white border border-gray-400 rounded-lg md:w-1/2 placeholder-gray-400/70 pl-11   focus:border-emerald-400  focus:ring-emerald-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
@@ -126,7 +126,7 @@ export default function RecipeSearchForm({
                         e.preventDefault();
                         resetForm({
                           values: {
-                            query: values.query,
+                            q: values.q,
                             mealTypes: [],
                             dishTypes: [],
                             cuisineTypes: [],

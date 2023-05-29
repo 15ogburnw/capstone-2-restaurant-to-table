@@ -98,21 +98,19 @@ export default function Sidebar() {
           <Link
             href="/dashboard"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${
-                        router.pathname.indexOf("/dashboard") !== -1 &&
-                        router.pathname.indexOf("/dashboard/") === -1
-                          ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                          : "text-slate-700 hover:text-slate-500"
-                      }`}
+                      ${router.pathname.indexOf("/dashboard") !== -1 &&
+                router.pathname.indexOf("/dashboard/") === -1
+                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
+                : "text-slate-700 hover:text-slate-500"
+              }`}
           >
             <RectangleStackIcon
               className={`h-5 w-5 inline flex-none
-                        ${
-                          router.pathname.indexOf("/dashboard") !== -1 &&
-                          router.pathname.indexOf("/dashboard/") === -1
-                            ? "opacity-75"
-                            : ""
-                        }`}
+                        ${router.pathname.indexOf("/dashboard") !== -1 &&
+                  router.pathname.indexOf("/dashboard/") === -1
+                  ? "opacity-75"
+                  : ""
+                }`}
             />
             <span className="mx-4 font-medium">Dashboard</span>
           </Link>
@@ -120,22 +118,20 @@ export default function Sidebar() {
           <Link
             href="/dashboard/recipe-search"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${
-                        router.pathname.indexOf("/dashboard/recipe-search") !==
-                        -1
-                          ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                          : "text-slate-700 hover:text-slate-500"
-                      }`}
+                      ${router.pathname.indexOf("/dashboard/recipe-search") !==
+                -1
+                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
+                : "text-slate-700 hover:text-slate-500"
+              }`}
           >
             <MagnifyingGlassCircleIcon
               className={`h-5 w-5 inline flex-none
-                        ${
-                          router.pathname.indexOf(
-                            "/dashboard/recipe-search"
-                          ) !== -1
-                            ? "opacity-75"
-                            : ""
-                        }`}
+                        ${router.pathname.indexOf(
+                "/dashboard/recipe-search"
+              ) !== -1
+                  ? "opacity-75"
+                  : ""
+                }`}
             />
             <span className="mx-4 font-medium">Search Recipes</span>
           </Link>
@@ -143,20 +139,18 @@ export default function Sidebar() {
           <Link
             href="/dashboard/restaurants"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${
-                        router.pathname.indexOf("/dashboard/restaurants") !== -1
-                          ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                          : "text-slate-700 hover:text-slate-500"
-                      }`}
+                      ${router.pathname.indexOf("/dashboard/restaurants") !== -1
+                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
+                : "text-slate-700 hover:text-slate-500"
+              }`}
           >
             <GlobeAltIcon
               className={`h-5 w-5 inline flex-none
-                        ${
-                          router.pathname.indexOf("/dashboard/restaurants") !==
-                          -1
-                            ? "opacity-75"
-                            : ""
-                        }`}
+                        ${router.pathname.indexOf("/dashboard/restaurants") !==
+                  -1
+                  ? "opacity-75"
+                  : ""
+                }`}
             />
             <span className="mx-4 font-medium">Find a Restaurant</span>
           </Link>
@@ -164,19 +158,17 @@ export default function Sidebar() {
           <Link
             href="/dashboard/profile"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${
-                        router.pathname.indexOf("/dashboard/profile") !== -1
-                          ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                          : "text-slate-700 hover:text-slate-500"
-                      }`}
+                      ${router.pathname.indexOf("/dashboard/profile") !== -1
+                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
+                : "text-slate-700 hover:text-slate-500"
+              }`}
           >
             <UserCircleIcon
               className={`h-5 w-5 inline flex-none
-                        ${
-                          router.pathname.indexOf("/dashboard/profile") !== -1
-                            ? "opacity-75"
-                            : ""
-                        }`}
+                        ${router.pathname.indexOf("/dashboard/profile") !== -1
+                  ? "opacity-75"
+                  : ""
+                }`}
             />
             <span className="mx-4 font-medium">Profile</span>
           </Link>
@@ -184,19 +176,17 @@ export default function Sidebar() {
           <Link
             href="/dashboard/settings"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${
-                        router.pathname.indexOf("/dashboard/settings") !== -1
-                          ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                          : "text-slate-700 hover:text-slate-500"
-                      }`}
+                      ${router.pathname.indexOf("/dashboard/settings") !== -1
+                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
+                : "text-slate-700 hover:text-slate-500"
+              }`}
           >
             <Cog6ToothIcon
               className={`h-5 w-5 inline flex-none
-                        ${
-                          router.pathname.indexOf("/dashboard/settings") !== -1
-                            ? "opacity-75"
-                            : ""
-                        }`}
+                        ${router.pathname.indexOf("/dashboard/settings") !== -1
+                  ? "opacity-75"
+                  : ""
+                }`}
             />
             <span className="mx-4 font-medium">Settings</span>
           </Link>
@@ -238,7 +228,7 @@ export default function Sidebar() {
           </div>
 
           <nav className="mt-4 mx-3 space-y-3 ">
-            {console.log("My menus:", menus)}
+            {/* {console.log("My menus:", menus)} */}
             {menus?.length > 0 &&
               menus.map((menu, idx) => (
                 <Link

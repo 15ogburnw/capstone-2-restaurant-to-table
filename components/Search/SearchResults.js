@@ -5,34 +5,36 @@ import NoResults from './NoResults';
 import { useEffect, useState } from 'react'
 import Pagination from '../Pagination'
 import { makeURL, truncateRecipe } from '@/lib/edamam/helpers';
-import useSWRInfinite from 'swr/infinite'
+import useSWRInfinite, { unstable_serialize } from 'swr/infinite'
+import { wrapGetServerSidePropsWithSentry } from '@sentry/nextjs';
 
 
 
 // TODO: POTENTIALLY MOVE THIS INTO A SSR FUNCTION??
-const preloadRecipes = async () => {
-	const BASE_URL = 'http://localhost:3000'
-	const fetcher = (url) => fetch(url)
-	await preload(`${BASE_URL}/api/user/favorite-recipes`, fetcher);
-	// TODO: there is an error here that causes the cache to save /api/user/menus as the revalidation key instead of /api/user/favorite-recipes, and it is also skipping over saved recipes line - figure out what's going on.
-	await preload(`${BASE_URL}/api/user/saved-recipes`, fetcher);
-}
+// const preloadRecipes = async () => {
+// 	const BASE_URL = 'http://localhost:3000'
+// 	const fetcher = (url) => fetch(url).then((res) => res.json())
+// 	const originalFavs = await preload(`${BASE_URL}/api/user/favorite-recipes`, fetcher);
+// 	// TODO: there is an error here that causes the cache to save /api/user/menus as the revalidation key instead of /api/user/favorite-recipes, and it is also skipping over saved recipes line - figure out what's going on.
+// 	await preload(`${BASE_URL}/api/user/saved-recipes`, fetcher);
+// }
 
 
 export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	const currentPage = useState(1);
+	const [favorites, setFavorites] = useState(null);
+	const [saved, setSaved] = useState(null);
 
-	useEffect(() => {
-		preloadRecipes()
-	}, [])
+	const { data: favoriteRecipes } = useSWR('/api/user/favorite-recipes', (url) => fetch(url).then((res) => res.json()));
+	const { data: savedRecipes } = useSWR('/api/user/saved-recipes', (url) => fetch(url).then((res) => res.json()));
 
 	const getKey = (pageIndex, previousPageData) => {
 		//API endpoint for searching Edamam recipes
 		const baseURL = '/api/recipes?'
 
 		// reached the end
-		if (previousPageData && !previousPageData.data) return null
+		if (previousPageData && !previousPageData.nextPageURL) return null
 
 		let key;
 		// first page, we don't have `previousPageData`
@@ -40,6 +42,8 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 			key = makeURL(baseURL, searchVals);
 		} else {
 			let nextPageURL = previousPageData.nextPageURL;
+			console.log('searchResults::pageIndex', pageIndex);
+			console.log('searchResults::nextPageURL', nextPageURL)
 			key = makeURL(baseURL, { nextPageURL })
 		}
 		return key;
@@ -47,26 +51,39 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	const {
 		data,
+		error,
 		mutate,
 		size,
 		setSize,
-		isValidating,
 		isLoading,
-		error
-	} = useSWRInfinite(getKey,
-		(url) => fetch(url).then((res) => res.json()), {}
-	);
+
+	} = useSWRInfinite(getKey, {});
+
+	useEffect(() => { console.log('SearchResults::data', data) }, [data])
+	useEffect(() => { console.log('SearchResults::error', error) }, [error])
+
 
 	useEffect(() => {
-		if (data) {
-			console.log('search data has updated', data);
-			console.log('')
+		if (favoriteRecipes) {
+			// console.log('favorite recipes updated: ', favoriteRecipes)
+			setFavorites(favoriteRecipes.map((val) => val.id))
 		}
-	}, [data])
+
+	}, [favoriteRecipes])
 
 	useEffect(() => {
+		if (savedRecipes) {
+			// console.log('saved recipes updated', savedRecipes)
+			setSaved(savedRecipes.map((val) => val.id))
+		}
+
+	}, [savedRecipes])
+
+	useEffect(() => {
+		console.log('SearchResults::isLoading', isLoading)
+
 		setSearchLoading(isLoading)
-	}, [isLoading, setSearchLoading])
+	}, [isLoading])
 
 	return (<>
 		<div className='flex  mt-2 border border-gray-400 bg-white rounded-lg min-h-[500px] max-h-[750px]  overflow-hidden'>
@@ -75,9 +92,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 				{/* If I get search results, show all results for the ***first*** page */}
 				{data
 					? data[0].data?.map((recipe) => {
-						console.log(recipe)
-						recipe = truncateRecipe(recipe);
-						return (<RecipeSearchCard key={recipe.id} recipe={recipe} />)
+						return (<RecipeSearchCard key={recipe.id} recipe={recipe} saved={saved} favorites={favorites} />)
 					})
 					: null}
 
@@ -88,11 +103,11 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
 					{/* If there is an empty data array, display a no results message */}
 
-					{data && data.length === 0 ? (
-						<NoResults query={query} type='recipes' />
-					) : null}
+					{error ? <NoResults message={error.message} /> : null}
 
-					{error ? <h1>Error!</h1> : null}
+					{data && data[0].data.length === 0 ? (
+						<NoResults q={searchVals.q} type='recipes' />
+					) : null}
 
 					{/* If there's not an active search, display a message prompting the user to search for a recipe */}
 					{!searchVals ? (
