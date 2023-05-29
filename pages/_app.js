@@ -1,7 +1,7 @@
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

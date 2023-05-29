@@ -1,55 +1,40 @@
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import Link from 'next/link';
-import Loading from '@/components/Loading';
 import { useRouter } from 'next/router';
-import { useState, useEffect, useMemo } from 'react';
-import useSWR from 'swr';
-import useSWRMutation from 'swr/mutation';
-import { useSessionContext } from '@supabase/auth-helpers-react';
+import { useState } from 'react';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { getAuthRedirectURL } from '@/lib/supabase/helpers';
 
 export default function LoginForm() {
+	const [isLoading, setIsLoading] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('');
-	const [loading, setLoading] = useState(false);
-	const router = useRouter();
-
-	const { session, supabaseClient } = useSessionContext();
+	const supabase = useSupabaseClient()
+	const router = useRouter()
 
 	const inputStyles = {
 		valid: 'focus:border-emerald-400',
 		invalid: 'border-red-400',
 	};
 
-	useEffect(() => {
-		if (session) {
-			setLoading(true);
-			router.push('/landing');
-		}
-	}, [router, session]);
-
 	const handleLogin = async (values) => {
-		setLoading(true);
 		const { email, password } = values;
-
-		const { data: user, error } = await supabaseClient.auth.signInWithPassword({
+		setIsLoading(true)
+		const { error } = await supabase.auth.signInWithPassword({
 			email,
-			password,
-
-			// TODO: CHECK IF THIS IS ACTUALLY DOING ANYTHING OR IF IT'S HITTING THE BOTTOM REDIRECT
-			options: {
-				redirectTo: () => getAuthRedirectURL(),
-			},
+			password
 		});
+
+
 		if (error) {
+			setIsLoading(false)
 			setErrorMessage('Login failed! Please try again');
 			console.error(error);
+		} else {
+			router.push('/dashboard')
 		}
 
-		if (user) router.push('/dashboard');
-		setLoading(false);
 	};
 
 	const loginSchema = yup.object().shape({
@@ -129,11 +114,10 @@ export default function LoginForm() {
 
 						<Field
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
-            ${
-							errors.email && touched.email
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            					${errors.email && touched.email
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							name='email'
 							placeholder='Email'
 						/>
@@ -161,11 +145,10 @@ export default function LoginForm() {
 							name='password'
 							placeholder='Password'
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
-            ${
-							errors.password && touched.password
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            					${errors.password && touched.password
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							type='password'
 						/>
 						{touched.password && errors.password ? (
@@ -179,19 +162,19 @@ export default function LoginForm() {
 					<div className='mt-6'>
 						<button
 							type='submit'
-							className='w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 '
-							disabled={!isValid || loading}>
-							{!loading ? (
+							className='w-full px-6 py-3 tracking-wide text-white text-lg font-bold capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 hover:bg-emerald-300 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50 text-center'
+							disabled={!isValid || isLoading}>
+							{!isLoading ? (
 								'Sign In'
 							) : (
-								<div className='flex flex-row align-middle justify-center items-center'>
+								<>
 									<FontAwesomeIcon
-										className='w-4 h-4'
+										className='inline mr-2'
 										icon={faCircleNotch}
 										spin
-									/>{' '}
-									<span>Loading</span>{' '}
-								</div>
+									/>
+									<span >Loading</span>
+								</>
 							)}
 						</button>
 					</div>

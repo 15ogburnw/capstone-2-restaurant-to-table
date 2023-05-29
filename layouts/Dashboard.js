@@ -64,7 +64,7 @@ export default function Dashboard({ children }) {
 				},
 				revalidateOnFocus: false
 			}}>
-			<Navbar />
+			{/* <Navbar /> */}
 			<div className='flex flex-row'>
 				<Sidebar />
 				{children}

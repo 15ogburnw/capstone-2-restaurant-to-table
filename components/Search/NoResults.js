@@ -1,4 +1,6 @@
 export default function NoResults({ type, q, message }) {
+
+
   return (
     <>
       <div className="p-3 text-red-500 bg-red-100 rounded-full ">
@@ -19,7 +21,7 @@ export default function NoResults({ type, q, message }) {
       </div>
       {q && <h1 className="mt-3 text-lg text-gray-800 ">No {type} found</h1>}
       {q ? <p className="mt-2 inline-block max-w-md text-gray-500 ">
-        Your search "{q}" did not match any {type}. Please try again with a
+        Your search &quot;{q}&quot; did not match any {type}. Please try again with a
         different search term.
       </p> : <p className="mt-2 inline-block max-w-md text-gray-500 ">{message}</p>}
     </>

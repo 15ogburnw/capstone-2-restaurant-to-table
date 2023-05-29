@@ -1,33 +1,25 @@
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
 import Link from 'next/link';
-import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { FontAwesomeIcon } from '@fortawesome/fontawesome-free';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { getAuthRedirectURL } from '@/lib/supabase/helpers';
+
 
 export default function SignupForm() {
-	const { session } = useSessionContext();
+	const [isLoading, setIsLoading] = useState(false);
 	const supabase = useSupabaseClient();
-	const router = useRouter();
 	const [errorMessage, setErrorMessage] = useState();
-	const [loading, setLoading] = useState();
-
-	useEffect(() => {
-		if (session) {
-			router.push('/dashboard');
-		}
-	}, [session, router]);
+	const router = useRouter()
 
 	const inputStyles = {
 		valid: 'focus:border-emerald-400',
 		invalid: 'border-red-400',
 	};
 
-	const registerSchema = yup.object().shape({
+	const signupSchema = yup.object().shape({
 		name: yup
 			.string()
 			.required('Name is required')
@@ -44,31 +36,25 @@ export default function SignupForm() {
 	});
 
 	/* TODO: Add functionality for including basic user metadata along with signup. Do I want to include a name with the supabase object or keep
-    it all on the public table?
+	it all on the public table?
    */
-	const handleSignup = async (
-		values,
-		{ isSubmitting, setValues, setErrors, setTouched }
-	) => {
+	const handleSignup = async (values) => {
 		const { email, password } = values;
+		setIsLoading(true)
 
-		const { error } = await supabase.auth.signUp(
-			{
-				email,
-				password,
-			},
-			{
-				options: {
-					redirectTo: () => getAuthRedirectURL(),
-				},
+		const { error } = await supabase.auth.signUp({
+			email,
+			password,
+			options: {
+				emailRedirectTo: `${location.origin}/api/auth/callback`
 			}
-		);
-
+		});
 		if (error) {
+			setIsLoading(false)
 			setErrorMessage('Something went wrong! Please try again');
 			console.error(error);
-			console.log(error.message);
-			setLoading(false);
+		} else {
+			router.push('/dashboard')
 		}
 	};
 
@@ -80,19 +66,19 @@ export default function SignupForm() {
 				password: '',
 				confirmPassword: '',
 			}}
-			validationSchema={registerSchema}
+			validationSchema={signupSchema}
 			onSubmit={handleSignup}
 			validateOnMount>
-			{({ errors, touched, isValid, isSubmitting }) => (
-				<Form>
+			{({ errors, touched, isValid }) => (
+				<Form >
 					<p className='mt-3 text-xl text-center text-gray-600'>
 						Welcome to Restaurant to Table!
 					</p>
-					<div className=''>
-						<p className='text-red-500 font-medium text-medium text-center my-2'>
-							{errorMessage}
-						</p>
+
+					<div className='text-red-500 font-medium text-medium text-center my-2'>
+						{errorMessage}
 					</div>
+
 					{/* TODO: Remove Google Sign In Button? */}
 					<a
 						href='#'
@@ -136,21 +122,20 @@ export default function SignupForm() {
 
 					{/* Name input */}
 					<div className='mt-4'>
-						<div className='flex justify-between'>
-							<label
-								className='block mb-2 text-base font-bold text-gray-600 '
-								htmlFor='name'>
-								Name
-							</label>
-						</div>
+
+						<label
+							className='block mb-2 text-base font-bold text-gray-600 '
+							htmlFor='name'>
+							Name
+						</label>
+
 
 						<Field
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
-            ${
-							errors.name && touched.name
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            					${errors.name && touched.name
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							name='name'
 							placeholder='Please enter your name'
 						/>
@@ -162,7 +147,7 @@ export default function SignupForm() {
 					</div>
 
 					{/* Email input */}
-					<div className='mt-4'>
+					<div className='mt-3'>
 						<div className='flex justify-between'>
 							<label
 								className='block mb-2 text-base font-bold text-gray-600 '
@@ -173,11 +158,10 @@ export default function SignupForm() {
 
 						<Field
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
-            ${
-							errors.email && touched.email
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            					${errors.email && touched.email
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							name='email'
 							placeholder='Please enter your email'
 						/>
@@ -202,11 +186,10 @@ export default function SignupForm() {
 							name='password'
 							placeholder='Please enter your password'
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
-            ${
-							errors.password && touched.password
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            					${errors.password && touched.password
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							type='password'
 						/>
 						{touched.password && errors.password ? (
@@ -230,11 +213,10 @@ export default function SignupForm() {
 							name='confirmPassword'
 							placeholder='Please confirm your password'
 							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
-            ${
-							errors.confirmPassword && touched.confirmPassword
-								? inputStyles.invalid
-								: inputStyles.valid
-						}`}
+            					${errors.confirmPassword && touched.confirmPassword
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
 							type='password'
 						/>
 						{touched.confirmPassword && errors.confirmPassword ? (
@@ -249,23 +231,19 @@ export default function SignupForm() {
 					<div className='mt-6'>
 						<button
 							type='submit'
-							className='rounded-lg py-2 px-6 my-2 w-full disabled:bg-gray-200 disabled:border-gray-200 flex-1 text-xl h-auto bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 hover:border-emerald-400 text-center font-bold'
-							disabled={!isValid || isSubmitting}>
-							{isSubmitting ? (
-								<span>
+							className='w-full px-6 py-3 tracking-wide text-white text-lg font-bold capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 hover:bg-emerald-300 focus:outline-none focus:ring focus:ring-emerald-500 focus:ring-opacity-50 text-center'
+							disabled={!isValid || isLoading}>
+							{!isLoading ? (
+								'Create Your Account'
+							) : (
+								<>
 									<FontAwesomeIcon
-										className='inline text-emerald-500 mr-2'
+										className='inline mr-2'
 										icon={faCircleNotch}
 										spin
 									/>
-									<span className='text-emerald-400 font-semibold'>
-										Loading...
-									</span>
-								</span>
-							) : (
-								<span className='text-emerald-500 font-semibold'>
-									Create Your Account
-								</span>
+									<span >Loading</span>
+								</>
 							)}
 						</button>
 					</div>
@@ -285,5 +263,5 @@ export default function SignupForm() {
 				</Form>
 			)}
 		</Formik>
-	);
+	)
 }

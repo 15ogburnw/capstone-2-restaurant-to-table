@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import Pagination from '../Pagination'
 import { makeURL, truncateRecipe } from '@/lib/edamam/helpers';
 import useSWRInfinite, { unstable_serialize } from 'swr/infinite'
-import { wrapGetServerSidePropsWithSentry } from '@sentry/nextjs';
+
 
 
 
@@ -23,11 +23,10 @@ import { wrapGetServerSidePropsWithSentry } from '@sentry/nextjs';
 export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	const currentPage = useState(1);
-	const [favorites, setFavorites] = useState(null);
-	const [saved, setSaved] = useState(null);
 
-	const { data: favoriteRecipes } = useSWR('/api/user/favorite-recipes', (url) => fetch(url).then((res) => res.json()));
-	const { data: savedRecipes } = useSWR('/api/user/saved-recipes', (url) => fetch(url).then((res) => res.json()));
+
+	const { data: favoriteRecipes } = useSWR('/api/user/favorite-recipes');
+	const { data: savedRecipes } = useSWR('/api/user/saved-recipes');
 
 	const getKey = (pageIndex, previousPageData) => {
 		//API endpoint for searching Edamam recipes
@@ -60,24 +59,11 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	} = useSWRInfinite(getKey, {});
 
-	useEffect(() => {
-		if (favoriteRecipes) {
-			setFavorites(favoriteRecipes.map((val) => val.id))
-		}
-
-	}, [favoriteRecipes])
-
-	useEffect(() => {
-		if (savedRecipes) {
-			setSaved(savedRecipes.map((val) => val.id))
-		}
-
-	}, [savedRecipes])
 
 	useEffect(() => {
 		console.log('SearchResults::isLoading', isLoading)
 		setSearchLoading(isLoading)
-	}, [isLoading])
+	}, [isLoading, setSearchLoading])
 
 	return (<>
 		<div className='flex  mt-2 border border-gray-400 bg-white rounded-lg min-h-[500px] max-h-[750px]  overflow-hidden'>
@@ -86,7 +72,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 				{/* If I get search results, show all results for the ***first*** page */}
 				{data
 					? data[0].data?.map((recipe) => {
-						return (<RecipeSearchCard key={recipe.id} recipe={recipe} saved={saved} favorites={favorites} />)
+						return (<RecipeSearchCard key={recipe.id} recipe={recipe} savedRecipes={savedRecipes} favoriteRecipes={favoriteRecipes} />)
 					})
 					: null}
 

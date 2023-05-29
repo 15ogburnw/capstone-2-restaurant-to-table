@@ -21,7 +21,7 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL("/landing", req.url));
   }
 
-  if (session && (path.startsWith('/landing') || path.startsWith('/auth'))) {
+  if (session?.user && (path.startsWith('/landing') || path.startsWith('/auth'))) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 

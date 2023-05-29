@@ -10,7 +10,12 @@ const handler = async (req, res) => {
 	// get the currently authenticated user object
 	const {
 		data: { user },
+		error
 	} = await supabaseServerClient.auth.getUser();
+
+	if (error) {
+		res.status(401).json({ message: "Unauthorized" })
+	}
 
 	// const { name, id } = req.body;
 
@@ -22,7 +27,7 @@ const handler = async (req, res) => {
 			response = await supabaseServerClient
 				.from('menus')
 				.select('id, name')
-				.eq('user_id', user.id);
+				.eq('user_id', user?.id);
 			menus = response.data;
 			if (response.error)
 				res

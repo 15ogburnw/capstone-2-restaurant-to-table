@@ -72,7 +72,7 @@ export default function RecipeSearchForm({
 
                 {/* Search button to submit */}
                 <button
-                  className="w-1/2 px-5 py-2 disabled:bg-gray-200 disabled:border-gray-300 text-sm transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-3"
+                  className="w-1/2 px-5 py-2 disabled:bg-gray-200 disabled:border-gray-300 text-sm transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-3 disabled:cursor-wait"
                   type="submit"
                   disabled={isLoading ? true : false}
                 >
@@ -82,7 +82,7 @@ export default function RecipeSearchForm({
                 {/* If there's an active search, display a button to clear the search */}
                 {activeSearch ? (
                   <button
-                    className="w-1/2 px-5 py-2 disabled:bg-gray-200 disabled:border-gray-300 text-sm transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
+                    className="w-1/2 px-5 py-2 disabled:bg-gray-200 disabled:border-gray-300 disabled:cursor-wait text-sm transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
                     onClick={() => {
                       resetForm();
                       resetResults();
@@ -97,7 +97,7 @@ export default function RecipeSearchForm({
               {!filtersShowing ? (
                 <button
                   onClick={showFilters}
-                  className="flex items-center md:w-80 rounded-lg justify-center px-4 py-2 disabled:bg-gray-200 disabled:border-gray-300 text-sm transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border"
+                  className="flex items-center md:w-80 rounded-lg justify-center px-4 py-2 disabled:bg-gray-200 disabled:border-gray-300 disabled:cursor-wait text-sm transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border"
                   disabled={isLoading ? true : false}
                 >
                   Filter search results
@@ -114,7 +114,7 @@ export default function RecipeSearchForm({
                     <button
                       onClick={hideFilters}
                       disabled={isLoading ? true : false}
-                      className="flex items-center disabled:bg-gray-200  justify-center px-4 py-2 text-sm font-medium  text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 bg-white hover:bg-emerald-100 hover:border-emerald-400"
+                      className="flex items-center disabled:bg-gray-200 disabled:cursor-wait justify-center px-4 py-2 text-sm font-medium  text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 bg-white hover:bg-emerald-100 hover:border-emerald-400"
                     >
                       <ChevronDoubleUpIcon className="mr-3 stroke-2 stroke-gray-600 text-sm h-5 w-5 flex-none" />
 
@@ -136,7 +136,7 @@ export default function RecipeSearchForm({
                         });
                       }}
                       disabled={isLoading ? true : false}
-                      className="flex justify-center disabled:bg-gray-200   bg-white hover:bg-emerald-100 hover:border-emerald-400 items-center px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 "
+                      className="flex justify-center disabled:bg-gray-200 disabled:cursor-wait  bg-white hover:bg-emerald-100 hover:border-emerald-400 items-center px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 "
                     >
                       <XMarkIcon className=" stroke-gray-600 h5 w-5 mr-3 flex-none" />
                       <span>Clear Filters</span>
@@ -144,7 +144,7 @@ export default function RecipeSearchForm({
                     <button
                       disabled={isLoading ? true : false}
                       type="submit"
-                      className="flex justify-center disabled:bg-gray-200  bg-white hover:bg-emerald-100 hover:border-emerald-400 items-center px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 "
+                      className="flex justify-center disabled:bg-gray-200 disabled:cursor-wait bg-white hover:bg-emerald-100 hover:border-emerald-400 items-center px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 "
                     >
                       <FontAwesomeIcon
                         icon={faPenToSquare}
