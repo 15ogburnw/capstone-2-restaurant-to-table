@@ -39,6 +39,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 		let key;
 		// first page, we don't have `previousPageData`
 		if (pageIndex === 0) {
+			console.log('searchResults::firstPage-searchVals', searchVals)
 			key = makeURL(baseURL, searchVals);
 		} else {
 			let nextPageURL = previousPageData.nextPageURL;
@@ -59,13 +60,8 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	} = useSWRInfinite(getKey, {});
 
-	useEffect(() => { console.log('SearchResults::data', data) }, [data])
-	useEffect(() => { console.log('SearchResults::error', error) }, [error])
-
-
 	useEffect(() => {
 		if (favoriteRecipes) {
-			// console.log('favorite recipes updated: ', favoriteRecipes)
 			setFavorites(favoriteRecipes.map((val) => val.id))
 		}
 
@@ -73,7 +69,6 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	useEffect(() => {
 		if (savedRecipes) {
-			// console.log('saved recipes updated', savedRecipes)
 			setSaved(savedRecipes.map((val) => val.id))
 		}
 
@@ -81,7 +76,6 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
 	useEffect(() => {
 		console.log('SearchResults::isLoading', isLoading)
-
 		setSearchLoading(isLoading)
 	}, [isLoading])
 

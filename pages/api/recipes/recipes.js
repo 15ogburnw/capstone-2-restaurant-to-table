@@ -22,6 +22,8 @@ async function edamamQuery(req, res) {
 
 			//set up the URL that we will use to query the Edamam API with the filter values as query parameters
 			const baseURL = `${EDAMAM_API_URL}?type=public&q=${q}&app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_API_KEY}&`;
+
+			console.log('api-recipes::req.query', req.query)
 			url = makeURL(baseURL, req.query)
 
 			console.log('api::Querying url:', url)

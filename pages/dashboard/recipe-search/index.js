@@ -24,12 +24,10 @@ export default function RecipeSearchPage() {
 
 			{/* Search form which includes query input and filter options for Edamam API. Passing functions for submitting a search and for resetting an active search */}
 			<RecipeSearchForm
-				handleSearch={(values, actions) => {
-					console.log(values)
-					console.log(setSearchVals)
-					setSearchVals(values)
-					console.log(searchVals)
+				handleSearch={async (values) => {
+					console.log('recipe-search-page::formSubmittedVals', values)
 
+					setSearchVals(values)
 				}}
 				activeSearch={searchVals ? true : false}
 				isLoading={searchLoading}

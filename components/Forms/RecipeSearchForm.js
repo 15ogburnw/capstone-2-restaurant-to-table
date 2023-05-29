@@ -14,11 +14,11 @@ export default function RecipeSearchForm({
 }) {
   const INITIAL_VALUES = {
     q: "",
-    mealTypes: [],
-    dishTypes: [],
-    cuisineTypes: [],
-    dietLabels: [],
-    healthLabels: [],
+    mealType: [],
+    dishType: [],
+    cuisineType: [],
+    diet: [],
+    health: [],
   };
 
   const [filtersShowing, setFiltersShowing] = useState(false);
@@ -127,11 +127,11 @@ export default function RecipeSearchForm({
                         resetForm({
                           values: {
                             q: values.q,
-                            mealTypes: [],
-                            dishTypes: [],
-                            cuisineTypes: [],
-                            dietLabels: [],
-                            healthLabels: [],
+                            mealType: [],
+                            dishType: [],
+                            cuisineType: [],
+                            diet: [],
+                            health: [],
                           },
                         });
                       }}
