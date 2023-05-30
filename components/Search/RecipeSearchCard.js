@@ -23,10 +23,11 @@ import { useState } from 'react';
 // aesthetic components
 import Tooltip from '../Tooltips/TopTooltip';
 
-// Get data
-import useSWR from 'swr';
-import useSWRMutation from 'swr/mutation';
-import { toggleRecipeStatus } from '@/lib/supabase/apiQueries';
+// Get global SWR config
+import useSWRMutation from 'swr/mutation'
+import {
+	addRecipe, removeRecipe
+} from '@/public/apiQueries';
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
