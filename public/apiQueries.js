@@ -1,11 +1,13 @@
 
 
 export async function addRecipe(url, { arg }) {
-	console.log('ADD RECIPE HELPER::RECIPE::', arg);
+	recipe = arg.recipe
+	console.log('ADD RECIPE HELPER::RECIPE::', recipe);
 	console.log('ADD RECIPE HELPER::URL::', url)
+
 	return fetch(url, {
-		method: "POST",
-		body: JSON.stringify(arg),
+		method: "post",
+		body: JSON.stringify(recipe),
 		headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json"
@@ -15,9 +17,10 @@ export async function addRecipe(url, { arg }) {
 
 export async function removeRecipe(url, { arg }) {
 	console.log('REMOVE RECIPE HELPER::RECIPE::', arg)
+	recipe = arg.recipe
 	return await fetch(url, {
 		method: "DELETE",
-		body: JSON.stringify(arg),
+		body: JSON.stringify(recipe),
 		headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json"
