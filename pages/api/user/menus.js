@@ -17,26 +17,25 @@ const handler = async (req, res) => {
 		res.status(401).json({ message: "Unauthorized" })
 	}
 
-	// const { name, id } = req.body;
+	const { name, id } = req.body;
 
 	let response;
 	let menus;
 
-	switch (req.method) {
-		case 'GET':
-			response = await supabaseServerClient
-				.from('menus')
-				.select('id, name')
-				.eq('user_id', user?.id);
-			menus = response.data;
-			if (response.error)
-				res
-					.status(400)
-					.json({ error: 'There was a problem retrieving your menus' });
-			else res.status(200).json({ menus });
-		default:
-			res.status(500).end();
+
+	if (req.method === "GET") {
+		const { data: menus, error } = await supabaseServerClient
+			.from('menus')
+			.select('id, name')
+			.eq('user_id', user.id);
+
+		if (error)
+			res
+				.status(400)
+				.json({ error: 'There was a problem retrieving your menus' });
+		else res.status(200).json({ menus });
 	}
+
 
 	// TODO: COMPLETE OTHER METHOD ENDPOINTS
 	// case "POST":

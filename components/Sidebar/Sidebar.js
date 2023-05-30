@@ -26,7 +26,8 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 export default function Sidebar() {
   const router = useRouter();
   //get current user's menus
-  const { data: menus, isLoading } = useSWR("/api/user/menus");
+  const { data, isLoading } = useSWR("/api/user/menus");
+
 
   // initialize client for supabase
   const supabase = useSupabaseClient();
@@ -57,21 +58,17 @@ export default function Sidebar() {
   };
 
   // sign out of supabase, clear cache, and redirect to landing page
-  const handleSignOut = (e) => {
-    e.preventDefault();
+  const handleSignOut = async (e) => {
 
-    // clears the swr cache
-    const signOut = async () => {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw new Error();
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error
 
-      // clear the SWR cache
-      await mutate(() => true, undefined, { revalidate: false });
-      router.push("/landing");
-    };
-
-    signOut();
+    // clear the SWR cache
+    await mutate(() => true, undefined, { revalidate: false });
+    router.push("/landing");
   };
+
+
 
   const handleOpenModal = (e) => {
     setShowModal(true);
@@ -98,11 +95,11 @@ export default function Sidebar() {
           <Link
             href="/dashboard"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${router.pathname.indexOf("/dashboard") !== -1 &&
-                router.pathname.indexOf("/dashboard/") === -1
-                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                : "text-slate-700 hover:text-slate-500"
-              }`}
+            ${router.pathname == "/dashboard"
+                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+              }
+                    `}
           >
             <RectangleStackIcon
               className={`h-5 w-5 inline flex-none
@@ -118,10 +115,9 @@ export default function Sidebar() {
           <Link
             href="/dashboard/recipe-search"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${router.pathname.indexOf("/dashboard/recipe-search") !==
-                -1
-                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                : "text-slate-700 hover:text-slate-500"
+                      ${router.pathname.indexOf("/dashboard/recipe-search") !== -1
+                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
               }`}
           >
             <MagnifyingGlassCircleIcon
@@ -140,8 +136,8 @@ export default function Sidebar() {
             href="/dashboard/restaurants"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
                       ${router.pathname.indexOf("/dashboard/restaurants") !== -1
-                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                : "text-slate-700 hover:text-slate-500"
+                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
               }`}
           >
             <GlobeAltIcon
@@ -159,8 +155,8 @@ export default function Sidebar() {
             href="/dashboard/profile"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
                       ${router.pathname.indexOf("/dashboard/profile") !== -1
-                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                : "text-slate-700 hover:text-slate-500"
+                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
               }`}
           >
             <UserCircleIcon
@@ -177,8 +173,8 @@ export default function Sidebar() {
             href="/dashboard/settings"
             className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
                       ${router.pathname.indexOf("/dashboard/settings") !== -1
-                ? "text-emerald-500 hover:text-emerald-600 bg-gray-100"
-                : "text-slate-700 hover:text-slate-500"
+                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
               }`}
           >
             <Cog6ToothIcon
@@ -194,10 +190,10 @@ export default function Sidebar() {
           <Link
             href="#"
             onClick={handleSignOut}
-            className=" flex items-center px-4 py-3 mt-3 font-bold rounded-md text-slate-700 hover:text-slate-500"
+            className={"flex items-center px-4 py-3 mt-3 font-bold rounded-md text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"}
           >
             <ArrowRightOnRectangleIcon className="h-5 w-5 inline flex-none" />
-            <span className="mx-4 font-medium">Logout</span>
+            <span className="mx-4 font-medium">Sign Out</span>
           </Link>
         </nav>
         <div className="pt-5">
@@ -229,8 +225,8 @@ export default function Sidebar() {
 
           <nav className="mt-4 mx-3 space-y-3 ">
             {/* {console.log("My menus:", menus)} */}
-            {menus?.length > 0 &&
-              menus.map((menu, idx) => (
+            {data?.menus?.length > 0 ?
+              data.menus.map((menu, idx) => (
                 <Link
                   href={`user/menus/${menu.id}`}
                   key={menu.id}
@@ -242,12 +238,12 @@ export default function Sidebar() {
                     name={menu.name}
                   />
                 </Link>
-              ))}
+              )) : null}
 
             <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
               {/* Fix these from showing up at the same time */}
               <div className="flex items-center gap-x-2 ">
-                {!menus || menus.length === 0 ? (
+                {!isLoading && !data?.menus?.length ? (
                   <span>
                     You don&apos;t have any menus yet! Create your first one to
                     get started

@@ -27,7 +27,7 @@ import Tooltip from '../Tooltips/TopTooltip';
 import useSWRMutation from 'swr/mutation'
 import {
 	addRecipe, removeRecipe
-} from '@/lib/supabase/apiQueries';
+} from '@/public/apiQueries';
 
 // Supabase
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';

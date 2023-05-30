@@ -6,7 +6,7 @@ import Auth from "@/layouts/Auth";
 
 export default function LoginPage() {
   return (
-    <div className="flex w-full max-w-sm m-auto min-h-fit self-center overflow-hidden bg-white rounded-lg shadow-2xl shadow-slate-700  lg:max-w-4xl">
+    <div className="flex w-full max-w-sm m-auto min-h-fit self-center overflow-hidden bg-white rounded-lg shadow-2xl shadow-slate-700 lg:max-w-4xl">
       <div
         className="hidden bg-cover lg:block lg:w-1/2"
         style={{

@@ -12,13 +12,7 @@ const handler = async (req, res) => {
 		error
 	} = await supabaseServerClient.auth.getUser();
 
-
-	console.log('*****REQUEST BODY*****', req.body)
-
-	if (error) return res.status(401).json({ message: 'Unauthorized' });
-
-
-
+	if (error) return res.status(401).json({ message: 'Unauthorized' })
 
 	/**If a GET request is sent to this endpoint, get all of the current user's favorite recipes.
 		* Since we have Row-level-security enabled, the logged-in user will only see their own favorites, so we can just grab all values matching
@@ -60,7 +54,7 @@ const handler = async (req, res) => {
 		}
 	} else if (req.method === 'DELETE') {
 		const recipe = req.body;
-		console.log('*****REQUEST BODY*****', req.body)
+		console.log('*****REQUEST BODY*****', `this is it${req.body}`)
 		console.log('*****RECIPE*****', recipe)
 		const { error, data } = await supabaseServerClient
 			.from('saved_recipes')
