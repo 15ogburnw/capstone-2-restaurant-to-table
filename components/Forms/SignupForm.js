@@ -1,4 +1,4 @@
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -139,13 +139,10 @@ export default function SignupForm() {
 									: inputStyles.valid
 								}`}
 							name='name'
+							type="text"
 							placeholder='Please enter your name'
 						/>
-						{touched.name && errors.name ? (
-							<div className='text-sm text-red-500 mt-1 font-medium'>
-								{errors.name}
-							</div>
-						) : null}
+						<ErrorMessage name="name" className='text-sm text-red-500 mt-1 font-medium' />
 					</div>
 
 					{/* Email input */}
@@ -167,11 +164,7 @@ export default function SignupForm() {
 							name='email'
 							placeholder='Please enter your email'
 						/>
-						{touched.email && errors.email ? (
-							<div className='text-sm text-red-500 mt-1 font-medium'>
-								{errors.email}
-							</div>
-						) : null}
+						<ErrorMessage name="email" className='text-sm text-red-500 mt-1 font-medium' />
 					</div>
 
 					{/* Password input */}
@@ -194,11 +187,7 @@ export default function SignupForm() {
 								}`}
 							type='password'
 						/>
-						{touched.password && errors.password ? (
-							<div className='text-sm text-red-500 mt-1 font-medium'>
-								{errors.password}
-							</div>
-						) : null}
+						<ErrorMessage className='text-sm text-red-500 mt-1 font-medium' />
 					</div>
 
 					{/* Confirm password input */}
@@ -221,11 +210,7 @@ export default function SignupForm() {
 								}`}
 							type='password'
 						/>
-						{touched.confirmPassword && errors.confirmPassword ? (
-							<div className='text-sm text-red-500 mt-1 font-medium'>
-								{errors.confirmPassword}
-							</div>
-						) : null}
+						<ErrorMessage className='block mb-2 text-base font-bold text-gray-600 ' />
 					</div>
 
 					{/* Sign Up Button */}
@@ -249,7 +234,6 @@ export default function SignupForm() {
 							)}
 						</button>
 					</div>
-
 					{/* Login redirect link */}
 					<div className='flex items-center justify-center mt-4'>
 						<span className='text-sm text-center text-green-500 font-semibold mr-3'>
@@ -262,6 +246,7 @@ export default function SignupForm() {
 							Login here
 						</Link>
 					</div>
+
 				</Form>
 			)}
 		</Formik>

@@ -6,7 +6,7 @@ import { useState, } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { getAuthRedirectURL } from '@/lib/supabase/helpers';
+
 
 export default function LoginForm() {
 	const [errorMessage, setErrorMessage] = useState('');
@@ -188,21 +188,23 @@ export default function LoginForm() {
 							)}
 						</button>
 					</div>
+					{/* Sign up redirect link */}
+					<div className="flex items-center justify-center mt-4">
+						<span className="text-sm text-center text-green-500 font-semibold mr-3">
+							Need to make an account?</span>
+
+						<Link
+							href='/auth/signup'
+							className='text-sm text-green-500 font-semibold hover:underline'>
+							Sign up here
+						</Link>
+					</div>
 
 				</Form>)
 			}
-			{/* Sign up redirect link */}
-			<div className="flex items-center justify-center mt-4">
-				<span className="text-sm text-center text-green-500 font-semibold mr-3">
-					Need to make an account?
-				</span>
 
-				<Link
-					href='/auth/signup'
-					className='text-sm text-green-500 font-semibold hover:underline'>
-					Sign up here
-				</Link>
-			</div>
 		</Formik >
+
+
 	);
 }

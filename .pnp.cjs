@@ -52,7 +52,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.39.0"],\
             ["eslint-config-next", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:13.3.2"],\
             ["eslint-config-prettier", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:8.8.0"],\
-            ["formik", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.2.9"],\
+            ["formik", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.4.1"],\
             ["fuse.js", "npm:6.6.2"],\
             ["jsonwebtoken", "npm:9.0.0"],\
             ["next", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:13.4.4"],\
@@ -9396,17 +9396,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["formik", [\
-        ["npm:2.2.9", {\
-          "packageLocation": "./.yarn/cache/formik-npm-2.2.9-0e8cb516ca-f07f80eee8.zip/node_modules/formik/",\
+        ["npm:2.4.1", {\
+          "packageLocation": "./.yarn/cache/formik-npm-2.4.1-0337248851-c4238b81c7.zip/node_modules/formik/",\
           "packageDependencies": [\
-            ["formik", "npm:2.2.9"]\
+            ["formik", "npm:2.4.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.2.9", {\
-          "packageLocation": "./.yarn/__virtual__/formik-virtual-09288d3229/0/cache/formik-npm-2.2.9-0e8cb516ca-f07f80eee8.zip/node_modules/formik/",\
+        ["virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.4.1", {\
+          "packageLocation": "./.yarn/__virtual__/formik-virtual-3dc1c175bd/0/cache/formik-npm-2.4.1-0337248851-c4238b81c7.zip/node_modules/formik/",\
           "packageDependencies": [\
-            ["formik", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.2.9"],\
+            ["formik", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.4.1"],\
             ["@types/react", null],\
             ["deepmerge", "npm:2.2.1"],\
             ["hoist-non-react-statics", "npm:3.3.2"],\
@@ -14864,7 +14864,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.39.0"],\
             ["eslint-config-next", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:13.3.2"],\
             ["eslint-config-prettier", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:8.8.0"],\
-            ["formik", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.2.9"],\
+            ["formik", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.4.1"],\
             ["fuse.js", "npm:6.6.2"],\
             ["jsonwebtoken", "npm:9.0.0"],\
             ["next", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:13.4.4"],\

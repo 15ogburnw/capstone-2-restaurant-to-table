@@ -12,6 +12,11 @@ const nextConfig = {
       destination: "/landing",
       permanent: false,
     },
+    {
+      source: "",
+      destination: "/landing",
+      permanent: false,
+    },
   ],
   images: {
     remotePatterns: [
