@@ -2413,10 +2413,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@craftjs/utils", "virtual:7532b5ea7938df7bfa83aad4e6c97156fee4a17b2ce46fa04d8d558cf42bfdd18829dc2230f8c3dc130fcafac9b3363c801195dbe41694ee1e622c8716bedc74#npm:0.2.0-beta.10"],\
             ["@types/craftjs__core", null],\
             ["@types/react", null],\
-            ["@types/styled-components", null],\
+            ["@types/styled-components", "npm:5.1.26"],\
             ["react", "npm:18.2.0"],\
             ["react-contenteditable", "virtual:cbcc24f4834d93ca106d9beb3ada9d0e0847dc803efae8881fa2a235db9a452d229da39f4ba9abf8f71eb85bfeea8157f25e84deaf9f7252c4210cdbe2908557#npm:3.3.7"],\
-            ["styled-components", null]\
+            ["styled-components", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.3.10"]\
           ],\
           "packagePeers": [\
             "@craftjs/core",\
@@ -7668,8 +7668,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@radix-ui/react-select", "virtual:e2ce8e10feff169189678d987d79c44d6a721f3c5e12199ad7de2d1ea947c685b6c9567949463f328fac599b145df1704d917c3be2f08515c75374d4dd613245#npm:1.2.1"],\
             ["@radix-ui/react-tooltip", "virtual:e2ce8e10feff169189678d987d79c44d6a721f3c5e12199ad7de2d1ea947c685b6c9567949463f328fac599b145df1704d917c3be2f08515c75374d4dd613245#npm:1.0.5"],\
             ["@types/next", null],\
+            ["@types/node", "npm:18.16.13"],\
             ["@types/react", null],\
             ["@types/react-dom", null],\
+            ["@types/styled-components", "npm:5.1.26"],\
+            ["@types/typescript", null],\
             ["classnames", "npm:2.2.6"],\
             ["concurrently", "npm:6.5.1"],\
             ["cors", "npm:2.8.5"],\
@@ -7684,16 +7687,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-color", "virtual:e2ce8e10feff169189678d987d79c44d6a721f3c5e12199ad7de2d1ea947c685b6c9567949463f328fac599b145df1704d917c3be2f08515c75374d4dd613245#npm:2.17.3"],\
             ["react-dom", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:18.2.0"],\
+            ["styled-components", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.3.10"],\
             ["ts-node", "virtual:e2ce8e10feff169189678d987d79c44d6a721f3c5e12199ad7de2d1ea947c685b6c9567949463f328fac599b145df1704d917c3be2f08515c75374d4dd613245#npm:10.9.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
             ["yargs", "npm:17.7.2"]\
           ],\
           "packagePeers": [\
             "@types/next",\
+            "@types/node",\
             "@types/react-dom",\
             "@types/react",\
+            "@types/styled-components",\
+            "@types/typescript",\
             "next",\
             "react-dom",\
-            "react"\
+            "react",\
+            "styled-components",\
+            "typescript"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9877,7 +9887,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["goober", "virtual:be30073b6334cdd8bdb3a15cba6a5162f4f311fd29ed2dde3f471237dae4de35519761a0532c0be50592afcb1c58cdbfcfc647d1e79b18117d7e2f566eab73cb#npm:2.1.13"],\
             ["@types/csstype", null],\
-            ["csstype", null]\
+            ["csstype", "npm:3.1.2"]\
           ],\
           "packagePeers": [\
             "@types/csstype",\
@@ -14276,15 +14286,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/react-hot-toast-virtual-be30073b63/0/cache/react-hot-toast-npm-2.4.1-923d48e94b-3e337816db.zip/node_modules/react-hot-toast/",\
           "packageDependencies": [\
             ["react-hot-toast", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.4.1"],\
+            ["@types/csstype", null],\
             ["@types/react", null],\
             ["@types/react-dom", null],\
+            ["csstype", "npm:3.1.2"],\
             ["goober", "virtual:be30073b6334cdd8bdb3a15cba6a5162f4f311fd29ed2dde3f471237dae4de35519761a0532c0be50592afcb1c58cdbfcfc647d1e79b18117d7e2f566eab73cb#npm:2.1.13"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:18.2.0"]\
           ],\
           "packagePeers": [\
+            "@types/csstype",\
             "@types/react-dom",\
             "@types/react",\
+            "csstype",\
             "react-dom",\
             "react"\
           ],\
@@ -16155,7 +16169,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tsconfig/node12", "npm:1.0.11"],\
             ["@tsconfig/node14", "npm:1.0.3"],\
             ["@tsconfig/node16", "npm:1.0.3"],\
-            ["@types/node", null],\
+            ["@types/node", "npm:18.16.13"],\
             ["@types/swc__core", null],\
             ["@types/swc__wasm", null],\
             ["@types/typescript", null],\
@@ -16165,7 +16179,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["create-require", "npm:1.1.1"],\
             ["diff", "npm:4.0.2"],\
             ["make-error", "npm:1.3.6"],\
-            ["typescript", null],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
             ["v8-compile-cache-lib", "npm:3.0.1"],\
             ["yn", "npm:3.1.1"]\
           ],\
