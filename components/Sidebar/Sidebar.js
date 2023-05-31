@@ -1,5 +1,3 @@
-// RIGHT NOW IF YOU CLICK ANYWHERE ON THE SCREEN THE MODAL FOR MAKING A MENU DISAPPEARS,
-
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,8 +17,6 @@ import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-i
 import { useState, useRef, useEffect } from "react";
 import useSWR, { mutate, preload } from "swr";
 import Loading from "../Loading";
-import ClientOnlyPortal from "../HOF/ClientOnlyPortal";
-import useModal from "@/lib/hooks/useModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function Sidebar() {

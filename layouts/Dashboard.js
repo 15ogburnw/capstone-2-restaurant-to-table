@@ -5,10 +5,9 @@ import { SWRConfig, preload } from 'swr';
 import { useUser } from '@supabase/auth-helpers-react';
 import Script from 'next/script';
 import toast from 'react-toastify';
-// prefetch all existing data for the current user, since we know they will be logged in if they made it this far.
+
 
 export default function Dashboard({ children }) {
-	const user = useUser();
 	const user = useUser();
 
 	return (
@@ -21,10 +20,11 @@ export default function Dashboard({ children }) {
 
 					if (!res.ok) {
 						const error = new Error(
-							'An error occurred while fetching the data.'
+
 						);
 						// Attach extra info to the error object.
-						error.info = await res.json();
+						const { message } = await res.json();
+						error.message = message
 						error.status = res.status;
 						throw error;
 					}
@@ -36,6 +36,7 @@ export default function Dashboard({ children }) {
 						// TODO:We can send the error to Sentry,
 						// Make a toast message that says retrying if we are going to try again, and a final error if we are out of tries
 						console.log(error);
+						console.log('oh no! there was an error')
 						const errorToast = () => {
 							toast('Oh no! something went wrong', {
 								type: 'error',
@@ -54,18 +55,16 @@ export default function Dashboard({ children }) {
 					if (error.status === 404) return;
 
 					if (!user) return;
-					if (!user) return;
 
-					// Only retry up to 3 times.
-					if (retryCount >= 3) return;
 					// Only retry up to 3 times.
 					if (retryCount >= 3) return;
 
 					// Retry after 3 seconds.
 					setTimeout(() => revalidate({ retryCount }), 3000);
 				},
+				revalidateOnFocus: false
 			}}>
-			<Navbar />
+			{/* <Navbar /> */}
 			<div className='flex flex-row'>
 				<Sidebar />
 				{children}

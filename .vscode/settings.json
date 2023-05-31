@@ -8,6 +8,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -21,6 +22,8 @@
 >>>>>>> a4e90ff (signin sheet almost working again)
 =======
 >>>>>>> 560dda2 (not sure)
+=======
+>>>>>>> cleaning-up-my-mess-of-branches
   "npm-intellisense.scanDevDependencies": true,
   "tsimporter.doubleQuotes": true,
   "tsimporter.preferRelative": true,
@@ -41,6 +44,7 @@
   "terminal.integrated.copyOnSelection": true,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "prettier.prettierPath": ".yarn/sdks",
 =======
   "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
@@ -48,11 +52,15 @@
 =======
   "prettier.prettierPath": ".yarn/sdks",
 >>>>>>> e5cbaae (Getting SWR integrated into Recipe Cards)
+=======
+  "prettier.prettierPath": ".yarn/sdks",
+>>>>>>> cleaning-up-my-mess-of-branches
   "path-intellisense.absolutePathTo": "",
   "path-intellisense.absolutePathToWorkspace": true,
   "path-intellisense.autoTriggerNextSuggestion": true,
   "editor.insertSpaces": false,
   "editor.renderWhitespace": "boundary",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -69,6 +77,9 @@
 =======
   "editor.guides.highlightActiveBracketPair": true,
 >>>>>>> e5cbaae (Getting SWR integrated into Recipe Cards)
+=======
+  "editor.guides.highlightActiveBracketPair": true,
+>>>>>>> cleaning-up-my-mess-of-branches
   "editor.definitionLinkOpensInPeek": true,
   "editor.experimental.pasteActions.enabled": true,
   "editor.foldingHighlight": true,
@@ -237,6 +248,9 @@
     "commentStyle": "block"
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cleaning-up-my-mess-of-branches
   "workbench.settings.editor": "json",
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -330,12 +344,16 @@
   "todo-tree.tree.hideTreeWhenEmpty": true,
   "todo-tree.tree.showCountsInTree": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cleaning-up-my-mess-of-branches
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true,
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   }
+<<<<<<< HEAD
 =======
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true
 <<<<<<< HEAD
@@ -527,4 +545,6 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   }
 >>>>>>> b0a585a (reconciling local branch with codespace)
+=======
+>>>>>>> cleaning-up-my-mess-of-branches
 }

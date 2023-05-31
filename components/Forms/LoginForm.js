@@ -1,55 +1,40 @@
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import Link from 'next/link';
-import Loading from '@/components/Loading';
 import { useRouter } from 'next/router';
-import { useState, useEffect, useMemo } from 'react';
-import useSWR from 'swr';
-import useSWRMutation from 'swr/mutation';
-import { useSessionContext } from '@supabase/auth-helpers-react';
+import { useState, } from 'react';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { getAuthRedirectURL } from '@/lib/supabase/helpers';
 
 export default function LoginForm() {
 	const [errorMessage, setErrorMessage] = useState('');
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
 
-	const { session, supabaseClient } = useSessionContext();
+	const supabase = useSupabaseClient()
 
 	const inputStyles = {
 		valid: "focus:border-emerald-400",
 		invalid: "border-red-400",
 	};
 
-	useEffect(() => {
-		if (session) {
-			setLoading(true);
-			router.push('/landing');
-		}
-	}, [router, session]);
-
 	const handleLogin = async (values) => {
-		setLoading(true);
+		setIsLoading(true);
 		const { email, password } = values;
 
-		const { data: user, error } = await supabaseClient.auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email,
-			password,
-
-			// TODO: CHECK IF THIS IS ACTUALLY DOING ANYTHING OR IF IT'S HITTING THE BOTTOM REDIRECT
-			options: {
-				redirectTo: () => getAuthRedirectURL(),
-			},
+			password
 		});
 		if (error) {
+			setIsLoading(false)
 			setErrorMessage('Login failed! Please try again');
 			console.error(error);
+		} else {
+			router.push('/dashboard');
 		}
-
-		if (user) router.push('/dashboard');
-		setLoading(false);
 	};
 
 	const loginSchema = yup.object().shape({
@@ -57,17 +42,6 @@ export default function LoginForm() {
 		password: yup.string().required('Password is required'),
 	});
 
-	const onSubmit = async (values) => {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email: values.email,
-			password: values.password,
-		});
-
-		if (data) router.push("/");
-
-		// TODO: NEED TO DISPLAY ERROR MESSAGE TO USER ON FORM AND FIGURE OUT HOW TO PREVENT AUTOMATIC REDIRECT IF THERE IS AN ERROR WITH LOGIN
-		if (error) console.error(error);
-	};
 
 	return (
 		<Formik
@@ -84,10 +58,8 @@ export default function LoginForm() {
 					<p className="mt-3 text-xl text-center text-gray-600">
 						Welcome back!
 					</p>
-					<div className="">
-						<p className="text-red-500 font-medium text-medium text-center my-2">
-							{errorMessage}
-						</p>
+					<div className="text-red-500 font-medium text-medium text-center my-2">
+						{errorMessage}
 					</div>
 					{/* TODO: decide about Google Sign In and remove Button if not*/}
 					<a
@@ -119,185 +91,118 @@ export default function LoginForm() {
 							Sign in with Google
 						</span>
 					</a>
-					<span className="w-5/6 px-4 py-3 font-bold text-center">
-						Sign in with Google
-					</span>
-				</a>
 
 					{/* Login with email horizontal line break */}
-			<div className="flex items-center justify-between mt-3">
-				<span className="w-1/5 border border-green-400 lg:w-1/4"></span>
-				{/* Login with email horizontal line break */}
-				<div className="flex items-center justify-between mt-3">
-					<span className="w-1/5 border border-green-400 lg:w-1/4"></span>
+					<div className="flex items-center justify-between mt-3">
+						<span className="w-1/5 border border-green-400 lg:w-1/4"></span>
+						{/* Login with email horizontal line break */}
 
-					<span className="text-sm text-center text-green-500 font-semibold">
-						Or login with Email
-					</span>
-					<span className="text-sm text-center text-green-500 font-semibold">
-						Or login with Email
-					</span>
+						<span className="text-sm text-center text-green-500 font-semibold">
+							Or login with Email
+						</span>
 
-					<span className="w-1/5 border border-green-400 lg:w-1/4"></span>
-				</div>
-				<span className="w-1/5 border border-green-400 lg:w-1/4"></span>
-			</div>
-
-			{/* Email input */}
-			<div className="mt-4">
-				<div className="flex justify-between">
-					<label
-						className="block mb-2 text-base font-bold text-gray-600 "
-						htmlFor="email"
-					>
-						Email
-					</label>
-				</div>
-				{/* Email input */}
-				<div className="mt-4">
-					<div className="flex justify-between">
-						<label
-							className="block mb-2 text-base font-bold text-gray-600 "
-							htmlFor="email"
-						>
-							Email
-						</label>
+						<span className="w-1/5 border border-green-400 lg:w-1/4"></span>
 					</div>
 
-					<Field
-						className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
-            ${errors.email && touched.email
-								? inputStyles.invalid
-								: inputStyles.valid
-							}`}
-						name="email"
-						placeholder="Email"
-					/>
-					{touched.email && errors.email ? (
-						<div className="text-sm text-red-500 mt-1 font-medium">
-							{errors.email}
+					{/* Email input */}
+					<div className="mt-4">
+						<div className="flex justify-between">
+							<label
+								className="block mb-2 text-base font-bold text-gray-600 "
+								htmlFor="email"
+							>
+								Email
+							</label>
 						</div>
-					) : null}
-				</div>
-				<Field
-					className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
-            ${errors.email && touched.email
-							? inputStyles.invalid
-							: inputStyles.valid
-						}`}
-					name="email"
-					placeholder="Email"
-				/>
-				{touched.email && errors.email ? (
-					<div className="text-sm text-red-500 mt-1 font-medium">
-						{errors.email}
-					</div>
-				) : null}
-			</div>
 
-			{/* Password input with forgot password link */}
-			<div className="mt-3">
-				<div className="flex justify-between">
-					<label
-						className="block mb-2 text-base font-bold text-gray-600 "
-						htmlFor="loggingPassword"
-					>
-						Password
-					</label>
-					<a
-						href="#"
-						className="text-sm text-emerald-500 hover:underline"
-					>
-						Forget Password?
-					</a>
-				</div>
-				{/* Password input with forgot password link */}
-				<div className="mt-3">
-					<div className="flex justify-between">
-						<label
-							className="block mb-2 text-base font-bold text-gray-600 "
-							htmlFor="loggingPassword"
-						>
-							Password
-						</label>
-						<a href="#" className="text-sm text-emerald-500 hover:underline">
-							Forget Password?
-						</a>
+						<Field
+							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none 
+            				${errors.email && touched.email
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
+							name="email"
+							placeholder="Email"
+						/>
+						{touched.email && errors.email ? (
+							<div className="text-sm text-red-500 mt-1 font-medium">
+								{errors.email}
+							</div>
+						) : null}
 					</div>
 
-					<Field
-						name="password"
-						placeholder="Password"
-						className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
-            ${errors.password && touched.password
-								? inputStyles.invalid
-								: inputStyles.valid
-							}`}
-						type="password"
-					/>
-					{touched.password && errors.password ? (
-						<div className="text-sm text-red-500 mt-1 font-medium">
-							{errors.password}
+
+					{/* Password input with forgot password link */}
+					<div className="mt-3">
+						<div className="flex justify-between">
+							<label
+								className="block mb-2 text-base font-bold text-gray-600 "
+								htmlFor="loggingPassword"
+							>
+								Password
+							</label>
+							<a
+								href="#"
+								className="text-sm text-emerald-500 hover:underline"
+							>
+								Forget Password?
+							</a>
 						</div>
-					) : null}
-				</div>
-				<Field
-					name="password"
-					placeholder="Password"
-					className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
-            ${errors.password && touched.password
-							? inputStyles.invalid
-							: inputStyles.valid
-						}`}
-					type="password"
-				/>
-				{touched.password && errors.password ? (
-					<div className="text-sm text-red-500 mt-1 font-medium">
-						{errors.password}
+
+						<Field
+							name="password"
+							placeholder="Password"
+							className={`block w-full px-4 py-2 text-gray-700 bg-white border-2 rounded-lg  focus:ring-opacity-40  focus:outline-none
+            				${errors.password && touched.password
+									? inputStyles.invalid
+									: inputStyles.valid
+								}`}
+							type="password"
+						/>
+						{touched.password && errors.password ? (
+							<div className="text-sm text-red-500 mt-1 font-medium">
+								{errors.password}
+							</div>
+						) : null}
 					</div>
-				) : null}
-			</div>
 
-			{/* Sign In Button */}
-			<div className='mt-6'>
-				<button
-					type='submit'
-					className='w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 '
-					disabled={!isValid || loading}>
-					{!loading ? (
-						'Sign In'
-					) : (
-						<div className='flex flex-row align-middle justify-center items-center'>
-							<FontAwesomeIcon
-								className='w-4 h-4'
-								icon={faCircleNotch}
-								spin
-							/>{' '}
-							<span>Loading</span>{' '}
-						</div>
-					)}
-				</button>
-			</div>
 
+
+					{/* Sign In Button */}
+					<div className='mt-6'>
+						<button
+							type='submit'
+							className='w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500  rounded-lg disabled:bg-emerald-300 enabled:hover:bg-emerald-300 enabled:focus:outline-none enabled:focus:ring enabled:focus:ring-emerald-500 enabled:focus:ring-opacity-50 '
+							disabled={!isValid || isLoading}>
+							{!isLoading ? (
+								'Sign In'
+							) : (
+								<div className='flex flex-row align-middle justify-center items-center'>
+									<FontAwesomeIcon
+										className='w-4 h-4'
+										icon={faCircleNotch}
+										spin
+									/>
+									<span>Loading</span>
+								</div>
+							)}
+						</button>
+					</div>
+
+				</Form>)
+			}
 			{/* Sign up redirect link */}
 			<div className="flex items-center justify-center mt-4">
 				<span className="text-sm text-center text-green-500 font-semibold mr-3">
 					Need to make an account?
 				</span>
-				{/* Sign up redirect link */}
-				<div className="flex items-center justify-center mt-4">
-					<span className="text-sm text-center text-green-500 font-semibold mr-3">
-						Need to make an account?
-					</span>
 
-					<Link
-						href='/auth/signup'
-						className='text-sm text-green-500 font-semibold hover:underline'>
-						Sign up here
-					</Link>
-				</div>
-			</Form>
-			)}
-		</Formik>
+				<Link
+					href='/auth/signup'
+					className='text-sm text-green-500 font-semibold hover:underline'>
+					Sign up here
+				</Link>
+			</div>
+		</Formik >
 	);
 }

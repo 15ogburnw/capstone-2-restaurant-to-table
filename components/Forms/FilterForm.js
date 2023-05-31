@@ -42,11 +42,10 @@ export default function FilterForm() {
         key="meal-types-group"
         name="meal-types-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          mealTypesCollapsed
+        className={`font-bold text-md underline mt-4 ${mealTypesCollapsed
             ? "text-gray-600 hover:text-gray-500"
             : "text-emerald-600 hover:text-emerald-500"
-        } cursor-pointer`}
+          } cursor-pointer`}
       >
         Meal Types
         {mealTypesCollapsed ? (
@@ -78,7 +77,7 @@ export default function FilterForm() {
                   type="checkbox"
                   className="mr-2 inline cursor-pointer accent-emerald-600"
                   id={label}
-                  name="mealTypes"
+                  name="mealType"
                   value={label}
                 />
                 <label
@@ -97,11 +96,10 @@ export default function FilterForm() {
         key="cuisine-types-group"
         name="cuisine-types-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          cuisineTypesCollapsed
+        className={`font-bold text-md underline mt-4 ${cuisineTypesCollapsed
             ? "text-gray-600 hover:text-gray-500"
             : "text-emerald-600 hover:text-emerald-500"
-        } cursor-pointer`}
+          } cursor-pointer`}
       >
         Cuisine Types
         {cuisineTypesCollapsed ? (
@@ -133,7 +131,7 @@ export default function FilterForm() {
                   type="checkbox"
                   className="mr-2 inline cursor-pointer accent-emerald-600"
                   id={label}
-                  name="cuisineTypes"
+                  name="cuisineType"
                   value={label}
                 />
                 <label
@@ -151,11 +149,10 @@ export default function FilterForm() {
       <div
         name="dish-types-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          dishTypesCollapsed
+        className={`font-bold text-md underline mt-4 ${dishTypesCollapsed
             ? "text-gray-600 hover:text-gray-500"
             : "text-emerald-600 hover:text-emerald-500"
-        } cursor-pointer`}
+          } cursor-pointer`}
       >
         Dish Types
         {dishTypesCollapsed ? (
@@ -187,7 +184,7 @@ export default function FilterForm() {
                   type="checkbox"
                   className="mr-2 inline cursor-pointer accent-emerald-600"
                   id={label}
-                  name="dishTypes"
+                  name="dishType"
                   value={label}
                 />
                 <label
@@ -206,11 +203,10 @@ export default function FilterForm() {
       <div
         name="diet-labels-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          dietLabelsCollapsed
+        className={`font-bold text-md underline mt-4 ${dietLabelsCollapsed
             ? "text-gray-600 hover:text-gray-500"
             : "text-emerald-600 hover:text-emerald-500"
-        } cursor-pointer`}
+          } cursor-pointer`}
       >
         Diet Labels
         {dietLabelsCollapsed ? (
@@ -242,7 +238,7 @@ export default function FilterForm() {
                   type="checkbox"
                   className="mr-2 inline cursor-pointer accent-emerald-600"
                   id={item.label}
-                  name="dietLabels"
+                  name="diet"
                   value={item.value}
                 />
                 <label
@@ -260,11 +256,10 @@ export default function FilterForm() {
       <div
         name="health-labels-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          healthLabelsCollapsed
+        className={`font-bold text-md underline mt-4 ${healthLabelsCollapsed
             ? "text-gray-600 hover:text-gray-500"
             : "text-emerald-600 hover:text-emerald-500"
-        } cursor-pointer`}
+          } cursor-pointer`}
       >
         Health Labels
         {healthLabelsCollapsed ? (
@@ -296,7 +291,7 @@ export default function FilterForm() {
                   type="checkbox"
                   className="accent-emerald-600 mr-2 cursor-pointer"
                   id={item.label}
-                  name="healthLabels"
+                  name="health"
                   value={item.value}
                 />
                 <label

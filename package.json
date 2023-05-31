@@ -8,8 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir layouts --dir pages --dir components --dir lib",
-    "fresh-install": "rm -rf .next/ && rm -rf yarn.lock && yarn && yarn dev",
-    "supabase": "supabase init"
+    "supabase": "supabase init",
+    "fresh-install": "rm -rf .next/ && rm -rf yarn.lock && yarn && yarn dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
@@ -25,12 +25,13 @@
     "@supabase/supabase-js": "^2.21.0",
     "@types/node": "^18.16.3",
     "@yarnpkg/core": "^4.0.0-rc.42",
+    "body-parser": "^1.20.2",
     "csstype": "^3.0.0",
     "destack": "^2.0.18",
     "formik": "^2.2.9",
     "fuse.js": "^6.6.2",
     "jsonwebtoken": "^9.0.0",
-    "next": "13.3.2",
+    "next": "^13.4.4",
     "plaiceholder": "^2.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -48,6 +49,7 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@types/body-parser": "^1",
     "@types/react-is": "^18",
     "@types/styled-components": "^5.1.26",
     "@yarnpkg/sdks": "^3.0.0-rc.42",

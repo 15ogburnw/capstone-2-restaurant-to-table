@@ -1,3 +1,5 @@
+import recipes from './recipes'
+export default recipes;
 import { replaceSpaces, makeURL, truncateRecipe } from "@/lib/edamam/helpers";
 import { EDAMAM_API_URL } from "@/lib/edamam/filters";
 import { getPlaiceholder } from "plaiceholder";

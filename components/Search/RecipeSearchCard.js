@@ -1,5 +1,4 @@
 
-
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,9 +17,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
-import { useState } from 'react';
+// React components
+import { useState, useEffect } from 'react';
 
-// aesthetic components
+// UI components
 import Tooltip from '../Tooltips/TopTooltip';
 
 // Get global SWR config
@@ -29,60 +29,66 @@ import {
 	addRecipe, removeRecipe
 } from '@/public/apiQueries';
 
+// Supabase
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+
+
+
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
+// TODO: GET FAVORITES AND SAVES WORKING AGAIN
 
-export default function RecipeSearchCard({ recipe }) {
+// TODO: FINISH STYLING THIS
+
+/**
+ * TODO TIMELINE: 
+ * FIRST ==> GET THIS PAGE WORKING AGAIN!!! NEED TO BE ABLE TO ADD AND REMOVE SAVES AND FAVORITES, PAGINATE WITH SWR, AND NO EXTRANEOUS ERRORS. 
+ * NEXT ==> WORK ON USER - COMPLETE THE REST OF THE USER CREATION PATHWAY AND BUILD OUT THE USER PROFILE PAGE. 
+ * NEXT ==> BUILD OUT GUI FOR RECIPE PAGES AND MENU PAGES. ALONG THE WAY ==> IRON OUT ERROR HANDLING STRATEGIES AND OTHER ORGANIZATIONAL KINKS. 
+ * NEXT ==> FIGURE OUT PLAN FOR RESTAURANT SEARCHING FUNCTIONALITY, THEN INTEGRATE RECOMMENDATIONS.
+ */
+
+
+export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes }) {
+
 	const [hoveredIcon, setHoveredIcon] = useState(null);
-	// const [url, setUrl] = useState(null);
 	const [tooltipShowing, setTooltipShowing] = useState(false);
-	// const [method, setMethod] = useState(null);
-	const [favorites, setFavorites] = useState(null);
-	const [saved, setSaved] = useState(null);
+	const [isFavorite, setIsFavorite] = useState()
+	const [isSaved, setIsSaved] = useState()
+	const user = useUser()
+	const supabase = useSupabaseClient();
 
-	const { data: favoriteRecipes } = useSWR('/api/user/favorite-recipes', (url) => fetch(url));
-	const { data: savedRecipes } = useSWR('/api/user/saved-recipes', (url) => fetch(url));
-
-	// when favorite recipes array changes, map its ID's to a separate array
 	useEffect(() => {
-		if (favoriteRecipes) {
-			setFavorites(favoriteRecipes.map((val) => val.id))
+		if (favoriteRecipes && favoriteRecipes.length > 0) {
+			console.log('recipeSearchCard::favoriteRecipes', console.log(favoriteRecipes))
+			if (favoriteRecipes.map((val) => val.id).includes(recipe.id)) {
+				setIsFavorite(true)
+			} else {
+				setIsFavorite(false)
+			}
 		}
+	}, [favoriteRecipes, recipe.id])
 
-	}, [favoriteRecipes])
-
-	// when saved recipes array changes, map its ID's to a separate array
 	useEffect(() => {
-		if (savedRecipes) {
-			setSaved(savedRecipes.map((val) => val.id))
+		if (savedRecipes && savedRecipes.length > 0) {
+			console.log('recipeSearchCard::savedRecipes', console.log(savedRecipes))
+			if (savedRecipes.map((val) => val.id).includes(recipe.id)) {
+				setIsSaved(true)
+			} else {
+				setIsSaved(false)
+			}
 		}
+	}, [savedRecipes, recipe.id])
 
-	}, [savedRecipes])
 
+	const { trigger: addSave, isMutating: addingSave } = useSWRMutation('/api/user/saved-recipes', addRecipe)
 
-	/** initialize an SWR mutate hook that returns a data object with favorites and saved recipes when
-	 * triggered
-	 * TODO: Need to split this up into two separate hooks, one for favorites and one for saves. We explicitly define the url on each of these, and we don't re-reference the url when calling each trigger function. remove the url state, and just add the url logic explicitly. Don't think we need the method state either, but how do we determine if a recipe is currently in favorites or saves?
-	 */
+	const { trigger: removeSave, isMutating: removingSave } = useSWRMutation('/api/user/saved-recipes', removeRecipe)
 
-	// const { data, trigger, isMutating, reset } = useSWRMutation(
-	// 	url,
-	// 	toggleRecipeStatus,
-	// 	{
-	// 		onSuccess: ({ data, key, config }) => {
-	// 			toast(`We have successfully mutated your data at key ${key}`, {
-	// 				type: toast.TYPE.SUCCESS,
-	// 			});
-	// 			reset();
-	// 		},
-	// 		onError: (err, key, config) => {
-	// 			toast(`Oh no! there was an error mutating your data at key ${key}`, {
-	// 				type: toast.TYPE.ERROR,
-	// 			});
-	// 			reset();
-	// 		},
-	// 	}
-	// );
+	const { trigger: addFavorite, isMutating: addingFavorite } = useSWRMutation('/api/user/favorite-recipes', addRecipe)
+
+	const { trigger: removeFavorite, isMutating: removingFavorite } = useSWRMutation('/api/user/favorite-recipes', removeRecipe)
+
 
 	// TODO: TRY OUT THE PACKAGE THAT I INSTALLED THAT HANDLES MODALS AND TOOLTIPS
 	const showTooltip = (name) => {
@@ -104,30 +110,12 @@ export default function RecipeSearchCard({ recipe }) {
 		showTooltip(name);
 	};
 
-	/**
-	 * handle clicking on an icon by calling one of our mutate functions from above. We will use a loading spinner rather
-	 * than optimistic data loading for now
-	 *
-	 *
-	 * TODO TIMELINE: 
-	 * FIRST ==> GET THIS PAGE WORKING AGAIN!!! NEED TO BE ABLE TO ADD AND REMOVE SAVES AND FAVORITES, PAGINATE WITH SWR, AND NO EXTRANEOUS ERRORS. 
-	 * NEXT ==> WORK ON USER - COMPLETE THE REST OF THE USER CREATION PATHWAY AND BUILD OUT THE USER PROFILE PAGE. 
-	 * NEXT ==> BUILD OUT GUI FOR RECIPE PAGES AND MENU PAGES. ALONG THE WAY ==> IRON OUT ERROR HANDLING STRATEGIES AND OTHER ORGANIZATIONAL KINKS. 
-	 * NEXT ==> FIGURE OUT PLAN FOR RESTAURANT SEARCHING FUNCTIONALITY, THEN INTEGRATE RECOMMENDATIONS.
-	 */
-
-	// TODO: CHANGE THIS LOGIC... REFERENCE THE HOVER STATE TO GET THE APPROPRIATE TRIGGER FUNCTION AND CALL IT
-	const handleIconClick = async (e) => {
-		console.log(e);
-		e.preventDefault();
-		// console.log(`on click at ${e.target}`, url, toggleRecipeStatus);
-		// trigger({ url, recipe });
-	};
 
 	// TODO: NEED TO WRITE THIS FUNCTIONALITY... selection dropdown for adding recipe to a menu
 	const showAddOptions = (e) => {
 		e.preventDefault();
 	};
+
 
 	return (
 		<Link href={`/dashboard/recipes/${recipe.id}`}>
@@ -164,13 +152,28 @@ export default function RecipeSearchCard({ recipe }) {
 						className=' px-4 py-1 text-sm font-semibold whitespace-nowrap flex flex-row'>
 						{/* If the favorite recipes state is not currently loading or validating, show heart icon,
 							otherwise show a small loading spinner */}
-						{favoriteRecipes ? (
+						{!addingFavorite && !removingFavorite ? (
 							<div
-								onClick={handleIconClick}
+								// TODO: ADD A TOAST TO THIS FOR SUCCESS AND FAIL
+								onClick={async (e) => {
+									e.preventDefault()
+									try {
+										if (isFavorite) {
+											const result = await removeFavorite(recipe)
+											console.log('AFTER FAVORITE REMOVED::', result)
+										} else {
+											const result = await addFavorite(recipe)
+											console.log('AFTER FAVORITE ADDED::', result)
+										}
+									} catch (e) {
+										console.error(e);
+										console.log(e.message)
+									}
+								}}
 								onMouseEnter={() => handleHover('heart')}
 								onMouseLeave={() => handleHover(null)}
 								className='h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait'>
-								{hoveredIcon === 'heart' || favorites?.includes(recipe.id) ? (
+								{hoveredIcon === 'heart' || isFavorite ? (
 									<HeartIconSolid className='text-red-500 stroke-2' />
 								) : (
 									<HeartIcon className='text-red-500 stroke-2' />
@@ -178,7 +181,7 @@ export default function RecipeSearchCard({ recipe }) {
 								{hoveredIcon === 'heart' && tooltipShowing ? (
 									<Tooltip
 										message={
-											favorites?.includes(recipe.id)
+											isFavorite
 												? 'Remove recipe from your favs' :
 												'Add recipe to your favs'
 										}
@@ -194,13 +197,28 @@ export default function RecipeSearchCard({ recipe }) {
 							/>
 						)}
 
-						{savedRecipes ? (
+						{!addingSave && !removingSave ? (
 							<div
-								onClick={handleIconClick}
+								onClick={async (e) => {
+									e.preventDefault()
+									try {
+
+										if (isSaved) {
+											const result = await removeSave(recipe)
+											console.log('AFTER SAVE REMOVED::', result)
+										} else {
+											const result = await addSave(recipe)
+											console.log('AFTER SAVE ADDED::', result)
+										}
+									} catch (e) {
+										console.error(e);
+										console.log(e.message)
+									}
+								}}
 								onMouseEnter={() => handleHover('save')}
 								onMouseLeave={() => handleHover(null)}
 								className='h-6 w-6 ml-3 cursor-pointer'>
-								{hoveredIcon === 'save' || saved?.includes(recipe.id) ? (
+								{hoveredIcon === 'save' || isSaved ? (
 									<ArrowDownCircleIconSolid className='text-emerald-600 stroke-2' />
 								) : (
 									<ArrowDownCircleIcon className='text-emerald-600 stroke-2' />
@@ -208,7 +226,7 @@ export default function RecipeSearchCard({ recipe }) {
 								{hoveredIcon === 'save' && tooltipShowing ? (
 									<Tooltip
 										message={
-											saved?.includes(recipe.id)
+											isSaved
 												? 'Remove this recipe from your saved recipes'
 												: 'Save this recipe for later'
 										}
