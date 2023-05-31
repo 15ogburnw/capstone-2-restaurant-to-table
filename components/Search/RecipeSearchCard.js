@@ -1,4 +1,3 @@
-
 // Next components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -24,15 +23,11 @@ import { useState, useEffect } from 'react';
 import Tooltip from '../Tooltips/TopTooltip';
 
 // Get global SWR config
-import useSWRMutation from 'swr/mutation'
-import {
-	addRecipe, removeRecipe
-} from '@/public/apiQueries';
+import useSWRMutation from 'swr/mutation';
+import { addRecipe, removeRecipe } from '@/public/apiQueries';
 
 // Supabase
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-
-
 
 // TODO: IMPLEMENT FUNCTIONALITY FOR ADDING RECIPES TO MENUS (ONCE I HAVE COMPLETED THE MENU CREATION/UPDATING FUNCTIONALITY)
 
@@ -41,54 +36,65 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 // TODO: FINISH STYLING THIS
 
 /**
- * TODO TIMELINE: 
- * FIRST ==> GET THIS PAGE WORKING AGAIN!!! NEED TO BE ABLE TO ADD AND REMOVE SAVES AND FAVORITES, PAGINATE WITH SWR, AND NO EXTRANEOUS ERRORS. 
- * NEXT ==> WORK ON USER - COMPLETE THE REST OF THE USER CREATION PATHWAY AND BUILD OUT THE USER PROFILE PAGE. 
- * NEXT ==> BUILD OUT GUI FOR RECIPE PAGES AND MENU PAGES. ALONG THE WAY ==> IRON OUT ERROR HANDLING STRATEGIES AND OTHER ORGANIZATIONAL KINKS. 
+ * TODO TIMELINE:
+ * FIRST ==> GET THIS PAGE WORKING AGAIN!!! NEED TO BE ABLE TO ADD AND REMOVE SAVES AND FAVORITES, PAGINATE WITH SWR, AND NO EXTRANEOUS ERRORS.
+ * NEXT ==> WORK ON USER - COMPLETE THE REST OF THE USER CREATION PATHWAY AND BUILD OUT THE USER PROFILE PAGE.
+ * NEXT ==> BUILD OUT GUI FOR RECIPE PAGES AND MENU PAGES. ALONG THE WAY ==> IRON OUT ERROR HANDLING STRATEGIES AND OTHER ORGANIZATIONAL KINKS.
  * NEXT ==> FIGURE OUT PLAN FOR RESTAURANT SEARCHING FUNCTIONALITY, THEN INTEGRATE RECOMMENDATIONS.
  */
 
-
-export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes }) {
-
+export default function RecipeSearchCard({
+	recipe,
+	favoriteRecipes,
+	savedRecipes,
+}) {
 	const [hoveredIcon, setHoveredIcon] = useState(null);
 	const [tooltipShowing, setTooltipShowing] = useState(false);
-	const [isFavorite, setIsFavorite] = useState()
-	const [isSaved, setIsSaved] = useState()
-	const user = useUser()
+	const [isFavorite, setIsFavorite] = useState();
+	const [isSaved, setIsSaved] = useState();
+	const user = useUser();
 	const supabase = useSupabaseClient();
 
 	useEffect(() => {
-		if (favoriteRecipes && favoriteRecipes.length > 0) {
-			console.log('recipeSearchCard::favoriteRecipes', console.log(favoriteRecipes))
+		if (favoriteRecipes) {
+			console.log('number of favorites: ', favoriteRecipes.length);
+			console.log('recipeSearchCard::favoriteRecipes', favoriteRecipes);
 			if (favoriteRecipes.map((val) => val.id).includes(recipe.id)) {
-				setIsFavorite(true)
+				setIsFavorite(true);
 			} else {
-				setIsFavorite(false)
+				setIsFavorite(false);
 			}
 		}
-	}, [favoriteRecipes, recipe.id])
+	}, [favoriteRecipes, recipe.id]);
 
 	useEffect(() => {
-		if (savedRecipes && savedRecipes.length > 0) {
-			console.log('recipeSearchCard::savedRecipes', console.log(savedRecipes))
+		if (savedRecipes) {
+			console.log('recipeSearchCard::savedRecipes', savedRecipes);
 			if (savedRecipes.map((val) => val.id).includes(recipe.id)) {
-				setIsSaved(true)
+				setIsSaved(true);
 			} else {
-				setIsSaved(false)
+				setIsSaved(false);
 			}
 		}
-	}, [savedRecipes, recipe.id])
+	}, [savedRecipes, recipe.id]);
 
+	const { trigger: addSave, isMutating: addingSave } = useSWRMutation(
+		'/api/user/saved-recipes',
+		addRecipe
+	);
 
-	const { trigger: addSave, isMutating: addingSave } = useSWRMutation('/api/user/saved-recipes', addRecipe)
+	const { trigger: removeSave, isMutating: removingSave } = useSWRMutation(
+		'/api/user/saved-recipes',
+		removeRecipe
+	);
 
-	const { trigger: removeSave, isMutating: removingSave } = useSWRMutation('/api/user/saved-recipes', removeRecipe)
+	const { trigger: addFavorite, isMutating: addingFavorite } = useSWRMutation(
+		'/api/user/favorite-recipes',
+		addRecipe
+	);
 
-	const { trigger: addFavorite, isMutating: addingFavorite } = useSWRMutation('/api/user/favorite-recipes', addRecipe)
-
-	const { trigger: removeFavorite, isMutating: removingFavorite } = useSWRMutation('/api/user/favorite-recipes', removeRecipe)
-
+	const { trigger: removeFavorite, isMutating: removingFavorite } =
+		useSWRMutation('/api/user/favorite-recipes', removeRecipe);
 
 	// TODO: TRY OUT THE PACKAGE THAT I INSTALLED THAT HANDLES MODALS AND TOOLTIPS
 	const showTooltip = (name) => {
@@ -110,12 +116,10 @@ export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes
 		showTooltip(name);
 	};
 
-
 	// TODO: NEED TO WRITE THIS FUNCTIONALITY... selection dropdown for adding recipe to a menu
 	const showAddOptions = (e) => {
 		e.preventDefault();
 	};
-
 
 	return (
 		<Link href={`/dashboard/recipes/${recipe.id}`}>
@@ -132,47 +136,47 @@ export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes
 					/>
 				</div>
 				<div className='flex flex-col items-start justify-start align-top'>
-					<div className=' px-4 py-1 text-md font-bold whitespace-nowrap'>
+					<div className=' px-4  text-xl font-bold whitespace-nowrap'>
 						{recipe.name}
 					</div>
-					<div className=' px-4 py-1 text-sm font-semibold whitespace-nowrap'>
+					<div className=' px-4  text-md font-semibold whitespace-nowrap'>
 						Serves: {recipe.servings}
 					</div>
-					<div className=' px-4 py-1 text-sm font-semibold whitespace-nowrap'>
+					<div className=' px-4  text-md font-semibold whitespace-nowrap'>
 						Total calories: {Math.floor(recipe.calories)}
 					</div>
 
-					<div className=' px-4 py-1 text-sm font-semibold whitespace-nowrap'>
+					<div className=' px-4 pb-1 text-md font-semibold whitespace-nowrap'>
 						Total cook time:{' '}
 						{recipe.totalTime ? `${recipe.totalTime} minutes` : 'Not provided'}
 					</div>
 
 					<div
 						onMouseLeave={() => handleHover(null)}
-						className=' px-4 py-1 text-sm font-semibold whitespace-nowrap flex flex-row'>
+						className=' px-4 py-1 text-md font-semibold whitespace-nowrap flex flex-row'>
 						{/* If the favorite recipes state is not currently loading or validating, show heart icon,
 							otherwise show a small loading spinner */}
 						{!addingFavorite && !removingFavorite ? (
 							<div
 								// TODO: ADD A TOAST TO THIS FOR SUCCESS AND FAIL
 								onClick={async (e) => {
-									e.preventDefault()
+									e.preventDefault();
 									try {
 										if (isFavorite) {
-											const result = await removeFavorite(recipe)
-											console.log('AFTER FAVORITE REMOVED::', result)
+											const result = await removeFavorite(recipe);
+											console.log('AFTER FAVORITE REMOVED::', result);
 										} else {
-											const result = await addFavorite(recipe)
-											console.log('AFTER FAVORITE ADDED::', result)
+											const result = await addFavorite(recipe);
+											console.log('AFTER FAVORITE ADDED::', result);
 										}
 									} catch (e) {
 										console.error(e);
-										console.log(e.message)
+										console.log(e.message);
 									}
 								}}
 								onMouseEnter={() => handleHover('heart')}
 								onMouseLeave={() => handleHover(null)}
-								className='h-6 w-6 ml-3 cursor-pointer disabled:cursor-wait'>
+								className='h-8 w-8 ml-3 cursor-pointer disabled:cursor-wait'>
 								{hoveredIcon === 'heart' || isFavorite ? (
 									<HeartIconSolid className='text-red-500 stroke-2' />
 								) : (
@@ -182,8 +186,8 @@ export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes
 									<Tooltip
 										message={
 											isFavorite
-												? 'Remove recipe from your favs' :
-												'Add recipe to your favs'
+												? 'Remove recipe from your favs'
+												: 'Add recipe to your favs'
 										}
 										adjustments='ml-3 bottom-14'
 									/>
@@ -200,24 +204,23 @@ export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes
 						{!addingSave && !removingSave ? (
 							<div
 								onClick={async (e) => {
-									e.preventDefault()
+									e.preventDefault();
 									try {
-
 										if (isSaved) {
-											const result = await removeSave(recipe)
-											console.log('AFTER SAVE REMOVED::', result)
+											const result = await removeSave(recipe);
+											console.log('AFTER SAVE REMOVED::', result);
 										} else {
-											const result = await addSave(recipe)
-											console.log('AFTER SAVE ADDED::', result)
+											const result = await addSave(recipe);
+											console.log('AFTER SAVE ADDED::', result);
 										}
 									} catch (e) {
 										console.error(e);
-										console.log(e.message)
+										console.log(e.message);
 									}
 								}}
 								onMouseEnter={() => handleHover('save')}
 								onMouseLeave={() => handleHover(null)}
-								className='h-6 w-6 ml-3 cursor-pointer'>
+								className='h-8 w-8 fa-s cursor-pointer'>
 								{hoveredIcon === 'save' || isSaved ? (
 									<ArrowDownCircleIconSolid className='text-emerald-600 stroke-2' />
 								) : (
@@ -230,13 +233,13 @@ export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes
 												? 'Remove this recipe from your saved recipes'
 												: 'Save this recipe for later'
 										}
-										adjustments='ml-3 bottom-14'
+										adjustments='ml-3  bottom-14'
 									/>
 								) : null}
 							</div>
 						) : (
 							<FontAwesomeIcon
-								className='h-5 w-5 ml-3'
+								className='h-10 w-10 ml-3'
 								icon={faCircleNotch}
 								spin
 							/>
@@ -246,7 +249,7 @@ export default function RecipeSearchCard({ recipe, favoriteRecipes, savedRecipes
 							onClick={showAddOptions}
 							onMouseEnter={() => handleHover('menu')}
 							onMouseLeave={() => handleHover(null)}
-							className='h-6 w-6 ml-3 cursor-pointer'>
+							className='h-8 w-8 ml-3 cursor-pointer'>
 							{hoveredIcon === 'menu' ? (
 								<ClipboardDocumentListIconSolid className='text-blue-600 stroke-2' />
 							) : (

@@ -1,6 +1,7 @@
 {
-  "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "arcanis.vscode-zipfs"
-  ]
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"arcanis.vscode-zipfs",
+		"bradlc.vscode-tailwindcss"
+	]
 }

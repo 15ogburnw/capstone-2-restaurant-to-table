@@ -6,7 +6,6 @@ import { useUser } from '@supabase/auth-helpers-react';
 import Script from 'next/script';
 import toast from 'react-toastify';
 
-
 export default function Dashboard({ children }) {
 	const user = useUser();
 
@@ -19,12 +18,10 @@ export default function Dashboard({ children }) {
 					const res = await fetch(args);
 
 					if (!res.ok) {
-						const error = new Error(
-
-						);
+						const error = new Error();
 						// Attach extra info to the error object.
 						const { message } = await res.json();
-						error.message = message
+						error.message = message;
 						error.status = res.status;
 						throw error;
 					}
@@ -36,7 +33,7 @@ export default function Dashboard({ children }) {
 						// TODO:We can send the error to Sentry,
 						// Make a toast message that says retrying if we are going to try again, and a final error if we are out of tries
 						console.log(error);
-						console.log('oh no! there was an error')
+						console.log('oh no! there was an error');
 						const errorToast = () => {
 							toast('Oh no! something went wrong', {
 								type: 'error',
@@ -62,7 +59,7 @@ export default function Dashboard({ children }) {
 					// Retry after 3 seconds.
 					setTimeout(() => revalidate({ retryCount }), 3000);
 				},
-				revalidateOnFocus: false
+				revalidateOnFocus: false,
 			}}>
 			{/* <Navbar /> */}
 			<div className='flex flex-row'>

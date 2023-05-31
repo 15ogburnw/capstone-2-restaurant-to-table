@@ -65,7 +65,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 		setSearchLoading(isLoading)
 	}, [isLoading, setSearchLoading])
 
-	return (<>
+	return (
 		<div className='flex  mt-2 border border-gray-400 bg-white rounded-lg min-h-[500px] max-h-[750px]  overflow-hidden'>
 			<div className='flex flex-col items-start w-full overflow-auto'>
 
@@ -97,18 +97,8 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 					) : null}
 				</div>
 
-				export default function SearchResults({children}) {
-  const favorites = useSWR("/api/user/favorite-recipes");
-				const saved = useSWR("/api/user/saved-recipes");
-				return (
-				<div className="flex  mt-2 border border-gray-400 bg-white rounded-lg min-h-[500px] max-h-[750px]  overflow-hidden">
-					<div className="flex flex-col items-start w-full overflow-auto">
-						{favorites.isLoading || saved.isLoading ? (
-							<Loading sz="xl" />
-						) : (
-							children
-						)}
-					</div>
-				</div>
-				);
+
+			</div>
+		</div>
+	)
 }

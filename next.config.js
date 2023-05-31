@@ -6,18 +6,15 @@ const nextConfig = {
     buildActivity: true,
     buildActivityPosition: "bottom-left",
   },
-  redirects: async () => [
-    {
-      source: "/",
-      destination: "/landing",
-      permanent: false,
-    },
-    {
-      source: "",
-      destination: "/landing",
-      permanent: false,
-    },
-  ],
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/landing",
+        permanent: false,
+      }
+    ]
+  },
   images: {
     remotePatterns: [
       {
@@ -41,7 +38,6 @@ const nextConfig = {
         hostname: "edamam-product-images.s3.amazonaws.com",
       },
       {
-        protocol: "https",
         hostname: "en.expensereduction.com"
       }
     ],
