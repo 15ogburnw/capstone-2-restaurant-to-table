@@ -26,12 +26,12 @@ export default function LandingPage() {
               <div className="items-center inline-flex gap-2 lg:ml-auto md:mt-0 mt-3 list-none">
                 <Link
                   href="/auth/login"
-                  className="text-primary-800 text-2xl py-2 relative group  hover:text-primary-800/60 font-bold lg:mx-4 md:mx-3 mx-2">
+                  className="text-primary-700 text-2xl py-2 relative group  hover:text-primary-800/60 font-extrabold lg:mx-4 md:mx-3 mx-2">
                   Login
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="bg-primary-800 text-xl py-1.5 leading-none focus:outline-none px-2 border-4 border-primary-800 hover:border-primary-800/60 duration-200 active:text-primary-800 focus-visible:outline-2 focus-visible:outline-primary-800 focus-visible:outline-offset-2 group hover:bg-transparent hover:text-primary-800/60 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-800 hover:shadow-primary-800/40">
+                  className="bg-primary-700 text-xl py-1.5 leading-none focus:outline-none px-2 border-4 border-primary-700 hover:border-primary-700/60 duration-200 active:text-primary-700 focus-visible:outline-2 focus-visible:outline-primary-700 focus-visible:outline-offset-2 group hover:bg-transparent hover:text-primary-700/60 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700 hover:shadow-primary-700/40">
                   Create an Account
                 </Link>
               </div>
