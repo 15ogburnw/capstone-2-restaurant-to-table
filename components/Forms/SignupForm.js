@@ -99,7 +99,7 @@ export default function SignupForm() {
             </label>
 
             <Field
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-0  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             					${
                         errors.name && touched.name
                           ? inputStyles.invalid
@@ -112,7 +112,7 @@ export default function SignupForm() {
             <ErrorMessage
               name="name"
               component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right -mb-2"
+              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
             />
           </div>
 
@@ -127,7 +127,7 @@ export default function SignupForm() {
             </div>
 
             <Field
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-0  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             					${
                         errors.email && touched.email
                           ? inputStyles.invalid
@@ -139,7 +139,7 @@ export default function SignupForm() {
             <ErrorMessage
               name="email"
               component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right -mb-2"
+              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
             />
           </div>
 
@@ -156,7 +156,7 @@ export default function SignupForm() {
             <Field
               name="password"
               placeholder="Please enter your password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-0  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             					${
                         errors.password && touched.password
                           ? inputStyles.invalid
@@ -167,7 +167,7 @@ export default function SignupForm() {
             <ErrorMessage
               name="password"
               component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right -mb-2"
+              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
             />
           </div>
 
@@ -184,7 +184,7 @@ export default function SignupForm() {
             <Field
               name="confirmPassword"
               placeholder="Please confirm your password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-0  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             					${
                         errors.confirmPassword && touched.confirmPassword
                           ? inputStyles.invalid
@@ -195,7 +195,7 @@ export default function SignupForm() {
             <ErrorMessage
               name="confirmPassword"
               component="div"
-              className="text-sm text-red-500 mt-1 font-bold -mb-5  text-right"
+              className="text-sm text-red-500 mt-1 font-bold -mb-6  text-right"
             />
           </div>
 

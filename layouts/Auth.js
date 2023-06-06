@@ -3,12 +3,12 @@ import Link from "next/link";
 export default function Auth({ children }) {
   return (
     <>
-      <header className="absolute">
+      <header className="absolute  w-full z-0">
         <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-6  py-6">
-          <div className="text-black text-sm items-center  flex flex-row justify-between lg:justify-start">
+          <div className="items-center  flex flex-row justify-between lg:justify-start">
             <Link
               href="/dashboard"
-              className="text-base font-bold hover:text-primary-800/60 hover:border-primary-800/60 px-1.5 py-1 leading-none border-4 border-primary-800 text-primary-800">
+              className="text-lg font-extrabold hover:text-primary-900/60 hover:border-primary-900/60 px-1.5 py-1 leading-none border-4 border-primary-900 text-primary-900">
               Restaurant to Table
             </Link>
           </div>

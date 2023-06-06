@@ -254,6 +254,7 @@
   "npm.runSilent": true,
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.ignoreTsConfigBaseUrl": true,
+  "prettier.semi": false,
   "prettier.bracketSameLine": true,
   "prettier.enableDebugLogs": true,
   "prettier.insertPragma": false,

@@ -81,7 +81,7 @@ export default function LoginForm() {
             </div>
 
             <Field
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-0  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             				${
                       errors.email && touched.email
                         ? inputStyles.invalid
@@ -93,18 +93,18 @@ export default function LoginForm() {
             <ErrorMessage
               name="email"
               component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right  mb-1"
+              className="text-sm text-red-500 mt-1 font-bold text-right  -mb-3"
             />
           </div>
 
           <div>
-            {/* TODO: FORGOT PASSWORD FUNCTIONALITY */}
             <div className="flex justify-between">
               <label
                 className="block mb-2 text-base font-bold text-gray-600 "
                 htmlFor="loggingPassword">
                 Password
               </label>
+              {/* TODO: FORGOT PASSWORD FUNCTIONALITY */}
               {/* <a href="#" className="text-sm text-primary-500 hover:underline">
                 Forget Password?
               </a> */}
@@ -112,7 +112,7 @@ export default function LoginForm() {
             <Field
               name="password"
               placeholder="Password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-0  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             				${
                       errors.password && touched.password
                         ? inputStyles.invalid
@@ -123,7 +123,7 @@ export default function LoginForm() {
             <ErrorMessage
               name="password"
               component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right -mb-5"
+              className="text-sm text-red-500 mt-1 font-bold text-right -mb-6"
             />
           </div>
 
@@ -131,12 +131,12 @@ export default function LoginForm() {
           <div className="mt-10">
             <button
               type="submit"
-              className="w-full bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-6 border-4 border-primary-800 duration-200  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:cursor-not-allowed disabled:opacity-30 "
+              className="w-full bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-6 border-4 border-primary-800 duration-200  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:cursor-not-allowed disabled:opacity-60 "
               disabled={!isValid || isLoading}>
               {!isLoading ? (
                 "Sign In"
               ) : (
-                <div className="flex flex-row align-middle justify-center items-center">
+                <div className="flex flex-row bg-primary-700/70 text-white align-middle justify-center items-center">
                   <FontAwesomeIcon
                     className="inline font-bold mr-3"
                     icon={faCircleNotch}

@@ -1,21 +1,14 @@
 import Image from "next/image";
 import SVG from "react-inlinesvg";
+import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
 import SignupForm from "@/components/Forms/SignupForm";
 import Auth from "@/layouts/Auth";
 
 export default function SignupPage() {
   return (
-    <div className="flex w-full max-w-md md:max-w-lg m-auto min-h-fit self-center overflow-hidden bg-white rounded-lg shadow-2xl shadow-slate-700  lg:max-w-xl">
-      <div className="px-6 py-8 md:px-8 w-full">
-        <div className="flex justify-center">
-          <div className="w-auto h-7 sm:h-8">
-            <SVG
-              className="h-8 w-auto inline flex-none"
-              src="/img/rtt-logos/rtt-icon.svg"
-              alt="logo"
-            />
-          </div>
-        </div>
+    <div className="flex w-full max-w-md md:max-w-lg m-auto min-h-fit self-center overflow-hidden bg-white rounded-lg shadow-lg shadow-slate-400 z-10 lg:max-w-xl">
+      <div className="px-6 flex justify-center items-center flex-col py-8 md:px-8 w-full">
+        <RttCircleLogo className="relative w-10 mb-2" fillColor="primary-600" />
 
         <SignupForm />
       </div>
