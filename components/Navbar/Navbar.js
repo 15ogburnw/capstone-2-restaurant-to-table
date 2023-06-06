@@ -1,96 +1,51 @@
 // TODO: STYLE THIS NAVBAR WITH LINKS THAT ARE APPLICABLE TO MY APP'S FUNCTIONALITY
-import Image from "next/image";
+import Link from "next/link";
+import SVG from "react-inlinesvg";
+import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
+import { mutate } from "swr";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
+  const supabase = useSupabaseClient();
+  const router = useRouter();
+
+  // sign out of supabase, clear cache, and redirect to landing page
+  // TODO: different error handling
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      alert(error.message);
+      console.error(error);
+    }
+
+    // clear the SWR cache
+    await mutate(() => true, undefined, { revalidate: false });
+    router.push("/landing");
+  };
   return (
-    <nav className="relative  border-b  shadow-md shadow-gray-100">
-      <div className="container px-6 py-4 mx-auto">
-        <div className="lg:flex lg:items-center lg:justify-between">
-          <div className="flex items-center justify-between">
-            <a href="#">
-              <Image
-                width={200}
-                height={50}
-                className="w-auto h-6 sm:h-7"
-                src="https://en.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png"
-                alt=""
-              />
-            </a>
-          </div>
+    <header className="mx-auto relative w-full bg-base shadow-md z-10">
+      <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-6  py-6 ">
+        <Link href="/dashboard">
+          <div className="text-black text-sm items-center  flex flex-row justify-between lg:justify-start hover:opacity-75">
+            <RttCircleLogo fillColor="primary-800" className="h-8 w-8 mr-4 " />
 
-          {/* <!-- Mobile Menu open: "block", Menu closed: "hidden" --> */}
-          <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center">
-            <div className="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
-              <a
-                href="#"
-                className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                Join Slack
-              </a>
-              <a
-                href="#"
-                className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                Browse Topics
-              </a>
-              <a
-                href="#"
-                className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                Random Item
-              </a>
-              <a
-                href="#"
-                className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                Experts
-              </a>
-            </div>
-
-            <div className="flex items-center mt-4 lg:mt-0">
-              <button
-                className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
-                aria-label="show notifications"
-              >
-                <svg
-                  className="w-6 h-6"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-
-              <button
-                type="button"
-                className="flex items-center focus:outline-none"
-                aria-label="toggle profile dropdown"
-              >
-                <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
-                  <Image
-                    width={100}
-                    height={100}
-                    src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                    className="object-cover w-full h-full"
-                    alt="avatar"
-                  />
-                </div>
-
-                <h3 className="mx-2 text-gray-700 dark:text-gray-200 lg:hidden">
-                  Khatab wedaa
-                </h3>
-              </button>
+            <div className=" inline text-base font-black px-1.5 py-1 leading-none border-4 border-primary-800 text-primary-800">
+              Restaurant to Table
             </div>
           </div>
-        </div>
+        </Link>
+        <nav className="items-start flex-grow flex flex-row mt-0 justify-end pb-0 ">
+          <div className="items-center inline-flex gap-2 lg:ml-auto md:mt-0 mt-3 list-none hover:opacity-75">
+            <Link
+              href="#"
+              onClick={handleSignOut}
+              className="bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-2 border-4 border-primary-800 duration-200 active:text-primary-800 focus-visible:outline-2 focus-visible:outline-primary-800 focus-visible:outline-offset-2 group hover:bg-transparent hover:text-primary-800 text-white font-medium inline-flex items-center justify-center">
+              Logout
+            </Link>
+          </div>
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }

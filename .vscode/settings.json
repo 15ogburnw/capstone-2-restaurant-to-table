@@ -196,6 +196,7 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "editor.linkedEditing": true,
   "eslint.format.enable": false,
   "eslint.ignoreUntitled": false,
   "git.autoStash": true,
@@ -263,7 +264,6 @@
   "remoteHub.logLevel": "info",
   "remoteHub.richNavigation.enabled": true,
   "tailwindCSS.emmetCompletions": true,
-  "tailwindCSS.experimental.configFile": "../tailwind.config.js",
   "tailwindCSS.files.exclude": ["**/.git/**", "**/.yarn/**", "**/.pnp.*/**"],
   "tailwindCSS.lint.cssConflict": "ignore",
   "tailwind-fold.foldStyle": "QUOTES",
@@ -276,5 +276,12 @@
   "todo-tree.tree.showCountsInTree": true,
   "todo-tree.tree.sortTagsOnlyViewAlphabetically": true,
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html"
+  },
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass"],
+  "editor.quickSuggestions": {
+    "strings": true
+  }
 }

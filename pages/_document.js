@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <div id="modals" />
-      <body>
+      <body className="bg-base">
         <Main />
 
         <NextScript />

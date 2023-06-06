@@ -12,8 +12,8 @@ const nextConfig = {
         source: "/",
         destination: "/landing",
         permanent: false,
-      }
-    ]
+      },
+    ];
   },
   images: {
     remotePatterns: [
@@ -38,8 +38,8 @@ const nextConfig = {
         hostname: "edamam-product-images.s3.amazonaws.com",
       },
       {
-        hostname: "en.expensereduction.com"
-      }
+        hostname: "en.expensereduction.com",
+      },
     ],
   },
 };

@@ -1,14 +1,11 @@
-import useSWR, { preload } from 'swr';
-import Loading from '../Loading';
-import RecipeSearchCard from './RecipeSearchCard';
-import NoResults from './NoResults';
-import { useEffect, useState } from 'react'
-import Pagination from '../Pagination'
-import { makeURL, truncateRecipe } from '@/lib/edamam/helpers';
-import useSWRInfinite, { unstable_serialize } from 'swr/infinite'
-
-
-
+import useSWR, { preload } from "swr";
+import Loading from "../Loading";
+import RecipeSearchCard from "./RecipeSearchCard";
+import NoResults from "./NoResults";
+import { useEffect, useState } from "react";
+import Pagination from "../Pagination";
+import { makeURL, truncateRecipe } from "@/lib/edamam/helpers";
+import useSWRInfinite, { unstable_serialize } from "swr/infinite";
 
 // TODO: POTENTIALLY MOVE THIS INTO A SSR FUNCTION??
 // const preloadRecipes = async () => {
@@ -19,86 +16,80 @@ import useSWRInfinite, { unstable_serialize } from 'swr/infinite'
 // 	await preload(`${BASE_URL}/api/user/saved-recipes`, fetcher);
 // }
 
-
 export default function SearchResults({ setSearchLoading, searchVals }) {
+  const currentPage = useState(1);
 
-	const currentPage = useState(1);
+  const { data: favoriteRecipes } = useSWR("/api/user/favorite-recipes");
+  const { data: savedRecipes } = useSWR("/api/user/saved-recipes");
 
+  const getKey = (pageIndex, previousPageData) => {
+    //API endpoint for searching Edamam recipes
+    const baseURL = "/api/recipes?";
 
-	const { data: favoriteRecipes } = useSWR('/api/user/favorite-recipes');
-	const { data: savedRecipes } = useSWR('/api/user/saved-recipes');
+    // reached the end
+    if (previousPageData && !previousPageData.nextPageURL) return null;
 
-	const getKey = (pageIndex, previousPageData) => {
-		//API endpoint for searching Edamam recipes
-		const baseURL = '/api/recipes?'
+    let key;
+    // first page, we don't have `previousPageData`
+    if (pageIndex === 0) {
+      console.log("searchResults::firstPage-searchVals", searchVals);
+      key = makeURL(baseURL, searchVals);
+    } else {
+      let nextPageURL = previousPageData.nextPageURL;
+      console.log("searchResults::pageIndex", pageIndex);
+      console.log("searchResults::nextPageURL", nextPageURL);
+      key = makeURL(baseURL, { nextPageURL });
+    }
+    return key;
+  };
 
-		// reached the end
-		if (previousPageData && !previousPageData.nextPageURL) return null
+  const { data, error, mutate, size, setSize, isLoading } = useSWRInfinite(
+    getKey,
+    {}
+  );
 
-		let key;
-		// first page, we don't have `previousPageData`
-		if (pageIndex === 0) {
-			console.log('searchResults::firstPage-searchVals', searchVals)
-			key = makeURL(baseURL, searchVals);
-		} else {
-			let nextPageURL = previousPageData.nextPageURL;
-			console.log('searchResults::pageIndex', pageIndex);
-			console.log('searchResults::nextPageURL', nextPageURL)
-			key = makeURL(baseURL, { nextPageURL })
-		}
-		return key;
-	}
+  useEffect(() => {
+    console.log("SearchResults::isLoading", isLoading);
+    setSearchLoading(isLoading);
+  }, [isLoading, setSearchLoading]);
 
-	const {
-		data,
-		error,
-		mutate,
-		size,
-		setSize,
-		isLoading,
+  return (
+    <div className="flex mx-20 mt-2 border bg-base-accent border-gray-500 border-2  rounded-xl min-h-[500px] max-h-[750px]  overflow-hidden">
+      <div className="flex flex-col items-start w-full overflow-auto">
+        {/* If I get search results, show all results for the ***first*** page */}
+        {data
+          ? data[0].data?.map((recipe) => {
+              return (
+                <RecipeSearchCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  savedRecipes={savedRecipes}
+                  favoriteRecipes={favoriteRecipes}
+                />
+              );
+            })
+          : null}
 
-	} = useSWRInfinite(getKey, {});
+        <div className="flex align-middle flex-col text-center justify-center w-full h-full items-center">
+          {/* If the search is loading, display a loading message */}
+          {isLoading ? <Loading size="xl" container={true} /> : null}
 
+          {/* If there is an empty data array, display a no results message */}
 
-	useEffect(() => {
-		console.log('SearchResults::isLoading', isLoading)
-		setSearchLoading(isLoading)
-	}, [isLoading, setSearchLoading])
+          {error ? <NoResults message={error.message} /> : null}
 
-	return (
-		<div className='flex  mt-2 border border-gray-400 bg-white rounded-lg min-h-[500px] max-h-[750px]  overflow-hidden'>
-			<div className='flex flex-col items-start w-full overflow-auto'>
+          {data && data[0].data.length === 0 ? (
+            <NoResults q={searchVals.q} type="recipes" />
+          ) : null}
 
-				{/* If I get search results, show all results for the ***first*** page */}
-				{data
-					? data[0].data?.map((recipe) => {
-						return (<RecipeSearchCard key={recipe.id} recipe={recipe} savedRecipes={savedRecipes} favoriteRecipes={favoriteRecipes} />)
-					})
-					: null}
-
-
-				<div className='flex align-middle flex-col text-center justify-center w-full h-full items-center'>
-					{/* If the search is loading, display a loading message */}
-					{isLoading ? <Loading size='xl' container={true} /> : null}
-
-					{/* If there is an empty data array, display a no results message */}
-
-					{error ? <NoResults message={error.message} /> : null}
-
-					{data && data[0].data.length === 0 ? (
-						<NoResults q={searchVals.q} type='recipes' />
-					) : null}
-
-					{/* If there's not an active search, display a message prompting the user to search for a recipe */}
-					{!searchVals ? (
-						<div className='text-gray-500 text-xl md:text-2xl '>
-							Hungry? Search for a recipe!
-						</div>
-					) : null}
-				</div>
-
-
-			</div>
-		</div>
-	)
+          {/* If there's not an active search, display a message prompting the user to search for a recipe */}
+          {!searchVals ? (
+            <div className="text-primary-800/60 text-xl md:text-4xl font-bold">
+              Hungry? Search for a recipe!
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
 }

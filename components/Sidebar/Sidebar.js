@@ -14,8 +14,8 @@ import SideBarMenuItem from "./SidebarMenuItem";
 import AddMenuModal from "../Modals/AddMenuModal";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
-import { useState, useRef, useEffect } from "react";
-import useSWR, { mutate, preload } from "swr";
+import { useState } from "react";
+import useSWR, { mutate } from "swr";
 import Loading from "../Loading";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
@@ -23,7 +23,6 @@ export default function Sidebar() {
   const router = useRouter();
   //get current user's menus
   const { data, isLoading } = useSWR("/api/user/menus");
-
 
   // initialize client for supabase
   const supabase = useSupabaseClient();
@@ -54,17 +53,17 @@ export default function Sidebar() {
   };
 
   // sign out of supabase, clear cache, and redirect to landing page
-  const handleSignOut = async (e) => {
-
+  const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
-    if (error) throw error
+    if (error) {
+      alert(error.message);
+      console.error(error);
+    }
 
     // clear the SWR cache
     await mutate(() => true, undefined, { revalidate: false });
     router.push("/landing");
   };
-
-
 
   const handleOpenModal = (e) => {
     setShowModal(true);
@@ -77,108 +76,106 @@ export default function Sidebar() {
   // -- try the routing thing again, because this wos drecting to the courthouse.
 
   return (
-    <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto  border-r border-gray-300 ">
-      <Link href="/dashboard">
-        <SVG
-          src="/img/rtt-logos/rtt-icon.svg"
-          className="h-8 w-auto inline mr-3"
-          alt="logo"
-        />
-      </Link>
-
+    <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-base-accent border-r-2 border-gray-500/80 z-0">
       <div className="flex flex-col flex-1 mt-6">
         <nav>
           <Link
             href="/dashboard"
-            className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-            ${router.pathname == "/dashboard"
+            className={` cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+            ${
+              router.pathname == "/dashboard"
                 ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
                 : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
-              }
-                    `}
-          >
+            }
+                    `}>
             <RectangleStackIcon
               className={`h-5 w-5 inline flex-none
-                        ${router.pathname.indexOf("/dashboard") !== -1 &&
-                  router.pathname.indexOf("/dashboard/") === -1
-                  ? "opacity-75"
-                  : ""
-                }`}
+                        ${
+                          router.pathname.indexOf("/dashboard") !== -1 &&
+                          router.pathname.indexOf("/dashboard/") === -1
+                            ? "opacity-75"
+                            : ""
+                        }`}
             />
             <span className="mx-4 font-medium">Dashboard</span>
           </Link>
 
           <Link
             href="/dashboard/recipe-search"
-            className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${router.pathname.indexOf("/dashboard/recipe-search") !== -1
-                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
-              }`}
-          >
+            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+                      ${
+                        router.pathname.indexOf("/dashboard/recipe-search") !==
+                        -1
+                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                      }`}>
             <MagnifyingGlassCircleIcon
               className={`h-5 w-5 inline flex-none
-                        ${router.pathname.indexOf(
-                "/dashboard/recipe-search"
-              ) !== -1
-                  ? "opacity-75"
-                  : ""
-                }`}
+                        ${
+                          router.pathname.indexOf(
+                            "/dashboard/recipe-search"
+                          ) !== -1
+                            ? "opacity-75"
+                            : ""
+                        }`}
             />
             <span className="mx-4 font-medium">Search Recipes</span>
           </Link>
 
           <Link
             href="/dashboard/restaurants"
-            className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${router.pathname.indexOf("/dashboard/restaurants") !== -1
-                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
-              }`}
-          >
+            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+                      ${
+                        router.pathname.indexOf("/dashboard/restaurants") !== -1
+                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                      }`}>
             <GlobeAltIcon
               className={`h-5 w-5 inline flex-none
-                        ${router.pathname.indexOf("/dashboard/restaurants") !==
-                  -1
-                  ? "opacity-75"
-                  : ""
-                }`}
+                        ${
+                          router.pathname.indexOf("/dashboard/restaurants") !==
+                          -1
+                            ? "opacity-75"
+                            : ""
+                        }`}
             />
             <span className="mx-4 font-medium">Find a Restaurant</span>
           </Link>
 
           <Link
             href="/dashboard/profile"
-            className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${router.pathname.indexOf("/dashboard/profile") !== -1
-                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
-              }`}
-          >
+            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+                      ${
+                        router.pathname.indexOf("/dashboard/profile") !== -1
+                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                      }`}>
             <UserCircleIcon
               className={`h-5 w-5 inline flex-none
-                        ${router.pathname.indexOf("/dashboard/profile") !== -1
-                  ? "opacity-75"
-                  : ""
-                }`}
+                        ${
+                          router.pathname.indexOf("/dashboard/profile") !== -1
+                            ? "opacity-75"
+                            : ""
+                        }`}
             />
             <span className="mx-4 font-medium">Profile</span>
           </Link>
 
           <Link
             href="/dashboard/settings"
-            className={` flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${router.pathname.indexOf("/dashboard/settings") !== -1
-                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
-              }`}
-          >
+            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+                      ${
+                        router.pathname.indexOf("/dashboard/settings") !== -1
+                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
+                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                      }`}>
             <Cog6ToothIcon
               className={`h-5 w-5 inline flex-none
-                        ${router.pathname.indexOf("/dashboard/settings") !== -1
-                  ? "opacity-75"
-                  : ""
-                }`}
+                        ${
+                          router.pathname.indexOf("/dashboard/settings") !== -1
+                            ? "opacity-75"
+                            : ""
+                        }`}
             />
             <span className="mx-4 font-medium">Settings</span>
           </Link>
@@ -186,8 +183,9 @@ export default function Sidebar() {
           <Link
             href="#"
             onClick={handleSignOut}
-            className={"flex items-center px-4 py-3 mt-3 font-bold rounded-md text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"}
-          >
+            className={
+              "cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+            }>
             <ArrowRightOnRectangleIcon className="h-5 w-5 inline flex-none" />
             <span className="mx-4 font-medium">Sign Out</span>
           </Link>
@@ -198,13 +196,9 @@ export default function Sidebar() {
             <div
               onMouseEnter={() => {
                 setHoverModalBtn(true);
-                preload("/api/user/menus", (url) =>
-                  fetch(url).then((res) => res.json())
-                );
               }}
               onMouseLeave={() => setHoverModalBtn(false)}
-              onClick={() => setShowModal(true)}
-            >
+              onClick={() => setShowModal(true)}>
               {hoverModalBtn ? (
                 <FontAwesomeIcon
                   icon={faSquarePlusSolid}
@@ -221,20 +215,20 @@ export default function Sidebar() {
 
           <nav className="mt-4 mx-3 space-y-3 ">
             {/* {console.log("My menus:", menus)} */}
-            {data?.menus?.length > 0 ?
-              data.menus.map((menu, idx) => (
-                <Link
-                  href={`user/menus/${menu.id}`}
-                  key={menu.id}
-                  className="w-full h-ful mx-2 my-2 px-4"
-                >
-                  <SideBarMenuItem
-                    key={menu.name}
-                    dotColor={getColor(idx)}
-                    name={menu.name}
-                  />
-                </Link>
-              )) : null}
+            {data?.menus?.length > 0
+              ? data.menus.map((menu, idx) => (
+                  <Link
+                    href={`user/menus/${menu.id}`}
+                    key={menu.id}
+                    className="w-full h-ful mx-2 my-2 px-4">
+                    <SideBarMenuItem
+                      key={menu.name}
+                      dotColor={getColor(idx)}
+                      name={menu.name}
+                    />
+                  </Link>
+                ))
+              : null}
 
             <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
               {/* Fix these from showing up at the same time */}

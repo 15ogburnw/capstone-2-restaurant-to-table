@@ -9,7 +9,7 @@ const handler = async (req, res) => {
   let {
     data: { user },
   } = await supabase.auth.getUser();
-  //   TODO: MOVED POST TO LOGIN ENDPOINT, NEED TO ADD A PATCH ENDPOINT HERE FOR UPDATING USERS
+
   //   TODO: PROBABLY ALSO NEED TO DO SOME MORE SECURING OF THESE ROUTES IN MIDDLEWARE (APPLIES TO ALL API ENDPOINTS)
 
   /**
