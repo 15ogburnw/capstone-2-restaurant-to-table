@@ -6,7 +6,7 @@ import { BsArrowRight } from "react-icons/bs";
 export default function LandingPage() {
   return (
     <>
-      <section className="bg-[#eaeadf] flex flex-col items-center h-screen w-screen overflow-hidden">
+      <section className="bg-white flex flex-col items-center h-screen w-screen overflow-hidden">
         <header className="mx-auto relative w-full max-w-7xl bg-">
           <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-12  py-6">
             <Link
@@ -14,15 +14,15 @@ export default function LandingPage() {
               className=" hover:opacity-60 flex align-middle items-center lg:justify-start">
               {
                 <>
-                  <RttCircleLogo className="h-7 w-7 mr-2 inline-block" />
-                  <div className="text-2xl  inline-block font-black  text-primary-800 tracking-tighter ">
+                  <RttCircleLogo className="h-8 w-8 mr-2 inline-block" />
+                  <div className="text-3xl  inline-block font-black  text-primary-800 tracking-tighter ">
                     Restaurant to Table.
                   </div>
                 </>
               }
             </Link>
 
-            <nav className="items-start flex-grow flex flex-row mt-0 justify-end pb-0 ">
+            <nav className="items-start flex-grow flex flex-row mb-2 justify-end pb-0 ">
               <div className="items-center inline-flex gap-2 lg:ml-auto md:mt-0 mt-3 list-none">
                 <Link
                   href="/auth/login"
@@ -43,9 +43,11 @@ export default function LandingPage() {
             <h1 className="lg:text-9xl text-primary-900 font-black mt-1 text-7xl tracking-tighter">
               <span className="block">Restaurant to Table.</span>
             </h1>
-            <p className="invisible lg:visible text-white font-extrabold text-lg rounded-md px-3 py-1 mt-7 font-bold bg-primary-500/80 inline-block">
-              The ultimate platform for recipe search and menu creation.
-            </p>
+            <div className="invisible  z-10 lg:visible  text-lg rounded-md px-3  mt-7 bg-primary-300/80  inline-block">
+              <p className="drop-shadow-md text-white my-1.5 text-xl font-extrabold ">
+                The ultimate platform for recipe search and menu creation.
+              </p>
+            </div>
           </div>
           <div className=" items-center lg:items-start align-middle flex flex-col gap-4 lg:flex-row mt-7  lg:mr-20">
             <Link
@@ -55,7 +57,7 @@ export default function LandingPage() {
             </Link>
             <Link
               className="items-center p-1 justify-center text-xl inline-flex group duration-200 bg-gradient-to-r from-primary-700 font-bold via-primary-500 to-primary-300 lg:w-auto  h-full text-center w-full shadow-md shadow-primary-700"
-              href="/about">
+              href="/about-us">
               <span className="flex justify-center align-middle items-center group-hover:bg-[#eaeadf] lg:px-6 xl:px-10 py-4 w-full h-full">
                 <span className="relative text-white group-hover:text-primary-800">
                   Learn more
