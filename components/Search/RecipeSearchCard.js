@@ -84,9 +84,13 @@ export default function RecipeSearchCard({
         .from("favorite_recipes")
         .delete()
         .eq("recipe_id", recipe.id);
-      if (error) console.log(error.message);
-      else {
-        alert("Recipe successfully removed from favorites!");
+      if (error) {
+        alert(
+          "There was a problem adding this recipe to your favorites! Please try again later"
+        );
+        console.log(error.message);
+      } else {
+        alert("Recipe successfully saved to your favorites!");
       }
     } else {
       await supabase
@@ -95,9 +99,13 @@ export default function RecipeSearchCard({
       const { error } = await supabase
         .from("favorite_recipes")
         .insert({ recipe_id: recipe.id, user_id: user.id });
-      if (error) console.log(error.message);
-      else {
-        alert("recipe added to favorites!");
+      if (error) {
+        ("There was a problem adding this recipe to your favorites! Please try again later");
+        console.log(error.message);
+      } else {
+        alert(
+          "There was a problem adding this recipe to your favorites! Please try again later"
+        );
       }
     }
 
@@ -119,8 +127,12 @@ export default function RecipeSearchCard({
         .from("saved_recipes")
         .delete()
         .eq("recipe_id", recipe.id);
-      if (error) console.log(error.message);
-      else {
+      if (error) {
+        alert(
+          "There was a problem removing this recipe from your saved recipes!"
+        );
+        console.log(error.message);
+      } else {
         alert("Recipe successfully removed from your saved recipes!");
       }
     } else {
@@ -130,9 +142,11 @@ export default function RecipeSearchCard({
       const { error } = await supabase
         .from("saved_recipes")
         .insert({ recipe_id: recipe.id, user_id: user.id });
-      if (error) console.log(error.message);
-      else {
-        alert("recipe added to saved recipes!");
+      if (error) {
+        alert("There was a problem adding this recipe to your saved recipes!");
+        console.log(error.message);
+      } else {
+        alert("recipe successfully added to your saved recipes!");
       }
     }
     await mutate("/api/user/saved-recipes");

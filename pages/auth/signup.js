@@ -6,10 +6,8 @@ import Auth from "@/layouts/Auth";
 
 export default function SignupPage() {
   return (
-    <div className="flex w-full max-w-md md:max-w-lg m-auto min-h-fit self-center overflow-hidden bg-white rounded-lg shadow-lg shadow-slate-400 z-10 lg:max-w-xl">
+    <div className="flex w-full max-w-md md:max-w-lg mx-auto my-32 min-h-fit  overflow-hidden bg-white rounded-lg shadow-lg shadow-slate-400 z-10 lg:max-w-xl">
       <div className="px-6 flex justify-center items-center flex-col py-8 md:px-8 w-full">
-        <RttCircleLogo className="relative w-10 mb-2" fillColor="primary-600" />
-
         <SignupForm />
       </div>
     </div>

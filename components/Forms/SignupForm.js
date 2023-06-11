@@ -15,7 +15,7 @@ export default function SignupForm() {
 
   const inputStyles = {
     valid:
-      "focus:ring-primary-400 mb-3 border-primary-800/50 placeholder-primary-800/50 ",
+      "focus:ring-primary-400 mb-3 border-primary-800/60 placeholder-primary-800/60 ",
     invalid: "border-red-400 focus:ring-red-400 placeholder-red-400",
   };
 
@@ -71,7 +71,7 @@ export default function SignupForm() {
       validateOnMount>
       {({ errors, touched, isValid }) => (
         <Form>
-          <p className="mt-3 text-3xl text-center font-extrabold text-primary-600">
+          <p className="mt-3 text-3xl text-center font-extrabold text-primary-700">
             Welcome to Restaurant to Table!
           </p>
 
@@ -81,30 +81,29 @@ export default function SignupForm() {
 
           {/* Signup with email horizontal line break */}
           <div className="flex items-center justify-between mt-3">
-            <span className="w-1/4 border-2 border-primary-600 lg:w-1/3"></span>
+            <span className="w-1/4 border-2 border-primary-700 lg:w-1/3"></span>
 
-            <span className="text-md text-center text-primary-600 font-bold">
+            <span className="text-md text-center text-primary-700 font-bold">
               Sign Up Below
             </span>
 
-            <span className="w-1/4 border-2 border-primary-600 lg:w-1/3"></span>
+            <span className="w-1/4 border-2 border-primary-700 lg:w-1/3"></span>
           </div>
 
           {/* Name input */}
           <div className="mt-4">
             <label
-              className="block mb-2 text-base font-bold text-gray-600 "
+              className="block mb-2 text-base font-bold text-primary-700 "
               htmlFor="name">
               Name
             </label>
 
             <Field
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
-            					${
-                        errors.name && touched.name
-                          ? inputStyles.invalid
-                          : inputStyles.valid
-                      }`}
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none placeholder-primary-600/60 ${
+                errors.name && touched.name
+                  ? inputStyles.invalid
+                  : inputStyles.valid
+              }`}
               name="name"
               type="text"
               placeholder="Please enter your name"
@@ -120,14 +119,14 @@ export default function SignupForm() {
           <div>
             <div className="flex justify-between">
               <label
-                className="block mb-2 text-base font-bold text-gray-600 "
+                className="block mb-2 text-base font-bold text-primary-700 "
                 htmlFor="email">
                 Email
               </label>
             </div>
 
             <Field
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             					${
                         errors.email && touched.email
                           ? inputStyles.invalid
@@ -147,7 +146,7 @@ export default function SignupForm() {
           <div>
             <div className="flex justify-between">
               <label
-                className="block mb-2 text-base font-bold text-gray-600 "
+                className="block mb-2 text-base font-bold text-primary-700 "
                 htmlFor="password">
                 Password
               </label>
@@ -156,7 +155,7 @@ export default function SignupForm() {
             <Field
               name="password"
               placeholder="Please enter your password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             					${
                         errors.password && touched.password
                           ? inputStyles.invalid
@@ -175,7 +174,7 @@ export default function SignupForm() {
           <div>
             <div className="flex justify-between">
               <label
-                className="block mb-2 text-base font-bold text-gray-600 "
+                className="block mb-2 text-base font-bold text-primary-700 "
                 htmlFor="confirmPassword">
                 Password
               </label>
@@ -184,7 +183,7 @@ export default function SignupForm() {
             <Field
               name="confirmPassword"
               placeholder="Please confirm your password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             					${
                         errors.confirmPassword && touched.confirmPassword
                           ? inputStyles.invalid
@@ -204,7 +203,7 @@ export default function SignupForm() {
           <div className="mt-10">
             <button
               type="submit"
-              className="w-full bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-6 border-4 border-primary-800 duration-200  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:cursor-not-allowed disabled:opacity-30 "
+              className="w-full bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-6 border-4 border-primary-800 duration-200  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:cursor-not-allowed disabled:opacity-60 "
               disabled={!isValid || isLoading}>
               {!isLoading ? (
                 "Create Your Account"
@@ -228,8 +227,20 @@ export default function SignupForm() {
 
             <Link
               href="/auth/login"
-              className="text-md text-primary-800 font-bold hover:underline">
-              Login here
+              className="text-md text-primary-800 font-bold transition-all duration-150 hover:scale-105 hover:underline">
+              <span className="text-md text-primary-800 font-bold z-20 hover:underline">
+                Login Here
+              </span>
+            </Link>
+          </div>
+
+          <div className="flex items-center justify-center mt-4">
+            <Link
+              href="/landing"
+              className="transition-all duration-150 hover:scale-105">
+              <span className="text-md text-primary-800 font-bold z-20 hover:underline">
+                Take Me Home
+              </span>
             </Link>
           </div>
         </Form>

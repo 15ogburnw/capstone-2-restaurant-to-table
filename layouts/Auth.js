@@ -1,25 +1,34 @@
 import Link from "next/link";
 
+import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
+
 export default function Auth({ children }) {
   return (
-    <>
-      <header className="absolute  w-full z-0">
-        <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-6  py-6">
-          <div className="items-center  flex flex-row justify-between lg:justify-start">
-            <Link
-              href="/dashboard"
-              className="text-lg font-extrabold hover:text-primary-900/60 hover:border-primary-900/60 px-1.5 py-1 leading-none border-4 border-primary-900 text-primary-900">
-              Restaurant to Table
-            </Link>
-          </div>
+    <main className="h-screen w-screen  absolute">
+      <header className="mx-auto absolute top-0 left-0 w-full bg- h-full z-0">
+        <div className="mx-auto relative w-full  flex  bg-primary-300/40 h-1/4 shadow-md items-start justify-center">
+          <Link
+            href="/dashboard"
+            className=" hover:opacity-60 flex mt-12 relative items-center">
+            {
+              <>
+                <RttCircleLogo className="h-9 w-9 mr-2 inline-block" />
+                <div className="text-3xl  inline-block font-black  text-primary-800 tracking-tighter ">
+                  Restaurant to Table.
+                </div>
+              </>
+            }
+          </Link>
         </div>
       </header>
+
       <div
-        className="min-w-screen flex flex-col min-h-screen bg-base"
+        className="w-screen flex justify-center items-start h-screen absolute bg-"
         data-tails-google-fonts="Cedarville+Cursive">
         {children}
       </div>
+
       {/* TODO Add a footer here  */}
-    </>
+    </main>
   );
 }

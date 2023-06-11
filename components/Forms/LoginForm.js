@@ -16,7 +16,7 @@ export default function LoginForm() {
 
   const inputStyles = {
     valid:
-      "focus:ring-primary-400 mb-3 border-primary-800/50 placeholder-primary-800/50 ",
+      "focus:ring-primary-400 mb-3 border-primary-800/60 placeholder-primary-800/60 ",
     invalid: "border-red-400 focus:ring-red-400 placeholder-red-400",
   };
 
@@ -53,7 +53,7 @@ export default function LoginForm() {
       validateOnMount>
       {({ errors, touched, isValid }) => (
         <Form>
-          <p className="mt-3 text-3xl text-center font-extrabold text-primary-600">
+          <p className="mt-3 text-3xl text-center font-extrabold text-primary-700">
             Welcome back!
           </p>
           <div className="text-red-500 font-medium text-medium text-center my-2">
@@ -61,20 +61,20 @@ export default function LoginForm() {
           </div>
 
           <div className="flex items-center justify-between mt-3">
-            <span className="w-1/5 border-2 border-primary-600 lg:w-1/4"></span>
+            <span className="w-1/5 border-2 border-primary-700 lg:w-1/4"></span>
 
-            <span className="text-md text-center text-primary-600 font-bold">
+            <span className="text-md text-center text-primary-700 font-bold">
               Login Below
             </span>
 
-            <span className="w-1/5 border-2 border-primary-600 lg:w-1/4"></span>
+            <span className="w-1/5 border-2 border-primary-700  lg:w-1/4"></span>
           </div>
 
           {/* Email input */}
           <div className="mt-4">
             <div className="flex justify-between">
               <label
-                className="block mb-2 text-base font-bold text-gray-600 "
+                className="block mb-2 text-base font-bold text-primary-700 "
                 htmlFor="email">
                 Email
               </label>
@@ -100,7 +100,7 @@ export default function LoginForm() {
           <div>
             <div className="flex justify-between">
               <label
-                className="block mb-2 text-base font-bold text-gray-600 "
+                className="block mb-2 text-base font-bold text-primary-700 "
                 htmlFor="loggingPassword">
                 Password
               </label>
@@ -112,7 +112,7 @@ export default function LoginForm() {
             <Field
               name="password"
               placeholder="Password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             				${
                       errors.password && touched.password
                         ? inputStyles.invalid
@@ -155,8 +155,20 @@ export default function LoginForm() {
 
             <Link
               href="/auth/signup"
-              className="text-md text-primary-800 font-bold hover:underline">
-              Sign up here
+              className="text-md text-primary-800 font-bold transition-all duration-150 hover:scale-105 hover:underline">
+              <span className="text-md text-primary-800 font-bold z-20 hover:underline">
+                Sign up here
+              </span>
+            </Link>
+          </div>
+
+          <div className="flex items-center justify-center  mt-4">
+            <Link
+              href="/landing"
+              className="transition-all duration-150 hover:scale-105">
+              <span className="text-md text-primary-800 font-bold z-20 hover:underline">
+                Take Me Home
+              </span>
             </Link>
           </div>
         </Form>

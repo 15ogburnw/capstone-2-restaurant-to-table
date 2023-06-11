@@ -1,10 +1,12 @@
 import LoginForm from "@/components/Forms/LoginForm";
 import SVG from "react-inlinesvg";
 import Auth from "@/layouts/Auth";
+import Link from "next/link";
+import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
 
 export default function LoginPage() {
   return (
-    <div className="flex w-full aspect-auto m-auto min-h-fit self-center overflow-hidden bg-white rounded-lg shadow-xl shadow-slate-500 xl:max-w-5xl lg:max-w-4xl md:max-w-xl max-w-md">
+    <div className="flex w-full aspect-auto mx-auto my-32 min-h-fit overflow-hidden bg-white rounded-lg shadow-xl shadow-slate-500 xl:max-w-5xl lg:max-w-4xl md:max-w-xl max-w-md">
       <div
         className="hidden bg-cover lg:block lg:w-1/2 flex-none"
         style={{
@@ -13,14 +15,6 @@ export default function LoginPage() {
         }}></div>
 
       <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
-        <div className="flex justify-center mx-auto">
-          <SVG
-            className="h-8 w-auto inline flex-none"
-            src="/img/rtt-logos/rtt-icon.svg"
-            alt="logo"
-          />
-        </div>
-
         <LoginForm />
       </div>
     </div>
