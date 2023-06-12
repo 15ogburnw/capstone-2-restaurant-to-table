@@ -1,6 +1,6 @@
 import Image from "next/image";
 import SVG from "react-inlinesvg";
-import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
+import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 import SignupForm from "@/components/Forms/SignupForm";
 import Auth from "@/layouts/Auth";
 

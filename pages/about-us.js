@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
+import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 import familyEating from "public/img/fillers/family-eating.svg";
 import SVG from "react-inlinesvg";
 import { BsGithub, BsLinkedin, BsPersonWorkspace } from "react-icons/bs";
@@ -278,17 +278,17 @@ export default function LearnMorePage() {
           </p>
           <div className="flex items-center justify-center space-x-4">
             <a
-              href="https://github.com/your-username"
+              href="https://github.com/15ogburnw"
               className="text-white hover:contrast-200 hover:scale-105 hover:text-primary-300 transition duration-200">
               <BsGithub className="w-9 mx-2 h-9" />
             </a>
             <a
-              href="https://linkedin.com/in/your-username"
+              href="https://www.linkedin.com/in/wade-ogburn-11b806172/"
               className="text-white hover:contrast-200 hover:scale-105 hover:text-primary-300 transition duration-200">
               <BsLinkedin className="w-9 mx-2 h-9" />
             </a>
             <a
-              href="https://your-portfolio-website.com"
+              href="https://my-portfolio-c92iln275-15ogburnw.vercel.app/"
               className="text-white hover:text-primary-300 hover:contrast-200 hover:scale-105 transition duration-200">
               <BsPersonWorkspace className="w-9 mx-2 h-9" />
             </a>

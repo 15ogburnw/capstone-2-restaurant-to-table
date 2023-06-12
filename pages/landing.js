@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SVG from "react-inlinesvg";
-import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
+import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 import { BsArrowRight } from "react-icons/bs";
 import { useState } from "react";
 

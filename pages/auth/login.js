@@ -2,7 +2,7 @@ import LoginForm from "@/components/Forms/LoginForm";
 import SVG from "react-inlinesvg";
 import Auth from "@/layouts/Auth";
 import Link from "next/link";
-import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
+import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 
 export default function LoginPage() {
   return (

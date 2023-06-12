@@ -1,7 +1,7 @@
 // TODO: STYLE THIS NAVBAR WITH LINKS THAT ARE APPLICABLE TO MY APP'S FUNCTIONALITY
 import Link from "next/link";
 import SVG from "react-inlinesvg";
-import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
+import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 import { mutate } from "swr";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
