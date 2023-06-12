@@ -27,7 +27,7 @@ export default function Navbar() {
   };
   return (
     <header className="  relative w-screen bg-primary-800">
-      <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-10  py-6">
+      <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-10  py-4">
         <Link
           href="/dashboard"
           className="  transition-all duration-150 hover:scale-105 flex align-middle items-center lg:justify-start"

@@ -39,7 +39,7 @@ export default function Footer() {
 
           <SVG
             src="img/logos/edamam.svg"
-            className="h-10 w-auto mb-2 mx-auto"
+            className="h-auto w-12 mb-2 mx-auto"
           />
 
           {/* TODO: MAKE THESE INTO MY LINKEDIN, GITHUB, AND PORTFOLIO LINKS */}
