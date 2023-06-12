@@ -16,7 +16,7 @@ export default function RecipeSearchPage() {
   const [searchLoading, setSearchLoading] = useState(false);
 
   return (
-    <section className=" flex flex-col mx-auto self-center mt-8">
+    <section className=" flex flex-col mx-auto self-center mt-8 ">
       {/* Search form which includes query input and filter options for Edamam API. Passing functions for submitting a search and for resetting an active search */}
       <RecipeSearchForm
         handleSearch={async (values) => {
@@ -24,6 +24,7 @@ export default function RecipeSearchPage() {
 
           setSearchVals(values);
         }}
+        className="z-0"
         activeSearch={searchVals ? true : false}
         isLoading={searchLoading}
         resetResults={() => {

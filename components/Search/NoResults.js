@@ -1,14 +1,14 @@
 export default function NoResults({ type, q, message }) {
   return (
-    <>
-      <div className="p- text-red-500 text-2xl bg-red-100 rounded-full ">
+    <div className="flex flex-col items-center justify-center">
+      <div className="p-3 text-red-500 text-center bg-red-100 rounded-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="2.5"
           stroke="currentColor"
-          className="w-6 h-6">
+          className="w-16 aspect-square">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -16,17 +16,21 @@ export default function NoResults({ type, q, message }) {
           />
         </svg>
       </div>
-      {q && <h1 className="mt-3 text-xl text-primary-700 ">No {type} found</h1>}
+      {q && (
+        <p className="mt-8 text-xl md:text-2xl lg:text-3xl text-center text-red-800 font-bold">
+          No {type} found
+        </p>
+      )}
       {q ? (
-        <p className="mt-2 inline-block max-w-md text-primary-00 text-xl text-semibold ">
+        <p className="mt-8 text-xl md:text-2xl lg:text-3xl text-center text-red-800 font-bold">
           Your search &quot;{q}&quot; did not match any {type}. Please try again
           with a different search term.
         </p>
       ) : (
-        <p className="mt-2 inline-block max-w-md text-primary-600 ">
+        <p className="mt-8 text-xl md:text-2xl lg:text-3xl text-center text-red-800 font-bold">
           {message}
         </p>
       )}
-    </>
+    </div>
   );
 }

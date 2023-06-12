@@ -26,7 +26,7 @@ export default function Navbar() {
     router.push("/landing");
   };
   return (
-    <header className="  relative w-screen bg-primary-800">
+    <header className="  z-20 fixed w-screen bg-primary-800">
       <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-10  py-4">
         <Link
           href="/dashboard"

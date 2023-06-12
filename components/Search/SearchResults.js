@@ -61,16 +61,16 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
   });
 
   return (
-    <div className=" relative border justify-center mb-3 bg-base-accent border-gray-500 border-2 rounded-lg p-3 min-h-[65vh] ">
+    <div className=" mb-10 border grid grid-rows-12 bg-base-accent overflow-hidden border-gray-500 border-2 rounded-lg -p-6 min-h-[65vh] z-0">
       {data ? (
-        <div className="relative top-0 left-0 w-full h-max ">
+        <div className="relative top-0 left-0 grid grid-cols-12">
           {/* If I get search results, show all results for the ***first*** page */}
-          <div className=" align-middle justify-center w-full h-full items-center">
+          <div className=" justify-center w-full items-center grid-span-7">
             {data[0].data?.length === 0 ? (
               <NoResults q={searchVals.q} type="recipes" />
             ) : null}
           </div>
-          <div className="items-start flex-col w-full h-auto overflow-auto z-20">
+          <div className="items-start col-span-12 flex-col w-full h-auto overflow-auto z-20">
             {data[0]?.data?.map((recipe) => {
               return (
                 <RecipeSearchCard
@@ -78,36 +78,31 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
                   recipe={recipe}
                   savedRecipes={savedRecipes}
                   favoriteRecipes={favoriteRecipes}
+                  className="w-full"
                 />
               );
             })}
           </div>
         </div>
       ) : (
-        <div className=" flex flex-col justify-center w-full h-full items-center   ">
+        <div className=" row-span-12  mx-auto flex flex-col items-center justify-center">
           {/* If the search is loading, display a loading message */}
-          {isLoading ? <Loading size="xl" container={true} /> : null}
+          {isLoading ? (
+            <Loading size="xl" container={true} className="my-auto" />
+          ) : null}
 
           {/* If there is an empty data array, display a no results message */}
 
-          {error ? <NoResults message={error.message} /> : null}
+          {error && !isLoading ? (
+            <NoResults message={error.message} className="my-auto" />
+          ) : null}
 
           {/* If there's not an active search, display a message prompting the user to search for a recipe */}
           {!searchVals && !error ? (
-            <div className=" text-primary-800/60  text-xl md:text-4xl font-bold">
+            <div className=" text-primary-800/60  text-xl md:text-4xl font-bold mx-auto my-auto">
               Hungry? Search for a recipe!
             </div>
           ) : null}
-          <div className="absolute -bottom-12 justify-center max-h-12">
-            <Pagination
-              paginationInfo={{
-                isLoading,
-                setSize,
-                currentSize: size,
-                totalPages,
-              }}
-            />
-          </div>
         </div>
       )}
     </div>

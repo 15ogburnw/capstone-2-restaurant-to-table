@@ -48,6 +48,7 @@ export default function RecipeSearchCard({
 }) {
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const [tooltipShowing, setTooltipShowing] = useState(false);
+  const [toastMessage, setToastMessage] = useState();
   const [isFavorite, setIsFavorite] = useState();
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [isSaved, setIsSaved] = useState();
@@ -79,20 +80,33 @@ export default function RecipeSearchCard({
   async function toggleFavorite(e) {
     e.preventDefault();
     setFavoriteLoading(true);
+
+    // TODO: IMPLEMENT THESE TOAST MESSAGES
+    /** If the recipe is already in the user's favorites, we attempt to delete it from the supabase database.
+     * A toast message is displayed with the outcome of the user's action.
+     * If successful we update the local state to reflect the change on the UI.
+     */
     if (isFavorite) {
       const { error } = await supabase
         .from("favorite_recipes")
         .delete()
         .eq("recipe_id", recipe.id);
       if (error) {
-        alert(
-          "There was a problem adding this recipe to your favorites! Please try again later"
-        );
-        console.log(error.message);
+        setToastMessage({
+          failure: `There was a problem removing the ${recipe.name} recipe from your favorites! Please try again`,
+          message: error.message,
+        });
+        console.error(error);
       } else {
-        alert("Recipe successfully saved to your favorites!");
+        setToastMessage({
+          success: `This ${recipe.name} recipe has been successfully removed from your favorites!`,
+        });
+        setIsFavorite(!isFavorite);
       }
     } else {
+      /** If the recipe is not already in the user's favorites, we attempt to add it to the supabase database.
+       * If successful we update the local state to reflect the change on the UI. Toast messages as before
+       */
       await supabase
         .from("recipes")
         .upsert({ id: recipe.id, name: recipe.name });
@@ -100,40 +114,47 @@ export default function RecipeSearchCard({
         .from("favorite_recipes")
         .insert({ recipe_id: recipe.id, user_id: user.id });
       if (error) {
-        ("There was a problem adding this recipe to your favorites! Please try again later");
-        console.log(error.message);
+        setToastMessage({
+          failure: `There was a problem adding the ${recipe.name} recipe to your favorites! Please try again`,
+          message: error.message,
+        });
+        console.error(error);
       } else {
-        alert(
-          "There was a problem adding this recipe to your favorites! Please try again later"
-        );
+        setToastMessage({
+          success: `This ${recipe.name} recipe has been successfully added to your favorites!`,
+        });
+        setIsFavorite(!isFavorite);
       }
     }
 
+    // Update the SWR cache with the to get the user's new favorite recipes, and set reset the loading state
     await mutate("/api/user/favorite-recipes");
     setFavoriteLoading(false);
-    setIsFavorite(!isFavorite);
-    alert(
-      `new user favorite recipes (${
-        favoriteRecipes.length
-      }) are: ${favoriteRecipes.map((val) => `${val.name}, `)}`
-    );
   }
 
+  // TODO: IMPLEMENT TOAST MESSAGES
+  /** This function does the same thing as the one above, but for the user's favorite recipes
+   */
   async function toggleSave(e) {
     e.preventDefault();
     setSavedLoading(true);
+
     if (isSaved) {
       const { error } = await supabase
         .from("saved_recipes")
         .delete()
         .eq("recipe_id", recipe.id);
       if (error) {
-        alert(
-          "There was a problem removing this recipe from your saved recipes!"
-        );
-        console.log(error.message);
+        setToastMessage({
+          failure: `There was a problem removing the ${recipe.name} recipe from your saved recipes! Please try again`,
+          message: error.message,
+        });
+        console.error(error);
       } else {
-        alert("Recipe successfully removed from your saved recipes!");
+        setToastMessage({
+          success: `This ${recipe.name} recipe has been successfully removed from your saved songs!`,
+        });
+        setIsSaved(!isSaved);
       }
     } else {
       await supabase
@@ -143,20 +164,22 @@ export default function RecipeSearchCard({
         .from("saved_recipes")
         .insert({ recipe_id: recipe.id, user_id: user.id });
       if (error) {
-        alert("There was a problem adding this recipe to your saved recipes!");
+        setToastMessage({
+          failure: `There was a problem removing the ${recipe.name} recipe from your saved recipes! Please try again`,
+          message: error.message,
+        });
         console.log(error.message);
       } else {
-        alert("recipe successfully added to your saved recipes!");
+        setToastMessage({
+          success: `This ${recipe.name} recipe has been successfully added to your saved songs!`,
+        });
+        setIsSaved(!isSaved);
       }
     }
+
+    // update the SWR cache
     await mutate("/api/user/saved-recipes");
-    setIsSaved(!isSaved);
     setSavedLoading(false);
-    alert(
-      `new user saved recipes (${savedRecipes.length}) are: ${savedRecipes.map(
-        (val) => `${val.name}, `
-      )}`
-    );
   }
 
   // TODO: TRY OUT THE PACKAGE THAT I INSTALLED THAT HANDLES MODALS AND TOOLTIPS

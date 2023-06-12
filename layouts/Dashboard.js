@@ -59,18 +59,14 @@ export default function Dashboard({ children }) {
         },
         revalidateOnFocus: false,
       }}>
-      <Navbar />
-      <div className="grid grid-cols-12 ">
-        <div className="col-start-1 col-end-3">
+      <Navbar className="isolate" />
+      <div className="grid isolate grid-cols-12 ">
+        <div className="col-start-1  col-end-3">
           <Sidebar />
         </div>
-        <div className="col-start-4 col-end-12">{children}</div>
+        <div className="col-start-4 col-end-12 pt-24 ">{children}</div>
       </div>
-      <Footer />
-      <Script
-        src="https://developer.edamam.com/attribution/badge.js"
-        strategy="afterInteractive"
-      />
+      <Footer className="isolate" />
     </SWRConfig>
   );
 }

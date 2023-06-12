@@ -76,7 +76,7 @@ export default function Sidebar() {
   // -- try the routing thing again, because this wos drecting to the courthouse.
 
   return (
-    <aside className=" h-screen  py-6 px bg-base-accent border-r-2 border-primary-700/80 ">
+    <aside className="  h-screen py-24 bg-base-accent border-r-2 border-primary-700/80 fixed isolate z-0">
       <div className="flex flex-col flex-1">
         <nav>
           <Link

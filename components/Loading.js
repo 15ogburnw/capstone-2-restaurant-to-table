@@ -10,27 +10,26 @@ export default function Loading({ size }) {
   switch (size) {
     case "xl":
       spinner = "text-5xl";
-      message = "text-2xl mt-3";
+      message = "text-4xl mt-3";
       break;
     case "lg":
       spinner = "text-4xl";
-      message = "text-xl mt-2";
+      message = "text-3xl mt-2";
       break;
     case "md":
       spinner = "text-2xl";
-      message = "text-md mt-2";
+      message = "text-xl mt-2";
       break;
     default:
     case "screen":
       spinner = "text-8xl";
-      message = "text-4xl mt-6";
+      message = "text-5xl mt-6";
       break;
   }
 
   return (
     <div
-      className={`flex align-middle flex-col text-center text-emerald-500 justify-center ${container} items-center`}
-    >
+      className={`flex align-middle flex-col text-center text-emerald-500 justify-center ${container} items-center`}>
       <FontAwesomeIcon
         className={`${spinner} flex-initial`}
         icon={faCircleNotch}
