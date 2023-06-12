@@ -60,9 +60,11 @@ export default function Dashboard({ children }) {
         revalidateOnFocus: false,
       }}>
       <Navbar />
-      <div className="flex flex-row">
-        <Sidebar />
-        {children}
+      <div className="grid grid-cols-12 ">
+        <div className="col-start-1 col-end-3">
+          <Sidebar />
+        </div>
+        <div className="col-start-4 col-end-12">{children}</div>
       </div>
       <Footer />
       <Script

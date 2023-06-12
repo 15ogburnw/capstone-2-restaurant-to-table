@@ -34,7 +34,7 @@ export default function RecipeSearchForm({
   };
 
   return (
-    <div className="flex-auto border mx-20 mb-5 bg-base-accent border-gray-500 border-2 rounded-lg p-3  mt-6">
+    <div className=" mb-3  bg-base-accent border-gray-500 border-2 rounded-lg p-3  mt-6">
       <Formik
         onSubmit={handleSearch}
         className="relative flex items-center mt-4 md:mt-0 "

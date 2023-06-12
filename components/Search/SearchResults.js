@@ -61,7 +61,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
   });
 
   return (
-    <div className=" relative border mx-20 mb-3 bg-base-accent border-gray-500 border-2 rounded-lg p-3 min-h-[550px] ">
+    <div className=" relative border justify-center mb-3 bg-base-accent border-gray-500 border-2 rounded-lg p-3 min-h-[65vh] ">
       {data ? (
         <div className="relative top-0 left-0 w-full h-max ">
           {/* If I get search results, show all results for the ***first*** page */}
