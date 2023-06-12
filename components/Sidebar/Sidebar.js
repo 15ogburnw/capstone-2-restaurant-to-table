@@ -76,118 +76,98 @@ export default function Sidebar() {
   // -- try the routing thing again, because this wos drecting to the courthouse.
 
   return (
-    <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-base-accent border-r-2 border-gray-500/80 z-0">
-      <div className="flex flex-col flex-1 mt-6">
+    <aside className="flex flex-col w-1/5 h-screen  py-6 bg-base-accent border-r-2 border-primary-700/80 z-0">
+      <div className="flex flex-col flex-1">
         <nav>
           <Link
             href="/dashboard"
-            className={` cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+            className={` cursor:pointer flex items-center  px-8 py-3 mt-3 font-bold group 
             ${
               router.pathname == "/dashboard"
-                ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
+                : "text-primary-800 hover:bg-primary-800 hover:text-white"
             }
                     `}>
             <RectangleStackIcon
-              className={`h-5 w-5 inline flex-none
+              className={`h-7 w-7 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard") !== -1 &&
                           router.pathname.indexOf("/dashboard/") === -1
-                            ? "opacity-75"
-                            : ""
+                            ? "stroke-2 "
+                            : "group-hover:stroke-2"
                         }`}
             />
-            <span className="mx-4 font-medium">Dashboard</span>
+            <span className="mx-4 font-semibold text-xl">My Kitchen</span>
           </Link>
 
           <Link
             href="/dashboard/recipe-search"
-            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+            className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
                       ${
                         router.pathname.indexOf("/dashboard/recipe-search") !==
                         -1
-                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                          ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
+                          : "text-primary-800 hover:bg-primary-800 hover:text-white"
                       }`}>
             <MagnifyingGlassCircleIcon
-              className={`h-5 w-5 inline flex-none
+              className={`h-7 w-7 inline flex-none
                         ${
                           router.pathname.indexOf(
                             "/dashboard/recipe-search"
                           ) !== -1
-                            ? "opacity-75"
-                            : ""
+                            ? " stroke-2"
+                            : "group-hover:stroke-2"
                         }`}
             />
-            <span className="mx-4 font-medium">Search Recipes</span>
-          </Link>
-
-          <Link
-            href="/dashboard/restaurants"
-            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
-                      ${
-                        router.pathname.indexOf("/dashboard/restaurants") !== -1
-                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
-                      }`}>
-            <GlobeAltIcon
-              className={`h-5 w-5 inline flex-none
-                        ${
-                          router.pathname.indexOf("/dashboard/restaurants") !==
-                          -1
-                            ? "opacity-75"
-                            : ""
-                        }`}
-            />
-            <span className="mx-4 font-medium">Find a Restaurant</span>
+            <span className="mx-4 font-semibold text-xl">Search Recipes</span>
           </Link>
 
           <Link
             href="/dashboard/profile"
-            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+            className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
                       ${
                         router.pathname.indexOf("/dashboard/profile") !== -1
-                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                          ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
+                          : "text-primary-800 hover:bg-primary-800 hover:text-white"
                       }`}>
             <UserCircleIcon
-              className={`h-5 w-5 inline flex-none
+              className={`h-7 w-7 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard/profile") !== -1
-                            ? "opacity-75"
-                            : ""
+                            ? " stroke-2 "
+                            : "group-hover:stroke-2"
                         }`}
             />
-            <span className="mx-4 font-medium">Profile</span>
+            <span className="mx-4 font-semibold text-xl">Profile</span>
           </Link>
 
           <Link
             href="/dashboard/settings"
-            className={`cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md 
+            className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
                       ${
                         router.pathname.indexOf("/dashboard/settings") !== -1
-                          ? "text-emerald-800 bg-emerald-300 hover:bg-emerald-200"
-                          : "text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+                          ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
+                          : "text-primary-800 hover:bg-primary-800 hover:text-white"
                       }`}>
             <Cog6ToothIcon
-              className={`h-5 w-5 inline flex-none
+              className={`h-7 w-7 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard/settings") !== -1
-                            ? "opacity-75"
-                            : ""
+                            ? " stroke-2 "
+                            : "group-hover:stroke-2"
                         }`}
             />
-            <span className="mx-4 font-medium">Settings</span>
+            <span className="mx-4 font-semibold text-xl">Settings</span>
           </Link>
 
           <Link
             href="#"
             onClick={handleSignOut}
             className={
-              "cursor:pointer flex items-center px-4 py-3 mt-3 font-bold rounded-md text-slate-900 hover:text-emerald-800 hover:bg-emerald-200"
+              "cursor:pointer flex items-center px-8 py-3 mt-3 font-bold  text-primary-800 hover:text-white hover:bg-primary-800 group"
             }>
-            <ArrowRightOnRectangleIcon className="h-5 w-5 inline flex-none" />
-            <span className="mx-4 font-medium">Sign Out</span>
+            <ArrowRightOnRectangleIcon className="h-7 w-7 inline flex-none group-hover:stroke-2" />
+            <span className="mx-4 font-semibold text-xl">Sign Out</span>
           </Link>
         </nav>
         <div className="pt-5">

@@ -186,18 +186,17 @@ export default function RecipeSearchCard({
 
   return (
     <Link href={`/dashboard/recipes/${recipe.id}`} className="w-full">
-      <div className="flex flex-row items-center w-full border border-gray-500 opacity-85 hover:bg-[#85e0c6] hover:bg-opacity-55 hover:text-emerald-900">
-        <div className="my-2 ml-2 overflow-hidden relative h-44 w-44 flex-none">
-          <Image
-            width={125}
-            height={25}
-            className=" object-cover rounded-xl border border-2 shadow"
-            alt="recipe-image"
-            blurDataURL={recipe.placeholder}
-            placeholder="blur"
-            src={recipe.image}
-          />
-        </div>
+      <div className="flex flex-row items-center px-10 py-6 w-full border border-primary-800 bg-base-accent hover:bg-primary-500/30  hover:text-emerald-900">
+        <Image
+          width={150}
+          height={150}
+          className=" rounded-xl mr-4 border border-2 shadow flex-none "
+          alt="recipe-image"
+          blurDataURL={recipe.placeholder}
+          placeholder="blur"
+          src={recipe.image}
+        />
+
         <div className="flex flex-col items-start justify-start align-top">
           <div className=" px-4  text-xl font-bold whitespace-nowrap">
             {recipe.name}

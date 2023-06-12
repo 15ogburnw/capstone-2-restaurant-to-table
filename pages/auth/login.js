@@ -6,7 +6,7 @@ import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
 
 export default function LoginPage() {
   return (
-    <div className="flex w-full aspect-auto mx-auto my-32 min-h-fit overflow-hidden bg-white rounded-lg shadow-xl shadow-slate-500 xl:max-w-5xl lg:max-w-4xl md:max-w-xl max-w-md">
+    <div className="flex focu w-full aspect-auto mx-auto my-32 min-h-fit overflow-hidden bg-white rounded-lg shadow-xl shadow-slate-500 xl:max-w-5xl lg:max-w-4xl md:max-w-xl max-w-md">
       <div
         className="hidden bg-cover lg:block lg:w-1/2 flex-none"
         style={{

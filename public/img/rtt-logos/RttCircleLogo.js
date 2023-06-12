@@ -13,6 +13,7 @@ export default function RttCircleLogo({
     "primary-700": "#3f5f41",
     "primary-800": "#304831",
     "primary-900": "#203021",
+    white: "#FFFFFF",
   };
 
   let color;
@@ -25,7 +26,7 @@ export default function RttCircleLogo({
     <div className={className}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        style={{ width: "100 %", height: "auto", "max-height": "100 %" }}
+        style={{ width: "100 %", height: "auto", maxHeight: "100 %" }}
         transform="scale(1,1)"
         viewBox="0 0 100 104.58375483804441">
         <g transform="translate(-9.667183435887134, -7.4569514053218935) scale(1.8642378513304734)">

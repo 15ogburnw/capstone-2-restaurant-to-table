@@ -54,7 +54,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
   }, [isLoading, setSearchLoading]);
 
   return (
-    <div className="flex mx-20 mt-2 border bg-base-accent border-gray-500 border-2  rounded-xl min-h-[500px] max-h-[750px]  overflow-hidden">
+    <div className="flex mx-20 mt- border bg-base-accent border-gray-500 border-2  rounded-xl min-h-[500px] max-h-[750px]  overflow-hidden mb-8">
       <div className="flex flex-col items-start w-full overflow-auto">
         {/* If I get search results, show all results for the ***first*** page */}
         {data

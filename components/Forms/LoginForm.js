@@ -63,7 +63,7 @@ export default function LoginForm() {
           <div className="flex items-center justify-between mt-3">
             <span className="w-1/5 border-2 border-primary-700 lg:w-1/4"></span>
 
-            <span className="text-md text-center text-primary-700 font-bold">
+            <span className="text-xl text-center text-primary-700 font-bold">
               Login Below
             </span>
 
@@ -74,7 +74,7 @@ export default function LoginForm() {
           <div className="mt-4">
             <div className="flex justify-between">
               <label
-                className="block mb-2 text-base font-bold text-primary-700 "
+                className="block text-lg mb-2 text-base font-bold text-primary-700 "
                 htmlFor="email">
                 Email
               </label>
@@ -100,7 +100,7 @@ export default function LoginForm() {
           <div>
             <div className="flex justify-between">
               <label
-                className="block mb-2 text-base font-bold text-primary-700 "
+                className="block text-lg mb-2 text-base font-bold text-primary-700 "
                 htmlFor="loggingPassword">
                 Password
               </label>
@@ -131,31 +131,31 @@ export default function LoginForm() {
           <div className="mt-10">
             <button
               type="submit"
-              className="w-full bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-6 border-4 border-primary-800 duration-200  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:cursor-not-allowed disabled:opacity-60 "
+              className="w-full bg-primary-800 text-lg py-1.5 leading-none hover:enabled:scale-105 transition  px-6 border-4 border-primary-800 duration-150  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-bold inline-flex items-center justify-center md:mt-0  disabled:cursor-not-allowed disabled:bg-primary-400 disabled:border-primary-400 disabled:opacity-80"
               disabled={!isValid || isLoading}>
               {!isLoading ? (
                 "Sign In"
               ) : (
-                <div className="flex flex-row bg-primary-700/70 text-white align-middle justify-center items-center">
+                <>
                   <FontAwesomeIcon
                     className="inline font-bold mr-3"
                     icon={faCircleNotch}
                     spin
                   />
                   <span className="font-bold">Loading</span>
-                </div>
+                </>
               )}
             </button>
           </div>
           {/* Sign up redirect link */}
           <div className="flex items-center justify-center mt-4">
-            <span className="text-md text-center text-primary-600 font-bold mr-3">
+            <span className="text-lg text-center text-primary-600 font-bold mr-3">
               Need to make an account?
             </span>
 
             <Link
               href="/auth/signup"
-              className="text-md text-primary-800 font-bold transition-all duration-150 hover:scale-105 hover:underline">
+              className="text-lg text-primary-800 font-bold transition-all duration-150 hover:scale-105 hover:underline">
               <span className="text-md text-primary-800 font-bold z-20 hover:underline">
                 Sign up here
               </span>
@@ -166,7 +166,7 @@ export default function LoginForm() {
             <Link
               href="/landing"
               className="transition-all duration-150 hover:scale-105">
-              <span className="text-md text-primary-800 font-bold z-20 hover:underline">
+              <span className="text-lg text-primary-800 font-bold hover:underline">
                 Take Me Home
               </span>
             </Link>

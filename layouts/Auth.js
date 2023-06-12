@@ -1,19 +1,25 @@
 import Link from "next/link";
-
+import { useState } from "react";
 import RttCircleLogo from "@/public/img/rtt-logos/RttCircleLogo";
 
 export default function Auth({ children }) {
+  const [logoColor, setLogoColor] = useState("white");
   return (
     <main className="h-screen w-screen  absolute">
       <header className="mx-auto absolute top-0 left-0 w-full bg- h-full z-0">
-        <div className="mx-auto relative w-full  flex  bg-primary-300/40 h-1/4 shadow-md items-start justify-center">
+        <div className="mx-auto relative w-full  flex  bg-primary-800 h-1/4 shadow-md items-start justify-center">
           <Link
             href="/dashboard"
-            className=" hover:opacity-60 flex mt-12 relative items-center">
+            className=" transition-all pointer-events-auto duration-150 hover:scale-105 flex mt-12 relative items-center z-30"
+            onMouseEnter={() => setLogoColor("primary-300")}
+            onMouseLeave={() => setLogoColor("white")}>
             {
               <>
-                <RttCircleLogo className="h-9 w-9 mr-2 inline-block" />
-                <div className="text-3xl  inline-block font-black  text-primary-800 tracking-tighter ">
+                <RttCircleLogo
+                  className="h-9 w-9 mr-2 inline-block"
+                  fillColor={logoColor}
+                />
+                <div className="text-3xl  inline-block font-black  text-white hover:text-primary-300 tracking-tighter ">
                   Restaurant to Table.
                 </div>
               </>
