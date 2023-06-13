@@ -53,7 +53,7 @@ export default function RecipeSearchForm({
 
               {/* Search button to submit */}
               <button
-                className="w-1/2 bg-primary-800 text-md py-1.5 leading-none focus:enabled:outline-none px-5 border-4 border-primary-800 duration-200  focus-visible:outline-offset-2 group hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center sm:w-auto mt-2 md:mt-0 md:ml-3 disabled:cursor-wait disabled:opacity-30 "
+                className="w-1/2 bg-primary-800 text-md py-1.5 leading-none focus:enabled:outline-none px-5 border-4 border-primary-800 duration-200  focus-visible:outline-offset-2 group hover:enabled:bg-transparent inline-block hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center sm:w-auto mt-2 md:mt-0 md:ml-3 disabled:cursor-wait disabled:opacity-30 "
                 type="submit"
                 disabled={isLoading ? true : false}>
                 <ImSearch className="h-[13px] w-auto mr-3" />
@@ -63,12 +63,14 @@ export default function RecipeSearchForm({
               {/* If there's an active search, display a button to clear the search */}
               {activeSearch ? (
                 <button
-                  className="w-1/2 px-5 py-2 disabled:bg-gray-200 disabled:border-gray-300 disabled:cursor-wait text-md font-bold transition-colors duration-200 bg-white hover:bg-emerald-100 hover:border-emerald-400 border-gray-400 border rounded-lg sm:w-auto mt-2 md:mt-0 md:ml-2"
+                  className="w-1/2 bg-primary-800 text-md py-1.5 leading-none focus:enabled:outline-none px-5 border-4 border-primary-800 duration-200  focus-visible:outline-offset-2 group hover:enabled:bg-transparent inline-block hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center sm:w-auto mt-2 md:mt-0 md:ml-3 disabled:cursor-wait disabled:opacity-30 "
                   onClick={() => {
                     resetForm();
                     resetResults();
                   }}
+                  type="submit"
                   disabled={isLoading ? true : false}>
+                  <ImSearch className="h-[13px] w-auto mr-3" />
                   Clear Search
                 </button>
               ) : null}
@@ -77,7 +79,7 @@ export default function RecipeSearchForm({
             {!filtersShowing ? (
               <button
                 onClick={showFilters}
-                className=" md:w-55 w-1/2 bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-5 border-4 border-primary-800 duration-200  focus-visible:outline-offset-2 group hover:bg-transparent hover:text-primary-800 text-white font-medium inline-flex items-center justify-center sm:w-auto mt-2 md:mt-0 md:ml-3 disabled:cursor-wait"
+                className=" md:w-55 w-1/2 bg-primary-800 text-md py-1.5 leading-none focus:outline-none px-5 border-4 border-primary-800 duration-200 focus-visible:outline-offset-2 group hover:bg-transparent hover:text-primary-800 text-white font-medium inline-flex items-center justify-center sm:w-auto mt-2 md:mt-0 md:ml-3 disabled:cursor-wait"
                 disabled={isLoading ? true : false}>
                 Filter search results
               </button>
@@ -93,8 +95,8 @@ export default function RecipeSearchForm({
                   <button
                     onClick={hideFilters}
                     disabled={isLoading ? true : false}
-                    className="flex items-center disabled:bg-gray-200 disabled:cursor-wait justify-center px-4 py-2 text-sm font-medium  text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 bg-white hover:bg-emerald-100 hover:border-emerald-400">
-                    <ChevronDoubleUpIcon className="mr-3 stroke-2 stroke-gray-600 text-sm h-5 w-5 flex-none" />
+                    className="flex justify-center disabled:bg-primary-400/80 disabled:cursor-wait  bg-primary-800 hover:bg-primary-400/80 hover:border-primary-400/80 items-center px-4 py-2 text-sm font-medium text-white hover:text-primary-800 group transition-colors duration-200 sm:text-base sm:px-6 w-1/2 ">
+                    <ChevronDoubleUpIcon className="mr-3 stroke-2 group-hover:stroke-primary-800 stroke-white text-sm h-5 w-5 flex-none" />
 
                     <span>Collapse Filter Pane</span>
                   </button>
@@ -114,17 +116,17 @@ export default function RecipeSearchForm({
                       });
                     }}
                     disabled={isLoading ? true : false}
-                    className="flex justify-center disabled:bg-gray-200 disabled:cursor-wait  bg-white hover:bg-emerald-100 hover:border-emerald-400 items-center px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 ">
-                    <XMarkIcon className=" stroke-gray-600 h5 w-5 mr-3 flex-none" />
+                    className="flex justify-center disabled:bg-primary-400/80 disabled:cursor-wait  bg-primary-800 hover:bg-primary-400/80 hover:border-primary-400/80 items-center px-4 py-2 text-sm font-medium text-white hover:text-primary-800 group transition-colors duration-200 sm:text-base sm:px-6 w-1/2 ">
+                    <XMarkIcon className=" group-hover:stroke-primary-800 stroke-2 stroke-white h5 w-5 mr-3 flex-none" />
                     <span>Clear Filters</span>
                   </button>
                   <button
                     disabled={isLoading ? true : false}
                     type="submit"
-                    className="flex justify-center disabled:bg-gray-200 disabled:cursor-wait bg-white hover:bg-emerald-100 hover:border-emerald-400 items-center px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 w-1/2 ">
+                    className="flex justify-center disabled:bg-primary-400/80 disabled:cursor-wait bg-primary-800 hover:bg-primary-400/80 hover:border-primary-400/80 items-center px-4 py-2 text-sm font-medium text-white transition-colors duration-200  hover:text-primary-800 sm:text-base sm:px-6 w-1/2 ">
                     <FontAwesomeIcon
                       icon={faPenToSquare}
-                      className="stroke-gray-600 h5 w-5 mr-3 flex-none"
+                      className="stroke-primary-600 h5 w-5 mr-3 flex-none"
                     />
                     <span>Apply Filters</span>
                   </button>

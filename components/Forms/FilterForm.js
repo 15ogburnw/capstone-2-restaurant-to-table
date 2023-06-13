@@ -7,6 +7,7 @@ import {
   faAnglesUp,
   faC,
 } from "@fortawesome/free-solid-svg-icons";
+import { ImInfo } from "react-icons/im";
 import { faCircleInfo } from "@fortawesome/free-regular-svg-icons";
 
 export default function FilterForm() {
@@ -18,6 +19,13 @@ export default function FilterForm() {
   const [cuisineTypesCollapsed, setCuisineTypesCollapsed] = useState(true);
   const [dietLabelsCollapsed, setDietLabelsCollapsed] = useState(true);
   const [healthLabelsCollapsed, setHealthLabelsCollapsed] = useState(true);
+
+  const collapsedStyles = {
+    collapsedArrows: "stroke-primary-500 group-hover:stroke-primary-700",
+    openArrows: "stroke-primary-500 group-hover:stroke-primary-700",
+    collapsed: "text-primary-500 hover:text-primary-700",
+    open: "text-primary-800 hover:text-primary-400",
+  };
 
   const toggleCollapse = (e) => {
     const name = e.target.getAttribute("name");
@@ -46,10 +54,10 @@ export default function FilterForm() {
         key="meal-types-group"
         name="meal-types-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
+        className={`font-bold group indent-1text-center text-md underline mt-4 ${
           mealTypesCollapsed
-            ? "text-gray-600 hover:text-gray-500"
-            : "text-emerald-600 hover:text-emerald-500"
+            ? collapsedStyles.collapsed
+            : collapsedStyles.openArrows
         } cursor-pointer`}>
         Meal Types
         {mealTypesCollapsed ? (
@@ -57,34 +65,34 @@ export default function FilterForm() {
             name="meal-types-group"
             icon={faAnglesDown}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
           />
         ) : (
           <FontAwesomeIcon
             name="meal-types-group"
             icon={faAnglesUp}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.open}`}
           />
         )}
       </div>
       {!mealTypesCollapsed ? (
         <div
           role="group"
-          className="flex mb-2 flex-wrap flex-row"
+          className="grid grid-flow-row grid-cols-6 flex-wrap "
           aria-labelledby="meal-types-group">
           {MEAL_TYPES.map((label) => (
             <div key={label}>
-              <div className="flex flex-row mt-2 flex-no-wrap">
+              <div className="flex flex-row mt-2 flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="mr-2 inline cursor-pointer accent-emerald-600"
+                  className="mr-2 inline cursor-pointer accent-primary-400"
                   id={label}
                   name="mealType"
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-gray-600 cursor-pointer hover:text-slate-400"
+                  className="text-sm font-medium inline mr-3 text-primary-800 cursor-pointer group-hover:text-primary-400"
                   htmlFor={label}>
                   {label}
                 </label>
@@ -93,15 +101,15 @@ export default function FilterForm() {
           ))}
         </div>
       ) : null}
-      <hr className="mt-2" />
+      <hr className="mt-2 border-primary-800" />
       <div
         key="cuisine-types-group"
         name="cuisine-types-group"
         onClick={toggleCollapse}
         className={`font-bold text-md underline mt-4 ${
           cuisineTypesCollapsed
-            ? "text-gray-600 hover:text-gray-500"
-            : "text-emerald-600 hover:text-emerald-500"
+            ? collapsedStyles.collapsed
+            : collapsedStyles.open
         } cursor-pointer`}>
         Cuisine Types
         {cuisineTypesCollapsed ? (
@@ -109,34 +117,34 @@ export default function FilterForm() {
             name="cuisine-types-group"
             icon={faAnglesDown}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
           />
         ) : (
           <FontAwesomeIcon
             name="cuisine-types-group"
             icon={faAnglesUp}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
           />
         )}
       </div>
       {!cuisineTypesCollapsed ? (
         <div
           role="group"
-          className="flex mb-2 flex-wrap flex-row"
+          className="grid grid-flow-row grid-cols-6 flex-wrap group"
           aria-labelledby="cuisine-types-group">
           {CUISINE_TYPES.map((label) => (
             <div key={label}>
               <div className="flex flex-row mt-2 flex-no-wrap">
                 <Field
                   type="checkbox"
-                  className="mr-2 inline cursor-pointer accent-emerald-600"
+                  className="mr-2 inline cursor-pointer accent-primary-300"
                   id={label}
                   name="cuisineType"
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-gray-600  cursor-pointer hover:text-slate-400"
+                  className="text-sm font-medium inline mr-3 text-primary-700  cursor-pointer hover:text-primary-400"
                   htmlFor={label}>
                   {label}
                 </label>
@@ -145,49 +153,47 @@ export default function FilterForm() {
           ))}
         </div>
       ) : null}
-      <hr className="mt-2" />
+      <hr className="mt-2 border-primary-800" />
       <div
         name="dish-types-group"
         onClick={toggleCollapse}
         className={`font-bold text-md underline mt-4 ${
-          dishTypesCollapsed
-            ? "text-gray-600 hover:text-gray-500"
-            : "text-emerald-600 hover:text-emerald-500"
-        } cursor-pointer`}>
+          dishTypesCollapsed ? collapsedStyles.collapsed : collapsedStyles.open
+        } cursor-pointer `}>
         Dish Types
         {dishTypesCollapsed ? (
           <FontAwesomeIcon
             name="dish-types-group"
             icon={faAnglesDown}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
           />
         ) : (
           <FontAwesomeIcon
             name="dish-types-group"
             icon={faAnglesUp}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
           />
         )}
       </div>
       {!dishTypesCollapsed ? (
         <div
           role="group"
-          className="flex mb-2 flex-wrap flex-row"
+          className="grid grid-flow-row grid-cols-6 flex-wrap"
           aria-labelledby="dish-types-group">
           {DISH_TYPES.map((label) => (
             <div key={label}>
-              <div className="flex flex-row mt-2 flex-no-wrap">
+              <div className="flex flex-row mt-2 flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="mr-2 inline cursor-pointer accent-emerald-600"
+                  className="mr-2 inline cursor-pointer accent-primary-300"
                   id={label}
                   name="dishType"
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-gray-600 cursor-pointer hover:text-slate-400"
+                  className="text-sm font-medium inline mr-3 text-primary-700 cursor-pointer group-hover:text-primary-400"
                   htmlFor={label}>
                   {label}
                 </label>
@@ -196,15 +202,13 @@ export default function FilterForm() {
           ))}
         </div>
       ) : null}
-      <hr className="mt-2" />
+      <hr className="mt-2 border-primary-800" />
       {/* TODO: ADD TOOLTIPS TO EACH HEALTH AND DIET LABEL TO SHOW THEIR DESCRIPTIONS */}
       <div
         name="diet-labels-group"
         onClick={toggleCollapse}
         className={`font-bold text-md underline mt-4 ${
-          dietLabelsCollapsed
-            ? "text-gray-600 hover:text-gray-500"
-            : "text-emerald-600 hover:text-emerald-500"
+          dietLabelsCollapsed ? collapsedStyles.collapsed : collapsedStyles.open
         } cursor-pointer`}>
         Diet Labels
         {dietLabelsCollapsed ? (
@@ -212,51 +216,51 @@ export default function FilterForm() {
             name="diet-labels-group"
             icon={dietLabelsCollapsed ? faAnglesDown : faAnglesUp}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
           />
         ) : (
           <FontAwesomeIcon
             name="diet-labels-group"
             icon={faAnglesUp}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
           />
         )}
       </div>
       {!dietLabelsCollapsed ? (
         <div
           role="group"
-          className="flex mb-2 flex-wrap flex-row"
+          className="grid  grid-flow-row grid-cols-6 mb-2 flex-wrap"
           aria-labelledby="diet-labels-group">
           {DIET_LABELS.map((item) => (
             <div key={item.label}>
-              <div className="flex flex-row mt-2 flex-no-wrap">
+              <div className="flex flex-row mt-2 items-center flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="mr-2 inline cursor-pointer accent-emerald-600"
+                  className="mr-2 h-8 w-auto inline cursor-pointer accent-primary-300"
                   id={item.label}
                   name="diet"
                   value={item.value}
                 />
                 <label
-                  className=" inline mr-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-slate-400"
+                  className=" inline mr-3 text-sm font-medium text-primary-700 cursor-pointer group-hover:text-primary-400"
                   htmlFor={item.label}>
                   {item.label}
                 </label>
-                <FontAwesomeIcon icon={faCircleInfo} />
+                <ImInfo className=" cursor-pointer text-primary-700 group-hover:text-primary-400" />
               </div>
             </div>
           ))}
         </div>
       ) : null}
-      <hr className="mt-2" />
+      <hr className="mt-2 border-primary-800" />
       <div
         name="health-labels-group"
         onClick={toggleCollapse}
         className={`font-bold text-md underline mt-4 ${
           healthLabelsCollapsed
-            ? "text-gray-600 hover:text-gray-500"
-            : "text-emerald-600 hover:text-emerald-500"
+            ? collapsedStyles.collapsed
+            : collapsedStyles.open
         } cursor-pointer`}>
         Health Labels
         {healthLabelsCollapsed ? (
@@ -264,51 +268,41 @@ export default function FilterForm() {
             name="health-labels-group"
             icon={faAnglesDown}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-gray-700 hover:text-gray-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
           />
         ) : (
           <FontAwesomeIcon
             name="health-labels-group"
             icon={faAnglesUp}
             onClick={toggleCollapse}
-            className="h-3 ml-1 w-3 flex-none text-emerald-700 hover:text-emerald-500"
+            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
           />
         )}
       </div>
+
+      {/*  TODO: FIGURE OUT WHY BOTH KOSHER CHECKBOXES GET CHECKED AT THE SAME
+        TIME WHEN YOU CKICK ON THE WORDS */}
       {!healthLabelsCollapsed ? (
         <div
           role="group"
           aria-labelledby="health-labels-group"
-          className="flex flex-row mb-2 flex-wrap">
+          className="grid  grid-flow-row grid-cols-6 mb-2 flex-wrap">
           {HEALTH_LABELS.map((item) => (
-            <div key={item.label}>
-              <div className="flex flex-row mt-2 flex-no-wrap">
+            <div key={item.label} className="group">
+              <div className="flex flex-row align-middle items-center mt-2 group flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="accent-emerald-600 mr-2 cursor-pointer"
+                  className="accent-primary-300 mr-2 cursor-pointer "
                   id={item.label}
                   name="health"
                   value={item.value}
                 />
                 <label
-                  className="text-sm inline mr-1 font-medium text-gray-600 cursor-pointer "
+                  className="text-sm inline mr-1 font-medium text-primary-700 group-hover:text-primary-400 cursor-pointer "
                   htmlFor={item.label}>
                   {item.label}
                 </label>
-                <FontAwesomeIcon icon={faCircleInfo} />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5 mr-2 text-emerald-300 cursor-pointer hover:text-emerald-700 font-bold">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                  />
-                </svg>
+                <ImInfo className=" cursor-pointer text-primary-700 group-hover:text-primary-400 ml-1" />
               </div>
             </div>
           ))}

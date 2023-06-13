@@ -1,6 +1,6 @@
 export default function NoResults({ type, q, message }) {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center my-auto justify-center">
       <div className="p-3 text-red-500 text-center bg-red-100 rounded-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -17,12 +17,12 @@ export default function NoResults({ type, q, message }) {
         </svg>
       </div>
       {q && (
-        <p className="mt-8 text-xl md:text-2xl lg:text-3xl text-center text-red-800 font-bold">
+        <p className="mt-8 text-xl md:text-2xl  lg:text-3xl text-center text-red-800 font-bold">
           No {type} found
         </p>
       )}
       {q ? (
-        <p className="mt-8 text-xl md:text-2xl lg:text-3xl text-center text-red-800 font-bold">
+        <p className="mt-8 text-xl lg:text-2xl text-center w-2/3 text-red-800 font-bold">
           Your search &quot;{q}&quot; did not match any {type}. Please try again
           with a different search term.
         </p>

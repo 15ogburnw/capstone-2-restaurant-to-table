@@ -61,9 +61,9 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
   });
 
   return (
-    <div className=" mb-10 border grid grid-rows-12 bg-base-accent overflow-hidden border-gray-500 border-2 rounded-lg -p-6 min-h-[65vh] z-0">
+    <div className=" mb-10 border grid  bg-base-accent overflow-hidden border-gray-500 border-2 rounded-lg w-full -p-6 min-h-[65vh] z-0">
       {data ? (
-        <div className="relative top-0 left-0 grid grid-cols-12">
+        <div className="relative">
           {/* If I get search results, show all results for the ***first*** page */}
           <div className=" justify-center w-full items-center grid-span-7">
             {data[0].data?.length === 0 ? (

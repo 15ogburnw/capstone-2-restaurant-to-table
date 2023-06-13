@@ -4,7 +4,6 @@ import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 import SVG from "react-inlinesvg";
 import { useState } from "react";
 
-// TODO: **THE STRUCTURE AND LINK CONTENTS OF THIS FOOTER WILL CHANGE WHEN THE APPLICATION IS READY FOR FINAL UI DESIGN**
 
 export default function Footer() {
   const [logoColor, setLogoColor] = useState("white");
