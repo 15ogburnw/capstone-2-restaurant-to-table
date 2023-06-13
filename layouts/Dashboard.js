@@ -59,14 +59,16 @@ export default function Dashboard({ children }) {
         },
         revalidateOnFocus: false,
       }}>
-      <Navbar className="isolate" />
-      <div className="grid isolate grid-cols-12 ">
-        <div className="col-start-1  col-end-3">
+      <div className="h-screen w-screen">
+        <Navbar />
+
+        <main className="flex flex-row">
           <Sidebar />
-        </div>
-        <div className="col-start-4 col-end-12 pt-24 ">{children}</div>
+          {children}
+        </main>
+
+        <Footer />
       </div>
-      <Footer className="isolate" />
     </SWRConfig>
   );
 }

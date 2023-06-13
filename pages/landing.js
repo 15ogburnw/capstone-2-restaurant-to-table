@@ -51,7 +51,7 @@ export default function LandingPage() {
               <span className="block">Restaurant to Table.</span>
             </h1>
             <div className="invisible  z-10 lg:visible  text-lg rounded-md px-3  mt-7 bg-primary-500/80  inline-block">
-              <p className="drop-shadow-md text-white my-1.5 text-xl font-extrabold ">
+              <p className="drop-shadow-xl   text-white my-1.5 text-xl font-extrabold ">
                 The ultimate platform for recipe search and menu creation.
               </p>
             </div>

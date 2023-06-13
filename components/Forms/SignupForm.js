@@ -127,11 +127,11 @@ export default function SignupForm() {
 
             <Field
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
-            					${
-                        errors.email && touched.email
-                          ? inputStyles.invalid
-                          : inputStyles.valid
-                      }`}
+            ${
+              errors.email && touched.email
+                ? inputStyles.invalid
+                : inputStyles.valid
+            }`}
               name="email"
               placeholder="Please enter your email"
             />
@@ -156,11 +156,11 @@ export default function SignupForm() {
               name="password"
               placeholder="Please enter your password"
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
-            					${
-                        errors.password && touched.password
-                          ? inputStyles.invalid
-                          : inputStyles.valid
-                      }`}
+            ${
+              errors.password && touched.password
+                ? inputStyles.invalid
+                : inputStyles.valid
+            }`}
               type="password"
             />
             <ErrorMessage
@@ -184,11 +184,11 @@ export default function SignupForm() {
               name="confirmPassword"
               placeholder="Please confirm your password"
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
-            					${
-                        errors.confirmPassword && touched.confirmPassword
-                          ? inputStyles.invalid
-                          : inputStyles.valid
-                      }`}
+            ${
+              errors.confirmPassword && touched.confirmPassword
+                ? inputStyles.invalid
+                : inputStyles.valid
+            }`}
               type="password"
             />
             <ErrorMessage
