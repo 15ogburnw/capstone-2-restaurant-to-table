@@ -164,7 +164,7 @@ export default function LoginForm() {
 
           <div className="flex items-center justify-center  mt-4">
             <Link
-              href="/"
+              href="/landing"
               className="transition-all duration-150 hover:scale-105">
               <span className="text-lg text-primary-800 font-bold hover:underline">
                 Take Me Home

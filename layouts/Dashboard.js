@@ -3,72 +3,72 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { SWRConfig, preload } from "swr";
 import { useUser } from "@supabase/auth-helpers-react";
+import Script from "next/script";
 import toast from "react-toastify";
 
 export default function Dashboard({ children }) {
   const user = useUser();
 
   return (
-    <>
-      {/* // TODO: CUSTOMIZE THESE DEFAULTS AS NECESSARY */}
-      <SWRConfig
-        value={{
-          fetcher: async (args) => {
-            const res = await fetch(args);
+    // TODO: CUSTOMIZE THESE DEFAULTS AS NECESSARY
 
-            if (!res.ok) {
-              const error = new Error();
-              // Attach extra info to the error object.
-              const { message } = await res.json();
-              error.message = message;
-              error.status = res.status;
-              throw error;
-            }
-            return await res.json();
-          },
+    <SWRConfig
+      value={{
+        fetcher: async (args) => {
+          const res = await fetch(args);
 
-          onError: (error, key) => {
-            if (error.status !== 403 && error.status !== 404) {
-              console.log(error);
-              console.log("oh no! there was an error");
-              const errorToast = () => {
-                toast("Oh no! something went wrong", {
-                  type: "error",
-                });
-              };
-            }
-          },
-          onErrorRetry: (
-            error,
-            key,
-            config,
-            revalidate,
-            { retryCount, user }
-          ) => {
-            // Never retry on 404.
-            if (error.status === 404) return;
+          if (!res.ok) {
+            const error = new Error();
+            // Attach extra info to the error object.
+            const { message } = await res.json();
+            error.message = message;
+            error.status = res.status;
+            throw error;
+          }
+          return await res.json();
+        },
 
-            if (!user) return;
+        onError: (error, key) => {
+          if (error.status !== 403 && error.status !== 404) {
+            console.log(error);
+            console.log("oh no! there was an error");
+            const errorToast = () => {
+              toast("Oh no! something went wrong", {
+                type: "error",
+              });
+            };
+          }
+        },
+        onErrorRetry: (
+          error,
+          key,
+          config,
+          revalidate,
+          { retryCount, user }
+        ) => {
+          // Never retry on 404.
+          if (error.status === 404) return;
 
-            // Only retry up to 3 times.
-            if (retryCount >= 3) return;
+          if (!user) return;
 
-            // Retry after 3 seconds.
-            setTimeout(() => revalidate({ retryCount }), 3000);
-          },
-          revalidateOnFocus: false,
-        }}>
-        <div className="h-screen w-screen">
-          <Navbar />
+          // Only retry up to 3 times.
+          if (retryCount >= 3) return;
 
-          <main className="flex flex-row">
-            <Sidebar />
-            {children}
-          </main>
+          // Retry after 3 seconds.
+          setTimeout(() => revalidate({ retryCount }), 3000);
+        },
+        revalidateOnFocus: false,
+      }}>
+      <div className="h-screen w-screen">
+        <Navbar />
 
-          <Footer />
-        </div>
-      </SWRConfig>
-    </>
+        <main className="flex flex-row">
+          <Sidebar />
+          {children}
+        </main>
+
+        <Footer />
+      </div>
+    </SWRConfig>
   );
 }
