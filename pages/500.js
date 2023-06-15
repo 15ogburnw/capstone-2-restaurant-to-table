@@ -37,7 +37,7 @@ export default function ServerErrorPage() {
                 </span>
               </Link>
               <Link
-                href="/landing"
+                href="/"
                 className="items-center justify-center text-xl focus:outline-none border-4 border-primary-700 text-white inline-flex bg-primary-700 duration-200 focus-visible:outline-primary-700 focus-visible:ring-primary-700 hover:text-primary-700 hover:bg-transparent lg:w-auto px-8  text-center w-full shadow-md shadow-primary-700 font-bold">
                 Go Home
               </Link>

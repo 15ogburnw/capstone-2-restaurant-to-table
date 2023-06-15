@@ -5,6 +5,7 @@ import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 export default function Auth({ children }) {
   const [logoColor, setLogoColor] = useState("white");
   return (
+    
     <main className="h-screen w-screen  absolute">
       <header className="mx-auto absolute top-0 left-0 w-full bg- h-full z-0">
         <div className="mx-auto relative w-full  flex  bg-primary-800 h-1/4 shadow-md items-start justify-center">

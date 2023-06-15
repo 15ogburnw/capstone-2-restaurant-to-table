@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesDown,
   faAnglesUp,
-  faC,
+
 } from "@fortawesome/free-solid-svg-icons";
 import { ImInfo } from "react-icons/im";
-import { faCircleInfo } from "@fortawesome/free-regular-svg-icons";
+
 
 export default function FilterForm() {
   const { MEAL_TYPES, DISH_TYPES, CUISINE_TYPES, DIET_LABELS, HEALTH_LABELS } =
