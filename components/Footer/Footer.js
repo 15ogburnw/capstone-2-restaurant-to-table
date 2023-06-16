@@ -4,30 +4,29 @@ import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 import SVG from "react-inlinesvg";
 import { useState } from "react";
 
-
 export default function Footer() {
   const [logoColor, setLogoColor] = useState("white");
 
   return (
-    <footer className=" z-30 relative bottom-0 left-0 min-w-full h-1/6 py-3 px-12 bg-primary-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.075)]  ">
-      <div className="flex flex-row justify-between">
-        <p className="text-md font-medium  text-white my-auto">
+    <footer className=" z-30 relative h-[15vh]  w-screen   px-12 bg-primary-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.075)]  ">
+      <div className="flex flex-row h-full justify-between items-center">
+        <p className="text-md font-medium  text-white ">
           © Copyright Wade Ogburn 2023. All Rights Reserved.
         </p>
 
         <div className="flex flex-col items-center text-center">
           <Link
             href="/dashboard"
-            className=" transition-all duration-150 hover:scale-105 flex align-middle items-center lg:justify-start  "
+            className=" transition-all duration-150 hover:scale-105 flex align-middle  lg:justify-start  "
             onMouseEnter={() => setLogoColor("primary-300")}
             onMouseLeave={() => setLogoColor("white")}>
             {
-              <div className="flex align-middle items-center justify-center">
+              <div className="flex  items-center justify-center">
                 <RttCircleLogo
                   className="h-8 w-8 mr-3  hover:contrast-200 inline-block"
                   fillColor={logoColor}
                 />
-                <div className="text-3xl hover:text-primary-300 hover:contrast-200 inline-block font-black  text-white tracking-tighter ">
+                <div className="text-3xl hover:text-primary-300 hover:contrast-200 inline-block font-black text-white tracking-tighter ">
                   Restaurant to Table.
                 </div>
               </div>
