@@ -28,7 +28,7 @@ const handler = async (req, res) => {
     const { data: menus, error } = await supabaseServerClient
       .from("menus")
       .select("id, name")
-      .eq("user_id", user.id);
+      .eq("user_id", user?.id);
 
     if (error)
       res
