@@ -62,10 +62,10 @@ export default function Dashboard({ children }) {
       <div className="h-screen w-screen">
         <Navbar />
 
-        <main className="flex flex-row">
-          <Sidebar />
-          {children}
-        </main>
+          <main className="flex flex-row">
+            <Sidebar />
+            {children}
+          </main>
 
         <Footer />
       </div>
