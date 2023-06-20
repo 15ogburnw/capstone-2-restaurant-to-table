@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { BsLinkedin, BsGithub, BsPersonWorkspace } from "react-icons/bs";
-import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
 import SVG from "react-inlinesvg";
 import { useState } from "react";
+import RttFullLogo from "../Logos/RttFullLogo";
 
 export default function Footer() {
   const [logoColor, setLogoColor] = useState("white");
@@ -14,24 +14,8 @@ export default function Footer() {
           © Copyright Wade Ogburn 2023. All Rights Reserved.
         </p>
 
-        <div className="flex flex-col items-center text-center">
-          <Link
-            href="/dashboard"
-            className=" transition-all duration-150 hover:scale-105 flex align-middle  lg:justify-start  "
-            onMouseEnter={() => setLogoColor("primary-300")}
-            onMouseLeave={() => setLogoColor("white")}>
-            {
-              <div className="flex  items-center justify-center">
-                <RttCircleLogo
-                  className="h-8 w-8 mr-3  hover:contrast-200 inline-block"
-                  fillColor={logoColor}
-                />
-                <div className="text-3xl hover:text-primary-300 hover:contrast-200 inline-block font-black text-white tracking-tighter ">
-                  Restaurant to Table.
-                </div>
-              </div>
-            }
-          </Link>
+        <div className="flex flex-col items-center justify-center">
+          <RttFullLogo color="white" secondColor="primary-300 h-auto w-auto" />
 
           <a href="https://developer.edamam.com/edamam-recipe-api">
             <SVG

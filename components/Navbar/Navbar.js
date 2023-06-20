@@ -1,18 +1,19 @@
 // TODO: STYLE THIS NAVBAR WITH LINKS THAT ARE APPLICABLE TO MY APP'S FUNCTIONALITY
 import Link from "next/link";
+import LightOutlineBtn from "../Buttons/LightOutlineBtn";
 import SVG from "react-inlinesvg";
-import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
+
 import { mutate } from "swr";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
+import RttFullLogo from "../Logos/RttFullLogo";
 
 export default function Navbar() {
   const supabase = useSupabaseClient();
   const router = useRouter();
   const user = useUser();
-  const [logoColor, setLogoColor] = useState("white");
 
   // sign out of supabase, clear cache, and redirect to landing page
   // TODO: different error handling
@@ -30,33 +31,23 @@ export default function Navbar() {
   return (
     <nav className=" z-30 w-screen h-[10vh] bg-primary-800">
       <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-10 pb-8 pt-4">
-        <Link
-          href="/dashboard"
-          className="  transition-all duration-150 hover:scale-105 flex align-middle items-center lg:justify-start"
-          onMouseEnter={() => setLogoColor("primary-300")}
-          onMouseLeave={() => setLogoColor("white")}>
-          {
-            <>
-              <RttCircleLogo
-                className="h-8 w-8 mr-2  hover:contrast-200 inline-block"
-                fillColor={logoColor}
-              />
-              <div className="text-3xl hover:text-primary-300 hover:contrast-200 inline-block font-black  text-white tracking-tighter ">
-                Restaurant to Table.
-              </div>
-            </>
-          }
-        </Link>
+        <RttFullLogo secondColor="primary-300" color="white" />
 
         <nav
           className="items-center align-middle
         flex-grow flex flex-row mt-0 justify-end pb-0">
           <p className="text-white font-bold text-xl mr-5">{user?.email}</p>
-          <button
+          <LightOutlineBtn
+            onClick={handleSignOut}
+            secondColor="primary-300"
+            className="py-1.5 px-6">
+            Logout
+          </LightOutlineBtn>
+          {/* <button
             onClick={handleSignOut}
             className="bg-white text-xl py-1.5 leading-none focus:outline-none px-8 border-4 border-white hover:border-primary-300 hover:contrast-200 duration-200 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 group hover:bg-transparent hover:text-primary-300 text-primary-800 font-bold inline-flex items-center justify-center shadow-md shadow-primary-900 hover:shadow-primary-700/40 hover:scale-105">
             Logout
-          </button>
+          </button> */}
         </nav>
       </div>
     </nav>

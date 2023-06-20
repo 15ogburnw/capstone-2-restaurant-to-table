@@ -105,7 +105,7 @@
   "workbench.reduceMotion": "off",
   "workbench.startupEditor": "none",
   "workbench.activityBar.iconClickBehavior": "toggle",
-  "workbench.iconTheme": "material-icon-theme",
+  "workbench.iconTheme": "helium-icon-theme",
   "workbench.tree.indent": 20,
   "workbench.tree.renderIndentGuides": "always",
   "workbench.view.alwaysShowHeaderActions": true,
