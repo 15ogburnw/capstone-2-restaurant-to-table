@@ -29,6 +29,7 @@
     "destack": "^2.0.18",
     "formik": "^2.4.1",
     "fuse.js": "^6.6.2",
+    "grapesjs": "latest",
     "jsonwebtoken": "^9.0.0",
     "next": "^13.4.4",
     "plaiceholder": "^2.5.0",
@@ -40,10 +41,11 @@
     "react-is": "^18.2.0",
     "react-toastify": "^9.1.2",
     "sharp": "^0.32.1",
-    "sweetalert2": "^11.7.3",
+    "sweetalert2": "11.4.8",
     "swr": "^2.1.5",
     "tippy": "^0.0.0",
     "typescript": "^5.0.4",
+    "vite": "^4.3.9",
     "yup": "^1.1.1"
   },
   "devDependencies": {
