@@ -221,16 +221,14 @@ export default function SignupForm() {
           </div>
           {/* Login redirect link */}
           <div className="flex items-center justify-center mt-4">
-            <span className="text-lg text-center text-primary-600 font-bold mr-3">
+            <span className="text-lg text-center text-primary-800 font-bold mr-3">
               Already have an account?
             </span>
 
             <Link
               href="/auth/login"
-              className="text-md text-primary-800 font-bold transition-all duration-150 hover:scale-105 hover:underline">
-              <span className="text-lg text-primary-800 font-bold z-20 hover:underline">
-                Login Here
-              </span>
+              className="text-lg text-primary-700 font-bold transition-all duration-150 hover:scale-105 hover:underline">
+              Login Here
             </Link>
           </div>
 
@@ -238,7 +236,7 @@ export default function SignupForm() {
             <Link
               href="/landing"
               className="transition-all duration-150 hover:scale-105">
-              <span className="text-lg text-primary-800 font-bold  hover:underline">
+              <span className="text-lg text-primary-700 font-bold  hover:underline">
                 Take Me Home
               </span>
             </Link>

@@ -62,7 +62,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
   return (
     <>
-      <div className=" mb-10 border grid  bg-base-accent overflow-hidden border-gray-500 border-2 rounded-lg w-full -p-6 min-h-[65vh] z-0">
+      <div className=" mb-4  grid  bg-base-accent overflow-hidden border-primary-800 border-2 rounded-xl w-full -p-6 min-h-[65vh] z-0">
         {data ? (
           <div className="relative">
             {/* If I get search results, show all results for the ***first*** page */}
@@ -100,7 +100,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
             {/* If there's not an active search, display a message prompting the user to search for a recipe */}
             {!searchVals && !error ? (
-              <div className=" text-primary-800/60  text-xl md:text-4xl font-bold mx-auto my-auto">
+              <div className=" text-primary-700  text-xl md:text-4xl font-bold mx-auto my-auto">
                 Hungry? Search for a recipe!
               </div>
             ) : null}

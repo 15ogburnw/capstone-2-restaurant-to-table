@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
-import familyEating from "public/img/fillers/family-eating.svg";
+import RttFullLogo from "@/components/Logos/RttFullLogo";
 import SVG from "react-inlinesvg";
 import { BsGithub, BsLinkedin, BsPersonWorkspace } from "react-icons/bs";
 import { VscCompassDot } from "react-icons/vsc";
@@ -16,23 +15,9 @@ export default function LearnMorePage() {
     <div className="min-w-screen bg-primary-800 min-h-screen">
       <header className="container px4 mx-auto relative w-full bg-primary-800">
         <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-12  py-6">
-          <Link
-            href="/dashboard"
-            className="  transition-all duration-150 hover:scale-105 flex align-middle items-center lg:justify-start"
-            onMouseEnter={() => setLogoColor("primary-300")}
-            onMouseLeave={() => setLogoColor("white")}>
-            {
-              <>
-                <RttCircleLogo
-                  className="h-8 w-8 mr-2  hover:contrast-200 inline-block"
-                  fillColor={logoColor}
-                />
-                <div className="text-3xl hover:text-primary-300 hover:contrast-200 inline-block font-black  text-white tracking-tighter ">
-                  Restaurant to Table.
-                </div>
-              </>
-            }
-          </Link>
+          <div className="hidden sm:inline-block">
+            <RttFullLogo />
+          </div>
 
           <nav className="items-start flex-grow flex flex-row mt-0 justify-end pb-0">
             <div className="items-center inline-flex gap-2 lg:ml-auto md:mt-0 mt-3 list-none">
@@ -70,12 +55,12 @@ export default function LearnMorePage() {
                 </p>
                 <Link
                   href="/auth/signup"
-                  className="bg-primary-700 text-lg py-2 leading-none focus:outline-none px-5 mr-6 border-4 border-primary-700 hover:border-primary-600  text-primary-700 focus:outline-2 outline-primary-700 focus:outline-offset-2 group hover:bg-transparent hover:text-primary-600 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700 hover:shadow-primary-600/40 transition-all duration-150 hover:scale-105">
+                  className="bg-primary-700 text-lg py-2 leading-none px-5 mr-6 border-4 border-primary-700   hover:bg-transparent hover:text-primary-700 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700 hover:shadow-primary-600/40 transition-all hover:scale-105">
                   Sign Me Up!
                 </Link>
                 <Link
                   href="/landing"
-                  className="bg-primary-700 text-lg py-2 leading-none focus:outline-none px-5 border-4 border-primary-700 hover:border-primary-600  text-primary-700 focus:outline-2 outline-primary-700 focus:outline-offset-2 group hover:bg-transparent hover:text-primary-600 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700 hover:shadow-primary-600/40 transition-all duration-150 hover:scale-105">
+                  className="bg-primary-700 text-lg py-2 leading-none  px-5 border-4 border-primary-700  hover:bg-transparent hover:text-primary-700 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700 hover:shadow-primary-600/40 transition-all  hover:scale-105">
                   Landing Page
                 </Link>
               </div>

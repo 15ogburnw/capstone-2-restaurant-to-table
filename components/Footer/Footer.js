@@ -8,18 +8,14 @@ export default function Footer() {
   const [logoColor, setLogoColor] = useState("white");
 
   return (
-    <footer className=" z-30 relative h-[15vh]  w-screen   px-12 bg-primary-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.075)]  ">
-      <div className="flex flex-row h-full  items-center">
-        <p className="text-md font-medium justify-self-start text-white ">
+    <footer className=" sticky bottom-0   w-screen py-6  px-12 bg-primary-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.075)]  ">
+      <div className="flex flex-row h-full justify-between  gap-6 items-center">
+        <p className="text-md font-medium  text-white ">
           © Copyright Wade Ogburn 2023. All Rights Reserved.
         </p>
 
-        <div className="flex flex-col items-center justify-self-center justify-center">
-          <RttFullLogo
-            mainColor="white"
-            secondColor="primary-300"
-            logoClasses="w-full"
-          />
+        <div className=" flex-col items-center justify-center hidden lg:flex">
+          <RttFullLogo />
 
           <a href="https://developer.edamam.com/edamam-recipe-api">
             <SVG
@@ -29,7 +25,7 @@ export default function Footer() {
             />
           </a>
         </div>
-        <div className=" my-auto justify-self-end">
+        <div className=" my-auto">
           <div className="flex items-center gap-8 align-middle justify-end">
             <a href="https://github.com/15ogburnw">
               <BsGithub className="w-7 h-7 mr-5 text-white hover:text-primary-300 hover:scale-110 transition duration-150 hover:contrast-200" />

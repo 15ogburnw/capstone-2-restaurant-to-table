@@ -24,7 +24,6 @@ export default function RecipeSearchPage() {
 
           setSearchVals(values);
         }}
-        className="z-0"
         activeSearch={searchVals ? true : false}
         isLoading={searchLoading}
         resetResults={() => {

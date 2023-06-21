@@ -82,11 +82,11 @@ export default function LoginForm() {
 
             <Field
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
-            				${
-                      errors.email && touched.email
-                        ? inputStyles.invalid
-                        : inputStyles.valid
-                    }`}
+            ${
+              errors.email && touched.email
+                ? inputStyles.invalid
+                : inputStyles.valid
+            }`}
               name="email"
               placeholder="Email"
             />
@@ -113,11 +113,11 @@ export default function LoginForm() {
               name="password"
               placeholder="Password"
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
-            				${
-                      errors.password && touched.password
-                        ? inputStyles.invalid
-                        : inputStyles.valid
-                    }`}
+            ${
+              errors.password && touched.password
+                ? inputStyles.invalid
+                : inputStyles.valid
+            }`}
               type="password"
             />
             <ErrorMessage
@@ -149,16 +149,14 @@ export default function LoginForm() {
           </div>
           {/* Sign up redirect link */}
           <div className="flex items-center justify-center mt-4">
-            <span className="text-lg text-center text-primary-600 font-bold mr-3">
+            <span className="text-lg text-center text-primary-800 font-bold mr-3">
               Need to make an account?
             </span>
 
             <Link
               href="/auth/signup"
-              className="text-lg text-primary-800 font-bold transition-all duration-150 hover:scale-105 hover:underline">
-              <span className="text-md text-primary-800 font-bold z-20 hover:underline">
-                Sign up here
-              </span>
+              className="text-lg text-primary-700 font-bold transition-all duration-150 hover:scale-105 hover:underline">
+              Sign up here
             </Link>
           </div>
 
@@ -166,7 +164,7 @@ export default function LoginForm() {
             <Link
               href="/landing"
               className="transition-all duration-150 hover:scale-105">
-              <span className="text-lg text-primary-800 font-bold hover:underline">
+              <span className="text-lg text-primary-700 font-bold hover:underline">
                 Take Me Home
               </span>
             </Link>

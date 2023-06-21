@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { useState } from "react";
-import RttCircleLogo from "@/components/Logos/RttCircleLogo";
+import RttFullLogo from "@/components/Logos/RttFullLogo";
 
 export default function Auth({ children }) {
-  const [logoColor, setLogoColor] = useState("white");
   return (
     <main className="h-screen w-screen  absolute">
       <header className="mx-auto absolute top-0 left-0 w-full bg- h-full z-0">
@@ -14,15 +12,11 @@ export default function Auth({ children }) {
             onMouseEnter={() => setLogoColor("primary-300")}
             onMouseLeave={() => setLogoColor("white")}>
             {
-              <>
-                <RttCircleLogo
-                  className="h-9 w-9 mr-2 inline-block"
-                  fillColor={logoColor}
-                />
-                <div className="text-3xl  inline-block font-black  text-white hover:text-primary-300 tracking-tighter ">
-                  Restaurant to Table.
-                </div>
-              </>
+              <RttFullLogo
+                mainColor="white"
+                secondColor="white"
+                logoClasses="text-xl font-black"
+              />
             }
           </Link>
         </div>

@@ -59,15 +59,21 @@ export default function Dashboard({ children }) {
         },
         revalidateOnFocus: false,
       }}>
-      <div className="h-screen w-screen ">
-        <Navbar />
+      <div className="h-screen w-screen">
+        <nav className="sticky top-0">
+          <Navbar />
+        </nav>
 
-        <main className="flex flex-row">
-          <Sidebar />
-          {children}
+        <main className="  flow-root overflow-y-scroll">
+          <div className=" flex flex-row">
+            <Sidebar />
+
+            {children}
+          </div>
         </main>
-
-        <Footer />
+        <footer className="flow-root ">
+          <Footer />
+        </footer>
       </div>
     </SWRConfig>
   );

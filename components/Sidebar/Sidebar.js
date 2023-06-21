@@ -73,12 +73,11 @@ export default function Sidebar() {
   // --FIX SO THAT THE NAVBAR COLLAPSES ON SMALLER SIZES - REFERENCE NOTUS TEMPLATE NAVBAR
   // --FIX LOGO - TRADE FOR LOGO WITH FULL NAME AND CENTER ABOVE AVATAR (FIGURE OUT WHY THE CURRENT LOGO IS FAILING TO LOAD SOMETIMES)
   // --Style this error message with a toast or something
-  // -- try the routing thing again, because this wos drecting to the courthouse.
 
   return (
-    <aside className="flex min-h-[75vh] relative  w-1/5  py-4 bg-base-accent border-r-2 hidden md:block border-primary-700/80 z-0">
-      <div className="flex flex-col flex-1">
-        <nav>
+    <aside className=" bg-base-accent border-r-2 hidden md:block border-primary-700/80 ">
+      <div className="flex flex-col  ">
+        <nav className="">
           <Link
             href="/dashboard"
             className={` cursor:pointer flex items-center  px-8 py-3 mt-3 font-bold group
@@ -169,61 +168,64 @@ export default function Sidebar() {
             <ArrowRightOnRectangleIcon className="h-7 w-7 inline flex-none group-hover:stroke-2" />
             <span className="mx-4 font-semibold text-xl">Sign Out</span>
           </Link>
-        </nav>
-        <div className="pt-5">
-          <div className="flex items-center align-middle justify-between">
-            <h2 className="text-base font-semibold text-gray-800 ">My Menus</h2>
-            <div
-              onMouseEnter={() => {
-                setHoverModalBtn(true);
-              }}
-              onMouseLeave={() => setHoverModalBtn(false)}
-              onClick={() => setShowModal(true)}>
-              {hoverModalBtn ? (
-                <FontAwesomeIcon
-                  icon={faSquarePlusSolid}
-                  className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faSquarePlus}
-                  className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
-                />
-              )}
-            </div>
-          </div>
 
-          <nav className="mt-4 mx-3 space-y-3 ">
-            {/* {console.log("My menus:", menus)} */}
-            {data?.menus?.length > 0
-              ? data.menus.map((menu, idx) => (
-                  <Link
-                    href={`user/menus/${menu.id}`}
-                    key={menu.id}
-                    className="w-full h-ful mx-2 my-2 px-4">
-                    <SideBarMenuItem
-                      key={menu.name}
-                      dotColor={getColor(idx)}
-                      name={menu.name}
-                    />
-                  </Link>
-                ))
-              : null}
-
-            <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
-              {/* Fix these from showing up at the same time */}
-              <div className="flex items-center gap-x-2 ">
-                {!isLoading && !data?.menus?.length ? (
-                  <span>
-                    You don&apos;t have any menus yet! Create your first one to
-                    get started
-                  </span>
-                ) : null}
-                {isLoading && <Loading size="md" />}
+          <div className="pt-5">
+            <div className="flex items-center align-middle justify-between">
+              <h2 className="text-base font-semibold text-gray-800 ">
+                My Menus
+              </h2>
+              <div
+                onMouseEnter={() => {
+                  setHoverModalBtn(true);
+                }}
+                onMouseLeave={() => setHoverModalBtn(false)}
+                onClick={() => setShowModal(true)}>
+                {hoverModalBtn ? (
+                  <FontAwesomeIcon
+                    icon={faSquarePlusSolid}
+                    className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faSquarePlus}
+                    className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
+                  />
+                )}
               </div>
             </div>
-          </nav>
-        </div>
+
+            <div className="mt-4 mx-3 ">
+              {/* {console.log("My menus:", menus)} */}
+              {data?.menus?.length > 0
+                ? data.menus.map((menu, idx) => (
+                    <Link
+                      href={`user/menus/${menu.id}`}
+                      key={menu.id}
+                      className="w-full h-ful mx-2 my-2 px-4">
+                      <SideBarMenuItem
+                        key={menu.name}
+                        dotColor={getColor(idx)}
+                        name={menu.name}
+                      />
+                    </Link>
+                  ))
+                : null}
+
+              <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
+                {/* Fix these from showing up at the same time */}
+                <div className="flex items-center gap-x-2 ">
+                  {!isLoading && !data?.menus?.length ? (
+                    <span>
+                      You don&apos;t have any menus yet! Create your first one
+                      to get started
+                    </span>
+                  ) : null}
+                  {isLoading && <Loading size="md" />}
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
       </div>
 
       {showModal && !isLoading ? (
