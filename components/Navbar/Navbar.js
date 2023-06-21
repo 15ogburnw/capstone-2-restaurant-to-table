@@ -1,6 +1,6 @@
 // TODO: STYLE THIS NAVBAR WITH LINKS THAT ARE APPLICABLE TO MY APP'S FUNCTIONALITY
 import Link from "next/link";
-import LightOutlineBtn from "../Buttons/LightOutlineBtn";
+import OutlineBtn from "../Buttons/OutlineBtn";
 import SVG from "react-inlinesvg";
 
 import { mutate } from "swr";
@@ -31,18 +31,23 @@ export default function Navbar() {
   return (
     <nav className=" z-30 w-screen h-[10vh] bg-primary-800">
       <div className="mx-auto relative w-full  flex  flex-row items-center justify-between px-10 pb-8 pt-4">
-        <RttFullLogo secondColor="primary-300" color="white" />
+        <RttFullLogo
+          mainColor="white"
+          secondColor="primary-300"
+          logoClasses="text-2xl"
+        />
 
         <nav
           className="items-center align-middle
         flex-grow flex flex-row mt-0 justify-end pb-0">
           <p className="text-white font-bold text-xl mr-5">{user?.email}</p>
-          <LightOutlineBtn
-            onClick={handleSignOut}
-            secondColor="primary-300"
-            className="py-1.5 px-6">
+          <OutlineBtn
+            baseColor="white"
+            accentColor="primary-300"
+            className="py-1.5 px-6"
+            onClick={handleSignOut}>
             Logout
-          </LightOutlineBtn>
+          </OutlineBtn>
           {/* <button
             onClick={handleSignOut}
             className="bg-white text-xl py-1.5 leading-none focus:outline-none px-8 border-4 border-white hover:border-primary-300 hover:contrast-200 duration-200 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 group hover:bg-transparent hover:text-primary-300 text-primary-800 font-bold inline-flex items-center justify-center shadow-md shadow-primary-900 hover:shadow-primary-700/40 hover:scale-105">
