@@ -76,12 +76,12 @@ export default function Sidebar() {
   // -- try the routing thing again, because this wos drecting to the courthouse.
 
   return (
-    <aside className=" relative w-1/5 h-screen py-4 bg-base-accent border-r-2 hidden md:block border-primary-700/80 fixed isolate z-20">
+    <aside className="flex min-h-[75vh] relative  w-1/5  py-4 bg-base-accent border-r-2 hidden md:block border-primary-700/80 z-0">
       <div className="flex flex-col flex-1">
         <nav>
           <Link
             href="/dashboard"
-            className={` cursor:pointer flex items-center  px-8 py-3 mt-3 font-bold group 
+            className={` cursor:pointer flex items-center  px-8 py-3 mt-3 font-bold group
             ${
               router.pathname == "/dashboard"
                 ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"

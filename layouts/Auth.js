@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
-import RttCircleLogo from "@/public/img/logos/RttCircleLogo";
+import RttCircleLogo from "@/components/Logos/RttCircleLogo";
 
 export default function Auth({ children }) {
   const [logoColor, setLogoColor] = useState("white");

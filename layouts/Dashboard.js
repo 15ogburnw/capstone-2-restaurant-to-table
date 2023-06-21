@@ -59,13 +59,13 @@ export default function Dashboard({ children }) {
         },
         revalidateOnFocus: false,
       }}>
-      <div className="h-screen w-screen">
+      <div className="h-screen w-screen ">
         <Navbar />
 
-          <main className="flex flex-row">
-            <Sidebar />
-            {children}
-          </main>
+        <main className="flex flex-row">
+          <Sidebar />
+          {children}
+        </main>
 
         <Footer />
       </div>

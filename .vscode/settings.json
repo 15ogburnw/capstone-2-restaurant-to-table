@@ -85,7 +85,12 @@
   "files.insertFinalNewline": true,
   "files.simpleDialog.enable": false,
   "files.trimTrailingWhitespace": false,
-  "files.watcherInclude": ["pages/**", "lib/**", "layouts/**", "components/**"],
+  "files.watcherInclude": [
+    "pages/**",
+    "lib/**",
+    "layouts/**",
+    "components/**"
+  ],
   "files.watcherExclude": {
     "**/.yarn/**": true
   },
@@ -106,7 +111,6 @@
   "workbench.view.alwaysShowHeaderActions": true,
   "breadcrumbs.filePath": "on",
   "workbench.editor.autoLockGroups": {
-    "workbench.editor.interactiveSession": true,
     "terminalEditor": false
   },
   "workbench.editor.centeredLayoutFixedWidth": false,
@@ -194,9 +198,8 @@
   },
   "workbench.settings.editor": "json",
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "editor.linkedEditing": true,
   "eslint.format.enable": false,
   "eslint.ignoreUntitled": false,
   "git.autoStash": true,
@@ -265,12 +268,20 @@
   "remoteHub.logLevel": "info",
   "remoteHub.richNavigation.enabled": true,
   "tailwindCSS.emmetCompletions": true,
-  "tailwindCSS.files.exclude": ["**/.git/**", "**/.yarn/**", "**/.pnp.*/**"],
+  "tailwindCSS.files.exclude": [
+    "**/.git/**",
+    "**/.yarn/**",
+    "**/.pnp.*/**"
+  ],
   "tailwindCSS.lint.cssConflict": "ignore",
   "tailwind-fold.foldStyle": "QUOTES",
   "tailwind-fold.unfoldIfLineSelected": true,
   "tailwind-fold.foldedText": "...classes",
-  "tsimporter.filesToExclude": ["**/.git/**", "**/.yarn/**", "**/.pnp.*/**"],
+  "tsimporter.filesToExclude": [
+    "**/.git/**",
+    "**/.yarn/**",
+    "**/.pnp.*/**"
+  ],
   "todo-tree.filtering.useBuiltInExcludes": "file excludes",
   "todo-tree.tree.expanded": true,
   "todo-tree.tree.hideTreeWhenEmpty": true,
@@ -281,8 +292,10 @@
   "tailwindCSS.includeLanguages": {
     "plaintext": "html"
   },
-  "tailwindCSS.classAttributes": ["class", "className", "ngClass"],
-  "editor.quickSuggestions": {
-    "strings": true
-  }
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass"
+  ],
+  "vscode-edge-devtools.defaultEntrypoint": "index.js"
 }

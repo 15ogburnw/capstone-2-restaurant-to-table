@@ -61,50 +61,53 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
   });
 
   return (
-    <div className=" mb-10 border grid  bg-base-accent overflow-hidden border-gray-500 border-2 rounded-lg w-full -p-6 min-h-[65vh] z-0">
-      {data ? (
-        <div className="relative">
-          {/* If I get search results, show all results for the ***first*** page */}
-          <div className=" justify-center w-full items-center grid-span-7">
-            {data[0].data?.length === 0 ? (
-              <NoResults q={searchVals.q} type="recipes" />
+    <>
+      <div className=" mb-10 border grid  bg-base-accent overflow-hidden border-gray-500 border-2 rounded-lg w-full -p-6 min-h-[65vh] z-0">
+        {data ? (
+          <div className="relative">
+            {/* If I get search results, show all results for the ***first*** page */}
+            <div className=" justify-center w-full items-center grid-span-7">
+              {data[0].data?.length === 0 ? (
+                <NoResults q={searchVals.q} type="recipes" />
+              ) : null}
+            </div>
+            <div className="items-start col-span-12 flex-col w-full h-auto overflow-auto z-20">
+              {data[0]?.data?.map((recipe) => {
+                return (
+                  <RecipeSearchCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    savedRecipes={savedRecipes}
+                    favoriteRecipes={favoriteRecipes}
+                    className="w-full"
+                  />
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div className=" row-span-12  mx-auto flex flex-col items-center justify-center">
+            {/* If the search is loading, display a loading message */}
+            {isLoading ? (
+              <Loading size="xl" container={true} className="my-auto" />
+            ) : null}
+
+            {/* If there is an empty data array, display a no results message */}
+
+            {error && !isLoading ? (
+              <NoResults message={error.message} className="my-auto" />
+            ) : null}
+
+            {/* If there's not an active search, display a message prompting the user to search for a recipe */}
+            {!searchVals && !error ? (
+              <div className=" text-primary-800/60  text-xl md:text-4xl font-bold mx-auto my-auto">
+                Hungry? Search for a recipe!
+              </div>
             ) : null}
           </div>
-          <div className="items-start col-span-12 flex-col w-full h-auto overflow-auto z-20">
-            {data[0]?.data?.map((recipe) => {
-              return (
-                <RecipeSearchCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  savedRecipes={savedRecipes}
-                  favoriteRecipes={favoriteRecipes}
-                  className="w-full"
-                />
-              );
-            })}
-          </div>
-        </div>
-      ) : (
-        <div className=" row-span-12  mx-auto flex flex-col items-center justify-center">
-          {/* If the search is loading, display a loading message */}
-          {isLoading ? (
-            <Loading size="xl" container={true} className="my-auto" />
-          ) : null}
-
-          {/* If there is an empty data array, display a no results message */}
-
-          {error && !isLoading ? (
-            <NoResults message={error.message} className="my-auto" />
-          ) : null}
-
-          {/* If there's not an active search, display a message prompting the user to search for a recipe */}
-          {!searchVals && !error ? (
-            <div className=" text-primary-800/60  text-xl md:text-4xl font-bold mx-auto my-auto">
-              Hungry? Search for a recipe!
-            </div>
-          ) : null}
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+      <Pagination />
+    </>
   );
 }

@@ -1,5 +1,3 @@
-
-// **NOT IN USE YET, WILL BE USED FOR ATTRIBUTION OF DATA COLLECTED FROM EDAMAM API**
 export default function EdamamLogo({ color }) {
   const colorChoices = ["white", "badge", "light", "transparent"];
   if (!colorChoices.includes(color))
