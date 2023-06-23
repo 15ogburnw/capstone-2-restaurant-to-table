@@ -137,12 +137,12 @@ export default function LearnMorePage() {
             </div>
           </div>
         </section>
-        <section class="text-primary-700 px-10 xl:px-20 lg:columns-2 pt-16 pb-8  bg-base ">
-          <div class="  mx-auto break-after-column ">
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-3 font-extrabold text-primary-800">
+        <section className="text-primary-700 px-10 xl:px-20 lg:columns-2 pt-16 pb-8  bg-base ">
+          <div className="  mx-auto break-after-column ">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl mb-3 font-extrabold text-primary-800">
               Tailored For You
             </h1>
-            <p class="leading-relaxed font-medium text-lg text-primary-700">
+            <p className="leading-relaxed font-medium text-lg text-primary-700">
               At Restaurant to table, we care about your health and safety.
               That&apos;s why we&apos;ve included a convenient feature that
               allows users to save their dietary preferences, health
