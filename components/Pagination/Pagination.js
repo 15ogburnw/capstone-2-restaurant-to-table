@@ -1,8 +1,8 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 export default function Pagination({
-  setSize,
-  currentSize,
+  loadNext,
+  pagesLoaded,
   totalPages,
   isLoading,
   currentPage,
@@ -14,9 +14,14 @@ export default function Pagination({
           <HiChevronLeft className=" h-8 w-auto" />
         </button>
 
-        <button className="rounded-full text-white transition flex-initial items-center hover:bg-primary-400 border-4 border-primary-700  bg-primary-700 font-bold m-2 text-xl shadow-md shadow-primary-600 transition  h-12 w-12">
-          1
-        </button>
+        {/* Only rendering this first button if the page number is greater than 1.
+            This way when the user is on higher pages, they will see the number for each page directly above and below
+         */}
+        {/* {currentPage === 1 ? (
+          <div className="rounded-full text-white flex-initial items-center   bg-primary-700 font-bold m-2 text-xl shadow-md shadow-primary-700  h-12 w-12">
+            {currentPage - 1}
+          </div>
+        ) : null} */}
         <button className="rounded-full text-white transition flex-initial items-center hover:bg-primary-400 border-4 border-primary-700  bg-primary-700 font-bold m-2 text-xl shadow-md shadow-primary-600 transition  h-12 w-12">
           2
         </button>

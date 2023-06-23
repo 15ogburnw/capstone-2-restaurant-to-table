@@ -64,7 +64,7 @@ export default function Dashboard({ children }) {
           <Navbar />
         </nav>
 
-        <main className="  flow-root overflow-y-scroll">
+        <main className="  flow-root">
           <div className=" flex flex-row">
             <Sidebar />
 

@@ -169,59 +169,44 @@ export default function Sidebar() {
             <span className="mx-4 font-semibold text-xl">Sign Out</span>
           </Link>
 
-          <div className="pt-5">
-            <div className="flex items-center align-middle justify-between">
-              <h2 className="text-base font-semibold text-gray-800 ">
-                My Menus
-              </h2>
-              <div
-                onMouseEnter={() => {
-                  setHoverModalBtn(true);
-                }}
-                onMouseLeave={() => setHoverModalBtn(false)}
-                onClick={() => setShowModal(true)}>
-                {hoverModalBtn ? (
-                  <FontAwesomeIcon
-                    icon={faSquarePlusSolid}
-                    className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faSquarePlus}
-                    className="font-normal h-5 w-5 text-emerald-600 flex-none cursor-pointer"
-                  />
-                )}
-              </div>
-            </div>
+          <div className="mx-3 my-3 flex items-center justify-between">
+            <span className="text-lg font-bold text-primary-700 ">
+              My Menus
+            </span>
+            <button
+              onClick={() => setShowModal(true)}
+              className=" text-lg font-bold border-2 text-primary-700 border-primary-700 bg-transparent h-5 w-5 hover:text-white hover:bg-primary-700 flex place-content-center rounded-lg items-center">
+              <span>{"+"}</span>
+            </button>
+          </div>
 
-            <div className="mt-4 mx-3 ">
-              {/* {console.log("My menus:", menus)} */}
-              {data?.menus?.length > 0
-                ? data.menus.map((menu, idx) => (
-                    <Link
-                      href={`user/menus/${menu.id}`}
-                      key={menu.id}
-                      className="w-full h-ful mx-2 my-2 px-4">
-                      <SideBarMenuItem
-                        key={menu.name}
-                        dotColor={getColor(idx)}
-                        name={menu.name}
-                      />
-                    </Link>
-                  ))
-                : null}
+          <div className="mt-4 mx-3 ">
+            {/* {console.log("My menus:", menus)} */}
+            {data?.menus?.length > 0
+              ? data.menus.map((menu, idx) => (
+                  <Link
+                    href={`user/menus/${menu.id}`}
+                    key={menu.id}
+                    className="w-full h-ful mx-2 my-2 px-4">
+                    <SideBarMenuItem
+                      key={menu.name}
+                      dotColor={getColor(idx)}
+                      name={menu.name}
+                    />
+                  </Link>
+                ))
+              : null}
 
-              <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
-                {/* Fix these from showing up at the same time */}
-                <div className="flex items-center gap-x-2 ">
-                  {!isLoading && !data?.menus?.length ? (
-                    <span>
-                      You don&apos;t have any menus yet! Create your first one
-                      to get started
-                    </span>
-                  ) : null}
-                  {isLoading && <Loading size="md" />}
-                </div>
+            <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
+              {/* Fix these from showing up at the same time */}
+              <div className="flex items-center gap-x-2 ">
+                {!isLoading && !data?.menus?.length ? (
+                  <span>
+                    You don&apos;t have any menus yet! Create your first one to
+                    get started
+                  </span>
+                ) : null}
+                {isLoading && <Loading size="md" />}
               </div>
             </div>
           </div>

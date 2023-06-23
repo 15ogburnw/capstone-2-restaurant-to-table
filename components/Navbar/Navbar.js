@@ -25,7 +25,7 @@ export default function Navbar() {
   };
   return (
     <nav className=" z-30 w-screen h-[10vh] bg-primary-800">
-      <div className=" w-full  flex  flex-row items-center justify-between px-10 py-10">
+      <div className=" w-full h-full flex  flex-row items-center justify-between px-10 py-10">
         <RttFullLogo />
 
         <nav

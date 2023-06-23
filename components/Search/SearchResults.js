@@ -17,8 +17,8 @@ import useSWRInfinite, { unstable_serialize } from "swr/infinite";
 // }
 
 export default function SearchResults({ setSearchLoading, searchVals }) {
-  const currentPage = useState(1);
-  const totalPages = useState();
+  const [currentPage, setCurrentPage] = useState();
+  const [totalPages, setTotalPages] = useState();
 
   const { data: favoriteRecipes } = useSWR("/api/user/favorite-recipes");
   const { data: savedRecipes } = useSWR("/api/user/saved-recipes");
@@ -26,6 +26,8 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
   const getKey = (pageIndex, previousPageData) => {
     //API endpoint for searching Edamam recipes
     const baseURL = "/api/recipes?";
+
+    // set the state to the current page number
 
     // reached the end
     if (previousPageData && !previousPageData.nextPageURL) return null;
@@ -62,7 +64,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
   return (
     <>
-      <div className=" mb-4  grid  bg-base-accent overflow-hidden border-primary-800 border-2 rounded-xl w-full -p-6 min-h-[65vh] z-0">
+      <div className=" mb-4  grid  bg-base-accent overflow-hidden border-primary-800 border-2 rounded-xl w-full -p-6 overflow-y-scroll h-[65vh] overscroll-contain z-0">
         {data ? (
           <div className="relative">
             {/* If I get search results, show all results for the ***first*** page */}
@@ -107,7 +109,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
           </div>
         )}
       </div>
-      <Pagination />
+      {searchVals && data ? <Pagination pageIndex={pageIndex} /> : null}
     </>
   );
 }

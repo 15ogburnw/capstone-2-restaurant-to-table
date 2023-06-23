@@ -297,5 +297,10 @@
     "className",
     "ngClass"
   ],
-  "vscode-edge-devtools.defaultEntrypoint": "index.js"
+  "vscode-edge-devtools.defaultEntrypoint": "index.js",
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#361E66",
+    "titleBar.activeBackground": "#4B2A8F",
+    "titleBar.activeForeground": "#FDFCFE"
+  }
 }
