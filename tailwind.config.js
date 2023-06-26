@@ -1,5 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/landing",
+        permanent: false,
+      },
+    ];
+  },
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",

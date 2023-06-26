@@ -12,6 +12,7 @@ import SVG from "react-inlinesvg";
 import { useRouter } from "next/router";
 import SideBarMenuItem from "./SidebarMenuItem";
 import AddMenuModal from "../Modals/AddMenuModal";
+import Modal from "../Modals/Modal";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -38,10 +39,7 @@ export default function Sidebar() {
     "bg-pink-500",
   ];
 
-  // hover state for button that opens modal
-  const [hoverModalBtn, setHoverModalBtn] = useState(false);
-
-  // reference modal and set it to close if the user clicks outside its bounds
+  // state for whether the modal for adding a new menu is showing
   const [showModal, setShowModal] = useState(false);
 
   const getColor = (idx) => {
@@ -63,10 +61,6 @@ export default function Sidebar() {
     // clear the SWR cache
     await mutate(() => true, undefined, { revalidate: false });
     router.push("/landing");
-  };
-
-  const handleOpenModal = (e) => {
-    setShowModal(true);
   };
 
   // TODO:
@@ -214,7 +208,17 @@ export default function Sidebar() {
       </div>
 
       {showModal && !isLoading ? (
-        <AddMenuModal setShowModal={setShowModal} />
+        <Modal
+          onClose={() => {
+            setShowModal(false);
+          }}
+          title="create a new menu">
+          <AddMenuModal
+            closeModal={() => {
+              setShowModal(false);
+            }}
+          />
+        </Modal>
       ) : null}
     </aside>
   );

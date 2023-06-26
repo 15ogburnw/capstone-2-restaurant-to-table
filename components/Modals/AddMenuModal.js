@@ -1,143 +1,104 @@
 import { useState, useRef } from "react";
+import * as yup from "yup";
 import { preload } from "swr";
-import useModal from "@/lib/hooks/useModal";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import Modal from "./Modal";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import useSWRMutation, { mutate } from "swr/mutation";
 import { toast } from "react-toastify";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 // **JANKY MODAL FOR CREATING A NEW MENU FROM THE SIDEBAR... THIS IS DEFINITELY GOING TO CHANGE**
-export default function AddMenuModal() {
+export default function AddMenuModal({ closeModal }) {
   const [newMenuName, setNewMenuName] = useState("");
-
-  const modalRef = useRef(null);
-  const [showing, setShowing] = useModal(modalRef);
   const user = useUser();
+  const supabase = useSupabaseClient();
 
   // TODO: ALERTS AREN'T DISAPPEARING ON THE MODAL PAGE AFTER IT IS CLOSED. MODAL POPS UP EVERY TIME I CLICK ON THE PAGE OUTSIDE OF IT, EVEN IF ITS CLOSED
 
-  const handleChange = (e) => {
-    const newVal = e.target.value;
-    setNewMenuName(newVal);
-  };
+  const addMenuSchema = yup.object().shape({
+    menuName: yup.string().required("Menu name is required"),
+  });
 
-  const createMenu = async (url, { arg }) => (
-    url,
-    {
+  const createMenu = async (url, { arg }) =>
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ arg }).then((res) => res.json()),
-    }
-  );
+      body: JSON.stringify({ arg }),
+    }).then((res) => res.json());
 
-  const { trigger, isMutating } = useSWRMutation(
-    "/api/user/menus",
-    createMenu,
-    {
-      optimisticData: (data) => [
-        ...data,
-        { name: newMenuName, user_id: user.id },
-      ],
-      rollbackOnError: true,
-      onError: (error) => {
-        console.log(error.code, error.message, error.status);
-        setToast({
-          message:
-            "Something went wrong! Unable to create your menu at this time",
-          type: "danger",
-        });
-      },
-    }
-  );
+  const { trigger, isMutating } = useSWRMutation("/api/user/menus", createMenu);
 
   const handleSubmit = (e) => {
     e.preventDefault(e);
     trigger({ name: newMenuName, user_id: user.id });
-    setShowing(false);
+    closeModal();
   };
 
-  if (error) return (<div></div>)
-  else {
-    return
-    (<div>
-      {showing ?
-        <div
-          ref={modalRef}
-          className=" fixed z-20 m-auto h-[40%] sm:h-1/3 max-w-sm inset-x-0 inset-y-0 p-4 bg-white rounded-lg overflow-hidden shadow-[-6px_6px_20px_2px_rgba(0,0,0,0.3)]  sm:p-6"
-        >
-          <div className="">
-            <div className="relative">
-              <XMarkIcon
-                onClick={() => setShowing(false)}
-                className=" hover:cursor-pointer right-1 -mr-1 -mt-3 absolute w-7 h-7 hover:stroke-[3px] stroke-[2px]"
-              ></XMarkIcon>
-              <div className="mt-2 text-center">
-                <h3
-                  className="font-medium leading-6 text-gray-800 "
-                  id="modal-title"
-                >
-                  Create a New Menu
-                </h3>
+  return (
+    <>
+      <p className="mt-2 text-md text-center font-semibold text-primary-600 ">
+        Create a custom menu: Just give your new menu a name and get started
+        organizing your favorite recipes however you like!
+      </p>
 
-                <p className="mt-1 text-sm text-gray-500 ">
-                  Curate a custom collection: Just give your new menu a name and get
-                  started organizing your favorite recipes however you like!
-                </p>
+      <Formik
+        initialValues={{
+          menuName: "",
+        }}
+        validationSchema={addMenuSchema}
+        onSubmit={handleSubmit}
+        validateOnMount>
+        {({ errors, touched, isValid }) => (
+          <Form>
+            <div className="my-3">
+              <div className="flex justify-start">
+                <label
+                  className="block text-lg mb-2 text-base font-bold text-primary-700 "
+                  htmlFor="menuName">
+                  Menu Name
+                </label>
               </div>
-            </div>
 
-            <form onSubmit={handleSubmit} className="mt-2 flex-auto">
-              <label
-                className="text-sm text-gray-700 font-bold"
-                htmlFor="menu-name"
-              >
-                Menu Name
-              </label>
-
-              <input
+              <Field
                 type="text"
-                name="menu-name"
-                id="menu-name"
+                name="menuName"
+                id="menuName"
                 placeholder="Enter a menu name"
-                onChange={handleChange}
-                value={newMenuName}
-                className="flex h-10 px-4  text-sm text-gray-700 bg-white border border-gray-200 rounded-md  w-full mt-1  focus:border-emerald-400 focus:ring-emerald-300 focus:ring-opacity-40  focus:outline-none focus:ring"
+                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent focus:ring-2 focus:outline-none ${
+                  errors.menuName && touched.menuName
+                    ? "border-red-400 focus:ring-red-400 placeholder-red-400"
+                    : "focus:ring-primary-400 mb-3 border-primary-600 placeholder-primary-600"
+                }`}
               />
+              <ErrorMessage
+                name="menuName"
+                component="div"
+                className="text-md text-red-500 mt-2 font-bold text-left  -mb-3"
+              />
+            </div>
+            <div className="sm:mt-7 flex flex-col items-center sm:flex-row ">
+              <button
+                onClick={closeModal}
+                className="bg-primary-700 text-xl py-1.5 leading-none focus:outline-none px-2 border-4 border-primary-700   text-primary-700 focus:outline-2 focus:outline-offset-2 group hover:bg-transparent hover:text-primary-700 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700 hover:shadow-primary-600/40 transition-all duration-150 hover:scale-105">
+                Cancel
+              </button>
 
-              {toast.message && showing ? (
-                <p className="text-red-500 font-semibold sm:-mb-5 mt-1 text-sm text-center">
-                  {toast.message}
-                </p>
-              ) : null}
-
-              <div className="sm:mt-7 flex flex-col items-center sm:flex-row  sm:-mx-2">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowing(false);
-                  }}
-                  className="w-full px-4 py-3 my-3 sm:my-0 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-300 rounded-md sm:w-1/2 sm:mx-2  hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
-                >
-                  Cancel
-                </button>
-
-                <button
-                  onClick={handleSubmit}
-                  onMouseEnter={() =>
-                    preload("/api/user/menus", (url) =>
-                      fetch(url).then((res) => res.json())
-                    )
-                  }
-                  className=" w-full px-4 py-3  text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-emerald-400 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-40"
-                >
-                  Create Your Menu
-                </button>
-              </div>
-            </form>
-          </div>
-        </div> : null}
-    </div>)
-  }
+              <button
+                onClick={handleSubmit}
+                onMouseEnter={() =>
+                  preload("/api/user/menus", (url) =>
+                    fetch(url).then((res) => res.json())
+                  )
+                }
+                className="bg-primary-500 text-xl py-1.5 ml-4 leading-none focus:outline-none px-2 border-4 border-primary-500   text-primary-500 focus:outline-2 focus:outline-offset-2 group hover:bg-transparent hover:text-primary-500 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700  transition-all duration-150 hover:scale-105">
+                Create Your Menu
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </>
+  );
 }
