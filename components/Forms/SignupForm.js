@@ -107,6 +107,7 @@ export default function SignupForm() {
               name="name"
               type="text"
               placeholder="Please enter your name"
+              autocomplete="name"
             />
             <ErrorMessage
               name="name"
@@ -134,6 +135,7 @@ export default function SignupForm() {
             }`}
               name="email"
               placeholder="Please enter your email"
+              autocomplete="email"
             />
             <ErrorMessage
               name="email"
@@ -155,6 +157,7 @@ export default function SignupForm() {
             <Field
               name="password"
               placeholder="Please enter your password"
+              autocomplete="new-password"
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             ${
               errors.password && touched.password
@@ -183,6 +186,7 @@ export default function SignupForm() {
             <Field
               name="confirmPassword"
               placeholder="Please confirm your password"
+              autocomplete="new-password"
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             ${
               errors.confirmPassword && touched.confirmPassword

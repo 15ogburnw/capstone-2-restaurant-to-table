@@ -89,6 +89,7 @@ export default function LoginForm() {
             }`}
               name="email"
               placeholder="Email"
+              autoComplete="email"
             />
             <ErrorMessage
               name="email"
@@ -112,6 +113,7 @@ export default function LoginForm() {
             <Field
               name="password"
               placeholder="Password"
+              autoComplete="current-password"
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             ${
               errors.password && touched.password
