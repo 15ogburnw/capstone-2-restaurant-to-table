@@ -51,7 +51,7 @@ const Modal = ({ onClose, children, title }) => {
             </a>
           </div>
 
-          <div className="modal-body">{children}</div>
+          {children}
         </div>
       </div>
     </div>
