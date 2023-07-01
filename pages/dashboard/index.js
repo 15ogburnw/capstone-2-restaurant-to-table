@@ -8,11 +8,9 @@ import { useUser } from "@supabase/auth-helpers-react";
 export default function Home() {
   const user = useUser();
   return (
-    <div className="w-full h-full flex justify-center self-center">
-      <h1 className="text-3xl font-extrabold text-primary-800 tracking-widest">
-        WELCOME BACK {user?.email.toUpperCase()}!
-      </h1>
-    </div>
+    <h1 className="text-3xl font-extrabold text-primary-800 tracking-widest">
+      WELCOME BACK {user?.email.toUpperCase()}!
+    </h1>
   );
 }
 

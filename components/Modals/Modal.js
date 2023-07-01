@@ -42,7 +42,7 @@ const Modal = ({ onClose, children, title }) => {
           <div className="text-xl font-bold text-primary-700 flex justify-between">
             <div className="invisible"></div>
             {title && (
-              <h1 className="text-primary-700 font-bold text-xl capitalize">
+              <h1 className="text-primary-700 font-bold text-2xl capitalize">
                 {title}
               </h1>
             )}

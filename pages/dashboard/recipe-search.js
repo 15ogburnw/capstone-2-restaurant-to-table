@@ -26,7 +26,7 @@ export default function RecipeSearchPage() {
 
   return (
     <section className="  mx-auto w-2/3  mt-8 ">
-      {/* Search form which includes a query field and filter options based on those from the Edamam API. 
+      {/* Search form which includes a query field and filter options based on those from the Edamam API.
       We pass a handleSearch function to this form which sets the searchVals state on the page to the values submitted by the form, indicating that a search is active. We then pass a value "activeSearch" back down to the form which exposes the state of current search (mainly used to show/hide buttons). We also pass down the loading state and a function for resetting the search. */}
       <RecipeSearchForm
         handleSearch={async (values) => {

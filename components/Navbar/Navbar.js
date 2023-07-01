@@ -24,14 +24,14 @@ export default function Navbar() {
     router.push("/landing");
   };
   return (
-    <nav className=" z-30 w-screen h-[10vh] bg-primary-800">
-      <div className=" w-full h-full flex  flex-row items-center justify-between px-10 py-10">
+    <nav className=" z-30 w-screen bg-primary-800">
+      <div className="  flex  flex-row items-center justify-between px-10 py-10">
         <RttFullLogo />
 
-        <nav
-          className="items-center align-middle
-        flex-grow flex flex-row mt-0 justify-end pb-0">
-          <p className="text-white font-bold text-xl mr-5">{user?.email}</p>
+        <nav className="items-center flex flex-row mt-0 justify-end pb-0">
+          <p className="hidden md:inline-block text-white font-bold text-xl mr-5">
+            {user?.email}
+          </p>
 
           <button
             onClick={handleSignOut}

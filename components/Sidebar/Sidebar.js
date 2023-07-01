@@ -69,41 +69,40 @@ export default function Sidebar() {
   // --Style this error message with a toast or something
 
   return (
-    <aside className=" bg-white border-r-2 hidden md:block border-primary-700/80 ">
-      <div className="flex flex-col  ">
-        <nav className="">
-          <Link
-            href="/dashboard"
-            className={` cursor:pointer flex items-center  px-8 py-3 mt-3 font-bold group
+    <aside className=" bg-white border-r-2 w-1/5 md:w-1/4 hidden md:inline-block border-primary-700/80">
+      <nav className="flex flex-col ">
+        <Link
+          href="/dashboard"
+          className={` cursor:pointer flex items-center  px-8 py-3 mt-3 font-bold group
             ${
               router.pathname == "/dashboard"
                 ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
                 : "text-primary-800 hover:bg-primary-800 hover:text-white"
             }
                     `}>
-            <RectangleStackIcon
-              className={`h-7 w-7 inline flex-none
+          <RectangleStackIcon
+            className={`h-7 w-7 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard") !== -1 &&
                           router.pathname.indexOf("/dashboard/") === -1
                             ? "stroke-2 "
                             : "group-hover:stroke-2"
                         }`}
-            />
-            <span className="mx-4 font-semibold text-xl">My Kitchen</span>
-          </Link>
+          />
+          <span className="mx-4 font-semibold text-xl">My Kitchen</span>
+        </Link>
 
-          <Link
-            href="/dashboard/recipe-search"
-            className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
+        <Link
+          href="/dashboard/recipe-search"
+          className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
                       ${
                         router.pathname.indexOf("/dashboard/recipe-search") !==
                         -1
                           ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
                           : "text-primary-800 hover:bg-primary-800 hover:text-white"
                       }`}>
-            <MagnifyingGlassCircleIcon
-              className={`h-7 w-7 inline flex-none
+          <MagnifyingGlassCircleIcon
+            className={`h-7 w-7 inline flex-none
                         ${
                           router.pathname.indexOf(
                             "/dashboard/recipe-search"
@@ -111,58 +110,56 @@ export default function Sidebar() {
                             ? " stroke-2"
                             : "group-hover:stroke-2"
                         }`}
-            />
-            <span className="mx-4 font-semibold text-xl">Search Recipes</span>
-          </Link>
+          />
+          <span className="mx-4 font-semibold text-xl">Search Recipes</span>
+        </Link>
 
-          <Link
-            href="/dashboard/settings"
-            className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
+        <Link
+          href="/dashboard/settings"
+          className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
                       ${
                         router.pathname.indexOf("/dashboard/settings") !== -1
                           ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
                           : "text-primary-800 hover:bg-primary-800 hover:text-white"
                       }`}>
-            <Cog6ToothIcon
-              className={`h-7 w-7 inline flex-none
+          <Cog6ToothIcon
+            className={`h-7 w-7 inline flex-none
                         ${
                           router.pathname.indexOf("/dashboard/settings") !== -1
                             ? " stroke-2 "
                             : "group-hover:stroke-2"
                         }`}
-            />
-            <span className="mx-4 font-semibold text-xl">Settings</span>
-          </Link>
+          />
+          <span className="mx-4 font-semibold text-xl">Settings</span>
+        </Link>
 
-          <Link
-            href="#"
-            onClick={handleSignOut}
-            className={
-              "cursor:pointer flex items-center px-8 py-3 mt-3 font-bold  text-primary-800 hover:text-white hover:bg-primary-800 group"
-            }>
-            <ArrowRightOnRectangleIcon className="h-7 w-7 inline flex-none group-hover:stroke-2" />
-            <span className="mx-4 font-semibold text-xl">Sign Out</span>
-          </Link>
+        <Link
+          href="#"
+          onClick={handleSignOut}
+          className={
+            "cursor:pointer flex items-center px-8 py-3 mt-3 font-bold  text-primary-800 hover:text-white hover:bg-primary-800 group"
+          }>
+          <ArrowRightOnRectangleIcon className="h-7 w-7 inline flex-none group-hover:stroke-2" />
+          <span className="mx-4 font-semibold text-xl">Sign Out</span>
+        </Link>
 
-          <div className="mx-3 my-3 flex items-center justify-between">
-            <span className="text-lg font-bold text-primary-700 ">
+        <div className="bg-green-500/50 mx-2 mt-7 mb-4 rounded-lg">
+          <div className="mx-3 flex items-center align-middle justify-between pt-3">
+            <span className="text-xl font-bold text-primary-700 ml-2 ">
               My Menus
             </span>
             <button
               onClick={() => setShowModal(true)}
-              className=" text-lg font-bold border-2 text-primary-700 border-primary-700 bg-transparent h-5 w-5 hover:text-white hover:bg-primary-700 flex place-content-center rounded-lg items-center">
+              className=" text-lg font-bold border-2 text-primary-700 border-primary-700 bg-transparent h-5 w-5 pb-1 mr-2  hover:text-white hover:bg-primary-700 flex align-middle rounded-lg items-center justify-center">
               <span>{"+"}</span>
             </button>
           </div>
 
-          <div className="mt-4 mx-3 ">
+          <div className=" mx-3 mt-2">
             {/* {console.log("My menus:", menus)} */}
             {data?.menus?.length > 0
               ? data.menus.map((menu, idx) => (
-                  <Link
-                    href={`user/menus/${menu.id}`}
-                    key={menu.id}
-                    className="w-full h-ful mx-2 my-2 px-4">
+                  <Link href={`user/menus/${menu.id}`} key={menu.id}>
                     <SideBarMenuItem
                       key={menu.name}
                       dotColor={getColor(idx)}
@@ -185,8 +182,8 @@ export default function Sidebar() {
               </div>
             </div>
           </div>
-        </nav>
-      </div>
+        </div>
+      </nav>
 
       {showModal && !isLoading ? (
         <Modal

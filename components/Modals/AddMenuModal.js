@@ -15,7 +15,7 @@ export default function AddMenuModal({ closeModal }) {
   const { mutate } = useSWRConfig();
 
   const [errorMessage, setErrorMessage] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   // TODO: ALERTS AREN'T DISAPPEARING ON THE MODAL PAGE AFTER IT IS CLOSED. MODAL POPS UP EVERY TIME I CLICK ON THE PAGE OUTSIDE OF IT, EVEN IF ITS CLOSED
 
@@ -30,8 +30,7 @@ export default function AddMenuModal({ closeModal }) {
     console.log("new menu name:", menuName);
     const { error } = await supabase
       .from("menus")
-      .upsert({ name: menuName, user_id: user.id })
-      .select();
+      .insert({ name: menuName, user_id: user.id });
 
     if (error) {
       console.error(error);
@@ -40,20 +39,21 @@ export default function AddMenuModal({ closeModal }) {
       );
       setIsLoading(false);
     } else {
+      setIsLoading(false);
+      mutate("/api/user/menus");
       closeModal();
     }
-    mutate("/api/user/menus");
   };
 
   return (
     <>
-      <p className="mt-2 text-md text-center font-semibold text-primary-600 ">
+      <p className="mt-2 text-md text-center font-bold text-primary-600 ">
         Create a custom menu: Just give your new menu a name and get started
         organizing your favorite recipes however you like!
       </p>
 
       {errorMessage ? (
-        <p className="mt2 text-md text-center text-red-500 font-semibold">
+        <p className="mt-2 text-md text-center text-red-500 font-bold">
           {errorMessage}
         </p>
       ) : null}
@@ -65,7 +65,7 @@ export default function AddMenuModal({ closeModal }) {
         validationSchema={addMenuSchema}
         onSubmit={handleCreateMenu}
         validateOnMount>
-        {({ errors, touched, isValid }) => (
+        {({ errors, touched, isValid, submitForm }) => (
           <Form>
             <div className="my-3">
               <div className="flex justify-start">
@@ -95,6 +95,7 @@ export default function AddMenuModal({ closeModal }) {
             </div>
             <div className="sm:mt-7 flex flex-col items-center sm:flex-row ">
               <button
+                type="button"
                 onClick={closeModal}
                 className="bg-primary-700 text-xl py-1.5 leading-none focus:outline-none px-2 border-4 border-primary-700   text-primary-700 focus:outline-2 focus:outline-offset-2 hover:bg-transparent hover:text-primary-700 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-70 transition hover:scale-105 ">
                 Cancel
@@ -103,7 +104,7 @@ export default function AddMenuModal({ closeModal }) {
               <button
                 type="submit"
                 disabled={!isValid || isLoading}
-                className="bg-primary-500 text-xl py-1.5 ml-4 leading-none focus:outline-none px-2 border-4 border-primary-500   text-primary-500 focus:outline-2 focus:outline-offset-2 hover:enabled:bg-transparent hover:enabled:text-primary-500 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700  transition  hover:enabled:scale-105 disabled:shadow-none disabled:opacity-70 ">
+                className="bg-primary-500 text-xl py-1.5 ml-4 leading-none focus:outline-none px-2 border-4 border-primary-500   text-primary-500 focus:outline-2 focus:outline-offset-2 hover:enabled:bg-transparent hover:enabled:text-primary-500 text-white font-bold inline-flex items-center justify-center shadow-md shadow-primary-700  transition  hover:enabled:scale-105 disabled:shadow-none disabled:opacity-70 cursor-pointer">
                 {!isLoading ? (
                   "Create Your Menu"
                 ) : (

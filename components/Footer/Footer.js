@@ -8,8 +8,8 @@ export default function Footer() {
   const [logoColor, setLogoColor] = useState("white");
 
   return (
-    <footer className=" sticky bottom-0   w-screen py-6  px-12 bg-primary-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.075)]  ">
-      <div className="flex flex-row h-full justify-between  gap-6 items-center">
+    <footer className="py-6  px-12 bg-primary-800 relative ">
+      <div className="flex flex-row justify-between  items-center">
         <p className="text-md font-medium  text-white ">
           © Copyright Wade Ogburn 2023. All Rights Reserved.
         </p>
@@ -25,18 +25,17 @@ export default function Footer() {
             />
           </a>
         </div>
-        <div className=" my-auto">
-          <div className="flex items-center gap-8 align-middle justify-end">
-            <a href="https://github.com/15ogburnw">
-              <BsGithub className="w-7 h-7 mr-5 text-white hover:text-primary-300 hover:scale-110 transition duration-150 hover:contrast-200" />
-            </a>
-            <a href="https://www.linkedin.com/in/wade-ogburn-11b806172/">
-              <BsLinkedin className=" w-7 h-7 hover:scale-110 text-white mr-5 hover:text-primary-300 transition duration-150 hover:contrast-200 " />
-            </a>
-            <a href="https://my-portfolio-c92iln275-15ogburnw.vercel.app/">
-              <BsPersonWorkspace className=" w-7 h-7 hover:scale-110 mr-5 text-white hover:text-primary-300 transition duration-150 hover:contrast-200 " />
-            </a>
-          </div>
+
+        <div className="flex items-center gap-8 align-middle justify-end">
+          <a href="https://github.com/15ogburnw">
+            <BsGithub className="w-7 h-7 mr-5 text-white hover:text-primary-300 hover:scale-110 transition duration-150 hover:contrast-200" />
+          </a>
+          <a href="https://www.linkedin.com/in/wade-ogburn-11b806172/">
+            <BsLinkedin className=" w-7 h-7 hover:scale-110 text-white mr-5 hover:text-primary-300 transition duration-150 hover:contrast-200 " />
+          </a>
+          <a href="https://my-portfolio-c92iln275-15ogburnw.vercel.app/">
+            <BsPersonWorkspace className=" w-7 h-7 hover:scale-110 mr-5 text-white hover:text-primary-300 transition duration-150 hover:contrast-200 " />
+          </a>
         </div>
       </div>
     </footer>
