@@ -159,7 +159,7 @@ export default function Sidebar() {
             {/* {console.log("My menus:", menus)} */}
             {data?.menus?.length > 0
               ? data.menus.map((menu, idx) => (
-                  <Link href={`user/menus/${menu.id}`} key={menu.id}>
+                  <Link href={`/dashboard/menus/${menu.id}`} key={menu.id}>
                     <SideBarMenuItem
                       key={menu.name}
                       dotColor={getColor(idx)}

@@ -1,11 +1,11 @@
-import useSWR, { preload } from "swr";
+import useSWR from "swr";
 import Loading from "../Loading";
 import RecipeSearchCard from "./RecipeSearchCard";
 import NoResults from "./NoResults";
 import { useEffect, useState } from "react";
 import Pagination from "../Pagination";
 import { makeURL, truncateRecipe } from "@/lib/edamam/helpers";
-import useSWRInfinite, { unstable_serialize } from "swr/infinite";
+import useSWRInfinite from "swr/infinite";
 
 // TODO: POTENTIALLY MOVE THIS INTO A SSR FUNCTION??
 // const preloadRecipes = async () => {
