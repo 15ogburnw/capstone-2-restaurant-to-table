@@ -238,7 +238,7 @@ export default function RecipeSearchCard({
 
           <div
             onMouseLeave={() => handleHover(null)}
-            className=" px-4 py-1 text-md font-semibold whitespace-nowrap flex flex-row">
+            className=" px-4 py-1 text-2xl font-semibold whitespace-nowrap flex items-center flex-row">
             {/* If the favorite recipes state is not currently loading or validating, show heart icon,
 							otherwise show a small loading spinner */}
             {!favoriteLoading ? (
@@ -266,7 +266,7 @@ export default function RecipeSearchCard({
               </div>
             ) : (
               <FontAwesomeIcon
-                className="h-5 w-5 ml-3"
+                className=" text-red-500 ml-4"
                 icon={faCircleNotch}
                 spin
               />
@@ -279,9 +279,9 @@ export default function RecipeSearchCard({
                 onMouseLeave={() => handleHover(null)}
                 className="h-8 w-8 ml-3 fa-s cursor-pointer">
                 {hoveredIcon === "save" || isSaved ? (
-                  <ArrowDownCircleIconSolid className="text-emerald-600 stroke-2" />
+                  <ArrowDownCircleIconSolid className="text-green-700 stroke-2" />
                 ) : (
-                  <ArrowDownCircleIcon className="text-emerald-600 stroke-2" />
+                  <ArrowDownCircleIcon className="text-green-700 stroke-2" />
                 )}
                 {hoveredIcon === "save" && tooltipShowing ? (
                   <Tooltip
@@ -296,7 +296,7 @@ export default function RecipeSearchCard({
               </div>
             ) : (
               <FontAwesomeIcon
-                className="h-10 w-10 ml-3"
+                className="text-green-700 ml-4"
                 icon={faCircleNotch}
                 spin
               />

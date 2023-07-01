@@ -11,6 +11,7 @@ export default function SignupForm() {
   const [isLoading, setIsLoading] = useState(false);
   const supabase = useSupabaseClient();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [signupPage, setSignupPage] = useState(1);
   const router = useRouter();
 
   const inputStyles = {
@@ -39,10 +40,11 @@ export default function SignupForm() {
 	it all on the public table?
    */
   const handleSignup = async (values) => {
-    const { email, password } = values;
+    const { email, password, name, dietRestrictions, healthRestrictions } =
+      values;
     setIsLoading(true);
 
-    const { error } = await supabase.auth.signUp({
+    let { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -54,6 +56,19 @@ export default function SignupForm() {
       setErrorMessage("Something went wrong! Please try again");
       console.error(error);
     } else {
+      const { data: user } = await supabase
+        .from("users")
+        .update({ name })
+        .eq({ email })
+        .select();
+      if (!data) {
+        setIsLoading(false);
+        error = new Error(
+          "Account successfully created, but failed to add user's name."
+        );
+        console.error(error);
+      }
+
       router.push("/dashboard");
     }
   };
@@ -89,125 +104,126 @@ export default function SignupForm() {
 
             <span className="w-1/4 border-2 border-primary-700 lg:w-1/3"></span>
           </div>
-
-          {/* Name input */}
-          <div className="mt-4">
-            <label
-              className="block mb-2 text-lg font-bold text-primary-700 "
-              htmlFor="name">
-              Name
-            </label>
-
-            <Field
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none placeholder-primary-600/60 ${
-                errors.name && touched.name
-                  ? inputStyles.invalid
-                  : inputStyles.valid
-              }`}
-              name="name"
-              type="text"
-              placeholder="Please enter your name"
-              autocomplete="name"
-            />
-            <ErrorMessage
-              name="name"
-              component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
-            />
-          </div>
-
-          {/* Email input */}
-          <div>
-            <div className="flex justify-between">
+          <div
+            className={`first-page ${
+              signupPage === 1 ? "block" : "hidden"
+            } transition duration-300`}>
+            {/* Name input */}
+            <div className="mt-4">
               <label
                 className="block mb-2 text-lg font-bold text-primary-700 "
-                htmlFor="email">
-                Email
+                htmlFor="name">
+                Name
               </label>
+
+              <Field
+                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none placeholder-primary-600/60 ${
+                  errors.name && touched.name
+                    ? inputStyles.invalid
+                    : inputStyles.valid
+                }`}
+                name="name"
+                type="text"
+                placeholder="Please enter your name"
+                autocomplete="name"
+              />
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
+              />
             </div>
 
-            <Field
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+            {/* Email input */}
+            <div>
+              <div className="flex justify-between">
+                <label
+                  className="block mb-2 text-lg font-bold text-primary-700 "
+                  htmlFor="email">
+                  Email
+                </label>
+              </div>
+
+              <Field
+                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             ${
               errors.email && touched.email
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-              name="email"
-              placeholder="Please enter your email"
-              autocomplete="email"
-            />
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
-            />
-          </div>
-
-          {/* Password input */}
-          <div>
-            <div className="flex justify-between">
-              <label
-                className="block mb-2 text-lg font-bold text-primary-700 "
-                htmlFor="password">
-                Password
-              </label>
+                name="email"
+                placeholder="Please enter your email"
+                autocomplete="email"
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
+              />
             </div>
 
-            <Field
-              name="password"
-              placeholder="Please enter your password"
-              autocomplete="new-password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+            {/* Password input */}
+            <div>
+              <div className="flex justify-between">
+                <label
+                  className="block mb-2 text-lg font-bold text-primary-700 "
+                  htmlFor="password">
+                  Password
+                </label>
+              </div>
+
+              <Field
+                name="password"
+                placeholder="Please enter your password"
+                autocomplete="new-password"
+                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             ${
               errors.password && touched.password
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-              type="password"
-            />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
-            />
-          </div>
-
-          {/* Confirm password input */}
-          <div>
-            <div className="flex justify-between">
-              <label
-                className="block mb-2 text-lg font-bold text-primary-700 "
-                htmlFor="confirmPassword">
-                Password
-              </label>
+                type="password"
+              />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
+              />
             </div>
 
-            <Field
-              name="confirmPassword"
-              placeholder="Please confirm your password"
-              autocomplete="new-password"
-              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+            {/* Confirm password input */}
+            <div>
+              <div className="flex justify-between">
+                <label
+                  className="block mb-2 text-lg font-bold text-primary-700 "
+                  htmlFor="confirmPassword">
+                  Confirm Password
+                </label>
+              </div>
+
+              <Field
+                name="confirmPassword"
+                placeholder="Please confirm your password"
+                autocomplete="new-password"
+                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
             ${
               errors.confirmPassword && touched.confirmPassword
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-              type="password"
-            />
-            <ErrorMessage
-              name="confirmPassword"
-              component="div"
-              className="text-sm text-red-500 mt-1 font-bold -mb-6  text-right"
-            />
-          </div>
+                type="password"
+              />
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className="text-sm text-red-500 mt-1 font-bold -mb-6  text-right"
+              />
+            </div>
 
-          {/* Sign Up Button */}
+            {/* Sign Up Button */}
 
-          <div className="mt-10">
-            <button
-              type="submit"
-              className="w-full bg-primary-800 text-lg font-bold hover:enabled:scale-105 py-1.5 leading-none  px-6 border-4 border-primary-800 duration-150  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:bg-primary-400 disabled:border-primary-400 disabled:opacity-80"
+            <div
+              className="w-full bg-primary-800 text-lg font-bold hover:enabled:scale-105 py-1.5 leading-none mt-10 px-6 border-4 border-primary-800 duration-150  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:bg-primary-400 disabled:border-primary-400 disabled:opacity-80 cursor-pointer"
               disabled={!isValid || isLoading}>
               {!isLoading ? (
                 "Create Your Account"
@@ -221,7 +237,7 @@ export default function SignupForm() {
                   <span className="font-bold text-lg">Loading</span>
                 </>
               )}
-            </button>
+            </div>
           </div>
           {/* Login redirect link */}
           <div className="flex items-center justify-center mt-4">

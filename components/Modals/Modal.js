@@ -37,8 +37,8 @@ const Modal = ({ onClose, children, title }) => {
     <div className="absolute h-screen w-screen top-0 left-0  flex justify-center items-center align-middle">
       {/* Wrap the whole Modal inside the newly created StyledModalWrapper
             and use the ref */}
-      <div ref={modalWrapperRef} className="w-[75vw]">
-        <div className=" bg-white w-full border-2 border-primary-600 p-7 rounded-2xl">
+      <div ref={modalWrapperRef} className="w-[60vw]">
+        <div className=" bg-white shadow-xl shadow-primary-800/40 w-full border-2 border-primary-600 p-7 rounded-2xl">
           <div className="text-xl font-bold text-primary-700 flex justify-between">
             <div className="invisible"></div>
             {title && (

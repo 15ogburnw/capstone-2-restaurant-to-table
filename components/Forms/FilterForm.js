@@ -21,10 +21,10 @@ export default function FilterForm() {
   const [healthLabelsCollapsed, setHealthLabelsCollapsed] = useState(true);
 
   const collapsedStyles = {
-    collapsedArrows: "stroke-primary-500 group-hover:stroke-primary-700",
-    openArrows: "stroke-primary-500 group-hover:stroke-primary-700",
-    collapsed: "text-primary-500 hover:text-primary-700",
-    open: "text-primary-800 hover:text-primary-400",
+    collapsedArrows: "stroke-primary-800 group-hover:stroke-primary-600",
+    openArrows: "stroke-primary-800 group-hover:stroke-primary-600",
+    collapsed: "text-primary-800 hover:text-primary-600",
+    open: "text-primary-800 hover:text-primary-600",
   };
 
   const toggleCollapse = (e) => {
@@ -54,27 +54,14 @@ export default function FilterForm() {
         key="meal-types-group"
         name="meal-types-group"
         onClick={toggleCollapse}
-        className={`font-bold group indent-1text-center text-md underline mt-4 ${
-          mealTypesCollapsed
-            ? collapsedStyles.collapsed
-            : collapsedStyles.openArrows
-        } cursor-pointer`}>
+        className="font-bold text-md underline mt-4 text-primary-800 hover:text-primary-600 cursor-pointer">
         Meal Types
-        {mealTypesCollapsed ? (
-          <FontAwesomeIcon
-            name="meal-types-group"
-            icon={faAnglesDown}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
-          />
-        ) : (
-          <FontAwesomeIcon
-            name="meal-types-group"
-            icon={faAnglesUp}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.open}`}
-          />
-        )}
+        <FontAwesomeIcon
+          name="meal-types-group"
+          icon={mealTypesCollapsed ? faAnglesDown : faAnglesUp}
+          onClick={toggleCollapse}
+          className="h-3 ml-1 w-3 flex-none"
+        />
       </div>
       {!mealTypesCollapsed ? (
         <div
@@ -86,13 +73,13 @@ export default function FilterForm() {
               <div className="flex flex-row mt-2 flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="mr-2 inline cursor-pointer accent-primary-400"
+                  className="mr-2 inline cursor-pointer accent-primary-600"
                   id={label}
                   name="mealType"
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-primary-800 cursor-pointer group-hover:text-primary-400"
+                  className="text-sm font-bold inline mr-3 text-primary-800 cursor-pointer group-hover:text-primary-600"
                   htmlFor={label}>
                   {label}
                 </label>
@@ -106,27 +93,14 @@ export default function FilterForm() {
         key="cuisine-types-group"
         name="cuisine-types-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          cuisineTypesCollapsed
-            ? collapsedStyles.collapsed
-            : collapsedStyles.open
-        } cursor-pointer`}>
+        className="font-bold text-md underline mt-4 text-primary-800 hover:text-primary-600 cursor-pointer">
         Cuisine Types
-        {cuisineTypesCollapsed ? (
-          <FontAwesomeIcon
-            name="cuisine-types-group"
-            icon={faAnglesDown}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
-          />
-        ) : (
-          <FontAwesomeIcon
-            name="cuisine-types-group"
-            icon={faAnglesUp}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
-          />
-        )}
+        <FontAwesomeIcon
+          name="cuisine-types-group"
+          icon={cuisineTypesCollapsed ? faAnglesDown : faAnglesUp}
+          onClick={toggleCollapse}
+          className="h-3 ml-1 w-3 flex-none "
+        />
       </div>
       {!cuisineTypesCollapsed ? (
         <div
@@ -138,13 +112,13 @@ export default function FilterForm() {
               <div className="flex flex-row mt-2 flex-no-wrap">
                 <Field
                   type="checkbox"
-                  className="mr-2 inline cursor-pointer accent-primary-300"
+                  className="mr-2 inline cursor-pointer accent-primary-600"
                   id={label}
                   name="cuisineType"
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-primary-700  cursor-pointer hover:text-primary-400"
+                  className="text-sm font-bold inline mr-3 text-primary-800  cursor-pointer hover:text-primary-600"
                   htmlFor={label}>
                   {label}
                 </label>
@@ -157,25 +131,14 @@ export default function FilterForm() {
       <div
         name="dish-types-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          dishTypesCollapsed ? collapsedStyles.collapsed : collapsedStyles.open
-        } cursor-pointer `}>
+        className="font-bold text-md underline mt-4 text-primary-800 hover:text-primary-600 cursor-pointer ">
         Dish Types
-        {dishTypesCollapsed ? (
-          <FontAwesomeIcon
-            name="dish-types-group"
-            icon={faAnglesDown}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
-          />
-        ) : (
-          <FontAwesomeIcon
-            name="dish-types-group"
-            icon={faAnglesUp}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
-          />
-        )}
+        <FontAwesomeIcon
+          name="dish-types-group"
+          icon={dishTypesCollapsed ? faAnglesDown : faAnglesUp}
+          onClick={toggleCollapse}
+          className="h-3 ml-1 w-3 flex-none"
+        />
       </div>
       {!dishTypesCollapsed ? (
         <div
@@ -187,13 +150,13 @@ export default function FilterForm() {
               <div className="flex flex-row mt-2 flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="mr-2 inline cursor-pointer accent-primary-300"
+                  className="mr-2 inline cursor-pointer accent-primary-600"
                   id={label}
                   name="dishType"
                   value={label}
                 />
                 <label
-                  className="text-sm font-medium inline mr-3 text-primary-700 cursor-pointer group-hover:text-primary-400"
+                  className="text-sm font-bold inline mr-3 text-primary-800 cursor-pointer group-hover:text-primary-600"
                   htmlFor={label}>
                   {label}
                 </label>
@@ -207,25 +170,14 @@ export default function FilterForm() {
       <div
         name="diet-labels-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          dietLabelsCollapsed ? collapsedStyles.collapsed : collapsedStyles.open
-        } cursor-pointer`}>
+        className="font-bold text-md underline mt-4 text-primary-800 hover:text-primary-600 cursor-pointer">
         Diet Labels
-        {dietLabelsCollapsed ? (
-          <FontAwesomeIcon
-            name="diet-labels-group"
-            icon={dietLabelsCollapsed ? faAnglesDown : faAnglesUp}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
-          />
-        ) : (
-          <FontAwesomeIcon
-            name="diet-labels-group"
-            icon={faAnglesUp}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
-          />
-        )}
+        <FontAwesomeIcon
+          name="diet-labels-group"
+          icon={dietLabelsCollapsed ? faAnglesDown : faAnglesUp}
+          onClick={toggleCollapse}
+          className="h-3 ml-1 w-3 flex-none"
+        />
       </div>
       {!dietLabelsCollapsed ? (
         <div
@@ -237,17 +189,17 @@ export default function FilterForm() {
               <div className="flex flex-row mt-2 items-center flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="mr-2 h-8 w-auto inline cursor-pointer accent-primary-300"
+                  className="mr-2 h-8 w-auto inline cursor-pointer accent-primary-600"
                   id={item.label}
                   name="diet"
                   value={item.value}
                 />
                 <label
-                  className=" inline mr-3 text-sm font-medium text-primary-700 cursor-pointer group-hover:text-primary-400"
+                  className=" inline mr-3 text-sm font-bold text-primary-800 cursor-pointer group-hover:text-primary-600"
                   htmlFor={item.label}>
                   {item.label}
                 </label>
-                <ImInfo className=" cursor-pointer text-primary-700 group-hover:text-primary-400" />
+                <ImInfo className=" cursor-pointer text-primary-800 group-hover:text-primary-600" />
               </div>
             </div>
           ))}
@@ -257,27 +209,14 @@ export default function FilterForm() {
       <div
         name="health-labels-group"
         onClick={toggleCollapse}
-        className={`font-bold text-md underline mt-4 ${
-          healthLabelsCollapsed
-            ? collapsedStyles.collapsed
-            : collapsedStyles.open
-        } cursor-pointer`}>
+        className={`font-bold text-md underline mt-4 text-primary-800 hover:text-primary-600 cursor-pointer`}>
         Health Labels
-        {healthLabelsCollapsed ? (
-          <FontAwesomeIcon
-            name="health-labels-group"
-            icon={faAnglesDown}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
-          />
-        ) : (
-          <FontAwesomeIcon
-            name="health-labels-group"
-            icon={faAnglesUp}
-            onClick={toggleCollapse}
-            className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.openArrows}`}
-          />
-        )}
+        <FontAwesomeIcon
+          name="health-labels-group"
+          icon={healthLabelsCollapsed ? faAnglesDown : faAnglesUp}
+          onClick={toggleCollapse}
+          className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
+        />
       </div>
 
       {/*  TODO: FIGURE OUT WHY BOTH KOSHER CHECKBOXES GET CHECKED AT THE SAME
@@ -292,17 +231,17 @@ export default function FilterForm() {
               <div className="flex flex-row align-middle items-center mt-2 group flex-no-wrap group">
                 <Field
                   type="checkbox"
-                  className="accent-primary-300 mr-2 cursor-pointer "
+                  className="accent-primary-600 mr-2 cursor-pointer "
                   id={item.label}
                   name="health"
                   value={item.value}
                 />
                 <label
-                  className="text-sm inline mr-1 font-medium text-primary-700 group-hover:text-primary-400 cursor-pointer "
+                  className="text-sm inline mr-1 font-medium text-primary-800 group-hover:text-primary-600 cursor-pointer "
                   htmlFor={item.label}>
                   {item.label}
                 </label>
-                <ImInfo className=" cursor-pointer text-primary-700 group-hover:text-primary-400 ml-1" />
+                <ImInfo className=" cursor-pointer text-primary-800 group-hover:text-primary-600 ml-1" />
               </div>
             </div>
           ))}

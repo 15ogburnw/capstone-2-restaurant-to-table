@@ -15,9 +15,9 @@ export default function App({ Component, pageProps }) {
 
   /* TODO: CREATE CUSTOM ERROR HANDLING HERE FOR THE ERROR BOUNDARY ... Maybe? */
 
-  /* 
+  /*
 	TODO: FIX ERROR IN APP WHERE THE USER IS NOT AUTOMATICALLY SIGNED OUT WHEN THE REFRESH TOKEN FAILS
-	
+
 	**/
 
   return (

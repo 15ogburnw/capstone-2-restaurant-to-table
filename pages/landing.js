@@ -6,7 +6,7 @@ import { BsArrowRight } from "react-icons/bs";
 export default function LandingPage() {
   return (
     <>
-      <section className="bg-base flex flex-col items-center h-screen w-screen overflow-hidden">
+      <section className="bg-base-accent flex flex-col items-center h-screen w-screen overflow-hidden">
         <header className="mx-auto relative w-full max-w-7xl bg-">
           <div className="flex align-middle flex-row items-center justify-between px-12  py-6">
             <div className="hidden sm:inline-block">
@@ -49,7 +49,7 @@ export default function LandingPage() {
             <Link
               className="items-center p-1 justify-center text-xl inline-flex group transition-all duration-150 hover:scale-105 bg-gradient-to-r from-primary-700 font-bold via-primary-500 to-primary-300 lg:w-auto  h-full text-center w-full shadow-md shadow-primary-700"
               href="/about-us">
-              <span className="flex justify-center align-middle items-center group-hover:bg-base lg:px-6 xl:px-10 py-4 w-full h-full">
+              <span className="flex justify-center align-middle items-center group-hover:bg-base-accent lg:px-6 xl:px-10 py-4 w-full h-full">
                 <span className="relative text-white group-hover:text-primary-800">
                   Learn more
                 </span>

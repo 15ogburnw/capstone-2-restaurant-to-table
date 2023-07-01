@@ -64,7 +64,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
 
   return (
     <>
-      <div className=" mb-4  grid  bg-base-accent overflow-hidden border-primary-800 border-2 rounded-xl w-full -p-6 overflow-y-scroll h-[65vh] overscroll-contain z-0">
+      <div className=" mb-4  grid  bg-white overflow-hidden border-primary-800 border-2 rounded-xl w-full -p-6 overflow-y-scroll h-[65vh] overscroll-contain z-0">
         {data ? (
           <div className="relative">
             {/* If I get search results, show all results for the ***first*** page */}
@@ -109,7 +109,7 @@ export default function SearchResults({ setSearchLoading, searchVals }) {
           </div>
         )}
       </div>
-      {searchVals && data ? <Pagination pageIndex={pageIndex} /> : null}
+      {searchVals && data ? <Pagination /> : null}
     </>
   );
 }

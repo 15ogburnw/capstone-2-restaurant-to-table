@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <div id="modals" />
-      <body className="bg-base">
+      <body className="bg-base-accent">
         <Main />
 
         <NextScript />

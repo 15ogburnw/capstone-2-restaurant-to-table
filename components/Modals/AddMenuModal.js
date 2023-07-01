@@ -81,7 +81,7 @@ export default function AddMenuModal({ closeModal }) {
                 name="menuName"
                 id="menuName"
                 placeholder="Enter a menu name"
-                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-white border-2 rounded-lg focus:border-transparent focus:ring-2 focus:outline-none ${
+                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-600 font-bold bg-base-accent border-2 rounded-lg focus:border-transparent focus:ring-2 focus:outline-none ${
                   errors.menuName && touched.menuName
                     ? "border-red-500 focus:ring-red-500 placeholder-red-500"
                     : "focus:ring-primary-500 mb-3 border-primary-600 placeholder-primary-600"

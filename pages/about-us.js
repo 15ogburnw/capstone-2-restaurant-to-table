@@ -240,6 +240,17 @@ export default function LearnMorePage() {
           <h3 className="text-center mt-4 invisible lg:visible text-primary-800 text-lg font-bold">
             And Many More...
           </h3>
+          <div className="flex justify-center mt-3">
+            <a
+              href="https://developer.edamam.com/edamam-recipe-api"
+              className="shadow-xl shadow-primary-800/40">
+              <SVG
+                src="/img/logos/edamam.svg"
+                className=" transition duration-150 hover:scale-105 mt-4 h-auto z-30"
+                width={200}
+              />
+            </a>
+          </div>
         </section>
       </main>
 

@@ -69,7 +69,7 @@ export default function Sidebar() {
   // --Style this error message with a toast or something
 
   return (
-    <aside className=" bg-base-accent border-r-2 hidden md:block border-primary-700/80 ">
+    <aside className=" bg-white border-r-2 hidden md:block border-primary-700/80 ">
       <div className="flex flex-col  ">
         <nav className="">
           <Link
@@ -113,25 +113,6 @@ export default function Sidebar() {
                         }`}
             />
             <span className="mx-4 font-semibold text-xl">Search Recipes</span>
-          </Link>
-
-          <Link
-            href="/dashboard/profile"
-            className={`cursor:pointer flex items-center px-8 py-3 mt-3 font-bold group
-                      ${
-                        router.pathname.indexOf("/dashboard/profile") !== -1
-                          ? "text-white bg-primary-800 font-bold hover:bg-primary-400/80 hover:text-primary-800"
-                          : "text-primary-800 hover:bg-primary-800 hover:text-white"
-                      }`}>
-            <UserCircleIcon
-              className={`h-7 w-7 inline flex-none
-                        ${
-                          router.pathname.indexOf("/dashboard/profile") !== -1
-                            ? " stroke-2 "
-                            : "group-hover:stroke-2"
-                        }`}
-            />
-            <span className="mx-4 font-semibold text-xl">Profile</span>
           </Link>
 
           <Link
