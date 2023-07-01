@@ -144,8 +144,8 @@ export default function Sidebar() {
         </Link>
 
         <div className="bg-green-500/50 mx-2 mt-7 mb-4 rounded-lg">
-          <div className="mx-3 flex items-center align-middle justify-between pt-3">
-            <span className="text-xl font-bold text-primary-700 ml-2 ">
+          <div className="mx-3 flex items-center border-b-2 border-primary-700 pb-2 align-middle justify-between pt-3">
+            <span className="text-xl font-bold  text-primary-700 ml-2 ">
               My Menus
             </span>
             <button

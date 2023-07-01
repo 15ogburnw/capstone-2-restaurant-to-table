@@ -28,10 +28,11 @@ export default function MenuPage() {
   else {
     return (
       <>
+        {/* TODO: implement delete functionality for the menu and for individual recipes, add option to change name of menu */}
         <section className=" px-4 flex flex-col justify-center items-center">
-          <div className="flex items-center justify-between w-5/6 md:px-6 lg:px-8">
+          <div className="flex items-center mt-3 justify-between w-5/6 md:px-6 lg:px-8">
             {menuName ? (
-              <h2 className="text-2xl font-bold capitalize text-primary-700">
+              <h2 className="text-3xl  font-bold capitalize text-primary-700">
                 {menuName}
               </h2>
             ) : null}
@@ -66,11 +67,7 @@ export default function MenuPage() {
               </button>
 
               <button className="px-5 py-2  font-medium text-white transition text-sm hover:bg-primary-600">
-                Monitored
-              </button>
-
-              <button className="px-5 py-2 font-medium text-white transition text-sm hover:bg-primary-600">
-                Unmonitored
+                Favorites
               </button>
             </div>
 
@@ -94,7 +91,7 @@ export default function MenuPage() {
               <input
                 type="text"
                 placeholder="Search"
-                className="block w-full py-1.5 pr-5 text-primary-700 bg-white border border-primary-600 rounded-lg md:w-80 placeholder-primary-600/80 placeholder:font-bold focus:placeholder-transparent pl-11 "
+                className="block w-full py-1.5 pr-5 text-primary-700 bg-white border-2 border-primary-600 rounded-lg md:w-80 placeholder-primary-700/80 placeholder:font-bold focus:placeholder-transparent pl-11 "
               />
             </div>
           </div>
@@ -107,32 +104,38 @@ export default function MenuPage() {
                 <table className="min-w-full divide-y divide-gray-200 ">
                   <thead className="bg-primary-700">
                     <tr>
-                      <th className="py-3.5 px-6 text-md font-semibold text-left  text-white ">
+                      <th className="py-3.5 px-6 text-xl font-semibold text-left  text-white ">
                         <span>Recipe</span>
                       </th>
-                      <th className="py-3.5 px-6 text-md font-semibold text-right  text-white ">
+                      <th className="py-3.5 px-6 text-xl font-semibold text-right  text-white ">
                         <span>Options</span>
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y w-full divide-primary-700 ">
+                  <tbody className="bg-white divide-y w-full  divide-primary-700 ">
                     {menuRecipes?.map((recipe) => {
                       return (
                         <tr
                           key={recipe.id}
-                          className="cursor-pointer hover:bg-primary-500 group"
+                          className="cursor-pointer hover:bg-primary-600 group"
                           onClick={(e) => {
                             e.preventDefault();
+                            console.log(e);
                             router.push(`/dashboard/recipes/${recipe.id}`);
                           }}>
-                          <td className="py-3.5 px-6 text-md text-primary-500 group-hover:text-white font-semibold text-left">
+                          <td className="py-3.5 px-6 text-md text-primary-700 group-hover:text-white font-semibold text-left">
                             <p className="text-lg font-semibold ">
                               {recipe.name}
                             </p>
                           </td>
 
-                          <td className="py-3.5 px-6 text-md font-semibold text-primary-500 group-hover:text-white text-right">
-                            <button className="px-1 py-1 hover:bg-white hover:text-primary-500  rounded-lg  ">
+                          <td className="py-3.5 px-6 text-md font-semibold text-primary-700  text-right">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                console.log(e.target);
+                              }}
+                              className="px-1 py-1 hover:bg-white  group-hover:text-white hover:text-primary-700 rounded-lg  ">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
