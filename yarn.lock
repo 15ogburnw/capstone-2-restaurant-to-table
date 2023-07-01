@@ -1647,7 +1647,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.1.0":
+"@types/semver@npm:^7, @types/semver@npm:^7.1.0":
   version: 7.5.0
   resolution: "@types/semver@npm:7.5.0"
   checksum: 0a64b9b9c7424d9a467658b18dd70d1d781c2d6f033096a6e05762d20ebbad23c1b69b0083b0484722aabf35640b78ccc3de26368bcae1129c87e9df028a22e2
@@ -7080,6 +7080,7 @@ __metadata:
     "@types/body-parser": ^1
     "@types/node": ^18.16.3
     "@types/react-is": ^18
+    "@types/semver": ^7
     "@types/styled-components": ^5.1.26
     "@yarnpkg/core": ^4.0.0-rc.42
     "@yarnpkg/sdks": ^3.0.0-rc.42
@@ -7105,6 +7106,7 @@ __metadata:
     react-inlinesvg: ^3.0.2
     react-is: ^18.2.0
     react-toastify: ^9.1.2
+    semver: latest
     sharp: ^0.32.1
     styled-components: ^5.3.10
     supabase: ^1.50.11
@@ -7115,6 +7117,7 @@ __metadata:
     tippy: ^0.0.0
     typescript: ^5.0.4
     vite: ^4.3.9
+    word-wrap: latest
     yup: ^1.1.1
   languageName: unknown
   linkType: soft
@@ -7197,6 +7200,17 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 3fdf5d1e6f170fe8bcc41669e31787649af91af7f54f05c71d0865bb7aa27e8b92f68b3e6b582483e2c1c648008bc84249d2cd86301771fe5cbf7621d1fe5375
+  languageName: node
+  linkType: hard
+
+"semver@npm:latest":
+  version: 7.5.3
+  resolution: "semver@npm:7.5.3"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 9d58db16525e9f749ad0a696a1f27deabaa51f66e91d2fa2b0db3de3e9644e8677de3b7d7a03f4c15bc81521e0c3916d7369e0572dbde250d9bedf5194e2a8a7
   languageName: node
   linkType: hard
 
@@ -8420,7 +8434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"word-wrap@npm:^1.2.3":
+"word-wrap@npm:^1.2.3, word-wrap@npm:latest":
   version: 1.2.3
   resolution: "word-wrap@npm:1.2.3"
   checksum: 30b48f91fcf12106ed3186ae4fa86a6a1842416df425be7b60485de14bec665a54a68e4b5156647dec3a70f25e84d270ca8bc8cd23182ed095f5c7206a938c1f

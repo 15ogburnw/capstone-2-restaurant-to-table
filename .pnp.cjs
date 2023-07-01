@@ -41,6 +41,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/node", "npm:18.16.18"],\
             ["@types/react-is", "npm:18.2.1"],\
+            ["@types/semver", "npm:7.5.0"],\
             ["@types/styled-components", "npm:5.1.26"],\
             ["@yarnpkg/core", "npm:4.0.0-rc.45"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.45"],\
@@ -66,6 +67,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-inlinesvg", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:3.0.2"],\
             ["react-is", "npm:18.2.0"],\
             ["react-toastify", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:9.1.3"],\
+            ["semver", "npm:7.5.3"],\
             ["sharp", "npm:0.32.1"],\
             ["styled-components", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.3.11"],\
             ["supabase", "npm:1.69.3"],\
@@ -76,6 +78,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tippy", "npm:0.0.0"],\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=77c9e2"],\
             ["vite", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.3.9"],\
+            ["word-wrap", "npm:1.2.3"],\
             ["yup", "npm:1.2.0"]\
           ],\
           "linkType": "SOFT"\
@@ -8722,6 +8725,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/node", "npm:18.16.18"],\
             ["@types/react-is", "npm:18.2.1"],\
+            ["@types/semver", "npm:7.5.0"],\
             ["@types/styled-components", "npm:5.1.26"],\
             ["@yarnpkg/core", "npm:4.0.0-rc.45"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.45"],\
@@ -8747,6 +8751,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-inlinesvg", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:3.0.2"],\
             ["react-is", "npm:18.2.0"],\
             ["react-toastify", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:9.1.3"],\
+            ["semver", "npm:7.5.3"],\
             ["sharp", "npm:0.32.1"],\
             ["styled-components", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.3.11"],\
             ["supabase", "npm:1.69.3"],\
@@ -8757,6 +8762,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tippy", "npm:0.0.0"],\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=77c9e2"],\
             ["vite", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.3.9"],\
+            ["word-wrap", "npm:1.2.3"],\
             ["yup", "npm:1.2.0"]\
           ],\
           "linkType": "SOFT"\
@@ -8844,6 +8850,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/semver-npm-7.5.2-28fb0fd2d6-3fdf5d1e6f.zip/node_modules/semver/",\
           "packageDependencies": [\
             ["semver", "npm:7.5.2"],\
+            ["lru-cache", "npm:6.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:7.5.3", {\
+          "packageLocation": "./.yarn/cache/semver-npm-7.5.3-275095dbf3-9d58db1652.zip/node_modules/semver/",\
+          "packageDependencies": [\
+            ["semver", "npm:7.5.3"],\
             ["lru-cache", "npm:6.0.0"]\
           ],\
           "linkType": "HARD"\
