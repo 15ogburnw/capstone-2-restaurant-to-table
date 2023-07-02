@@ -1,14 +1,11 @@
 import { Field } from "formik";
 import filters from "@/lib/edamam/filters";
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAnglesDown,
-  faAnglesUp,
-  faC,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAnglesDown, faAnglesUp } from "@fortawesome/free-solid-svg-icons";
 import { ImInfo } from "react-icons/im";
-import { faCircleInfo } from "@fortawesome/free-regular-svg-icons";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 export default function FilterForm() {
   const { MEAL_TYPES, DISH_TYPES, CUISINE_TYPES, DIET_LABELS, HEALTH_LABELS } =
@@ -199,7 +196,9 @@ export default function FilterForm() {
                   htmlFor={item.label}>
                   {item.label}
                 </label>
-                <ImInfo className=" cursor-pointer text-primary-800 group-hover:text-primary-600" />
+                <Tippy>
+                  <ImInfo className=" cursor-pointer text-primary-800 group-hover:text-primary-600" />
+                </Tippy>
               </div>
             </div>
           ))}

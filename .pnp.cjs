@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@supabase/auth-helpers-nextjs", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:0.6.1"],\
             ["@supabase/auth-helpers-react", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:0.3.1"],\
             ["@supabase/supabase-js", "npm:2.25.0"],\
+            ["@tippyjs/react", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.2.6"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/node", "npm:18.16.18"],\
             ["@types/react-is", "npm:18.2.1"],\
@@ -76,6 +77,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["swr", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.1.5"],\
             ["tailwindcss", "npm:3.3.2"],\
             ["tippy", "npm:0.0.0"],\
+            ["tippy.js", "npm:6.3.7"],\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=77c9e2"],\
             ["vite", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.3.9"],\
             ["word-wrap", "npm:1.2.3"],\
@@ -1134,6 +1136,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@popperjs/core", [\
+        ["npm:2.11.8", {\
+          "packageLocation": "./.yarn/cache/@popperjs-core-npm-2.11.8-f1692e11a0-e5c69fdebf.zip/node_modules/@popperjs/core/",\
+          "packageDependencies": [\
+            ["@popperjs/core", "npm:2.11.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@radix-ui/number", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/@radix-ui-number-npm-1.0.1-167c973d35-621ea8b7d4.zip/node_modules/@radix-ui/number/",\
@@ -2037,6 +2048,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@szmarczak/http-timer", "npm:4.0.6"],\
             ["defer-to-connect", "npm:2.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@tippyjs/react", [\
+        ["npm:4.2.6", {\
+          "packageLocation": "./.yarn/cache/@tippyjs-react-npm-4.2.6-baf0b2fd6a-8f0fba591c.zip/node_modules/@tippyjs/react/",\
+          "packageDependencies": [\
+            ["@tippyjs/react", "npm:4.2.6"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.2.6", {\
+          "packageLocation": "./.yarn/__virtual__/@tippyjs-react-virtual-72c02ba9bc/0/cache/@tippyjs-react-npm-4.2.6-baf0b2fd6a-8f0fba591c.zip/node_modules/@tippyjs/react/",\
+          "packageDependencies": [\
+            ["@tippyjs/react", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.2.6"],\
+            ["@types/react", null],\
+            ["@types/react-dom", null],\
+            ["react", "npm:18.2.0"],\
+            ["react-dom", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:18.2.0"],\
+            ["tippy.js", "npm:6.3.7"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-dom",\
+            "@types/react",\
+            "react-dom",\
+            "react"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8722,6 +8760,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@supabase/auth-helpers-nextjs", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:0.6.1"],\
             ["@supabase/auth-helpers-react", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:0.3.1"],\
             ["@supabase/supabase-js", "npm:2.25.0"],\
+            ["@tippyjs/react", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.2.6"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/node", "npm:18.16.18"],\
             ["@types/react-is", "npm:18.2.1"],\
@@ -8760,6 +8799,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["swr", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.1.5"],\
             ["tailwindcss", "npm:3.3.2"],\
             ["tippy", "npm:0.0.0"],\
+            ["tippy.js", "npm:6.3.7"],\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=77c9e2"],\
             ["vite", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:4.3.9"],\
             ["word-wrap", "npm:1.2.3"],\
@@ -9650,6 +9690,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tippy-npm-0.0.0-676ede3fae-727ed50f8d.zip/node_modules/tippy/",\
           "packageDependencies": [\
             ["tippy", "npm:0.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["tippy.js", [\
+        ["npm:6.3.7", {\
+          "packageLocation": "./.yarn/cache/tippy.js-npm-6.3.7-424f946d38-cac955318a.zip/node_modules/tippy.js/",\
+          "packageDependencies": [\
+            ["tippy.js", "npm:6.3.7"],\
+            ["@popperjs/core", "npm:2.11.8"]\
           ],\
           "linkType": "HARD"\
         }]\

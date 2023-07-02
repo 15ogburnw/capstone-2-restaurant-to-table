@@ -47,7 +47,6 @@ export default function NotFoundPage() {
           <SVG
             src="img/fillers/puzzled-guy.svg"
             width={350}
-            height="auto"
             className="rounded-xl"></SVG>
         </div>
       </section>

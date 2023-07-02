@@ -20,7 +20,7 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 
 // UI components
-import Tooltip from "../Tooltips/TopTooltip";
+import Tooltip from "../Tooltips/MenuTooltip";
 
 // Get global SWR config
 

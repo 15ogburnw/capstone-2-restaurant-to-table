@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import Link from "next/link";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import "tippy.js/themes/light.css";
+import MenuTooltip from "@/components/Tooltips/MenuTooltip";
 
 export default function MenuPage() {
   const router = useRouter();
@@ -12,30 +15,59 @@ export default function MenuPage() {
   const { mutate } = useSWRConfig();
   const [menuName, setMenuName] = useState();
   const [menuRecipes, setMenuRecipes] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [numPages, setNumPages] = useState();
+  const [pageRecipes, setPageRecipes] = useState();
 
   const { data: menu, isLoading, error } = useSWR(`/api/user/menus/${menuId}`);
 
+  /**  If data is returned by SWR, update the state for the menu recipes.
+   * This also triggers if the menu is mutated.
+   */
   useEffect(() => {
-    if (menu) {
+    if (menu && menu.length > 0) {
       setMenuRecipes(menu[0].recipes);
       setMenuName(menu[0].name);
     }
   }, [menu]);
 
+  /**
+   * When the page changes or the recipes in the menu change, update the state for the recipes on the current page.
+   */
+  useEffect(() => {
+    if (menuRecipes) {
+      setNumPages(Math.ceil(menuRecipes.length / 15));
+      if (currentPage * 15 > menuRecipes.length) {
+        setPageRecipes(menuRecipes.slice(currentPage * 15 - 15));
+      } else {
+        setPageRecipes(
+          menuRecipes.slice(currentPage * 15 - 15, currentPage * 15)
+        );
+      }
+    }
+  }, [currentPage, menuRecipes]);
+
+  /**
+   * When the recipes in the menu change, update the state for total pages
+   */
+  useEffect(() => {
+    if (menuRecipes) {
+      setNumPages(Math.ceil(menuRecipes.length / 15));
+    }
+  }, [currentPage, menuRecipes]);
+
   if (isLoading) return <p>Loading...</p>;
-  else if (error) return <p>{error.message}</p>;
-  else if (!menu) return <p>Menu not found</p>;
+  else if (error) router.replace("/500");
+  else if (menu?.length === 0) router.replace("/404");
   else {
     return (
       <>
         {/* TODO: implement delete functionality for the menu and for individual recipes, add option to change name of menu */}
         <section className=" px-4 flex flex-col justify-center items-center">
           <div className="flex items-center mt-3 justify-between w-5/6 md:px-6 lg:px-8">
-            {menuName ? (
-              <h2 className="text-3xl  font-bold capitalize text-primary-700">
-                {menuName}
-              </h2>
-            ) : null}
+            <h2 className="text-3xl  font-bold capitalize text-primary-700">
+              {menuName}
+            </h2>
 
             {/* TODO: implement this button */}
             <div className="flex items-center mt-4  gap-x-3">
@@ -113,7 +145,7 @@ export default function MenuPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y w-full  divide-primary-700 ">
-                    {menuRecipes?.map((recipe) => {
+                    {pageRecipes?.map((recipe) => {
                       return (
                         <tr
                           key={recipe.id}
@@ -129,27 +161,33 @@ export default function MenuPage() {
                             </p>
                           </td>
 
-                          <td className="py-3.5 px-6 text-md font-semibold text-primary-700  text-right">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                console.log(e.target);
-                              }}
-                              className="px-1 py-1 hover:bg-white  group-hover:text-white hover:text-primary-700 rounded-lg  ">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="w-6 h-6">
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                />
-                              </svg>
-                            </button>
+                          <td className="py-3.5 px-6 text-md font-semibold group-hover:text-white  text-primary-700  text-right">
+                            <Tippy
+                              content={<MenuTooltip />}
+                              placement="bottom"
+                              interactive
+                              theme="light">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  console.log(e.target);
+                                }}
+                                className="px-1 py-1 hover:bg-primary-700   rounded-lg  ">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                  stroke="currentColor"
+                                  className="w-6 h-6">
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                  />
+                                </svg>
+                              </button>
+                            </Tippy>
                           </td>
                         </tr>
                       );
@@ -161,49 +199,65 @@ export default function MenuPage() {
           </div>
 
           {/* TODO: IMPLEMENT PAGINATION */}
-          <div className="mt-2 mb-6  sm:flex sm:items-center sm:justify-end w-5/6 md:px-6 lg:px-8">
-            <div className="text-md mr-4 font-bold text-primary-700">
-              Page 1 of 10
+          {numPages ? (
+            <div className="mt-2 mb-6  sm:flex sm:items-center sm:justify-end w-5/6 md:px-6 lg:px-8">
+              {numPages ? (
+                <div className="text-md mr-4 font-bold text-primary-700">
+                  {`Page ${currentPage} of ${numPages}`}
+                </div>
+              ) : null}
+
+              <div className="flex justify-end items-center mt-4 gap-x-4 sm:mt-0">
+                {numPages === 1 || currentPage === 1 ? null : (
+                  <button
+                    className="flex items-center justify-center w-1/2 px-5 py-2 text-md text-white font-semibold capitalize transition- bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600 "
+                    onClick={() => {
+                      setCurrentPage((old) => old - 1);
+                    }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-5 h-5">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+                      />
+                    </svg>
+
+                    <span>Previous</span>
+                  </button>
+                )}
+
+                {numPages === 1 || currentPage === numPages ? null : (
+                  <button
+                    className="flex items-center justify-center w-1/2 px-5 py-2 text-md font-semibold text-white capitalize transition bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600"
+                    onClick={() => {
+                      setCurrentPage((old) => old + 1);
+                    }}>
+                    <span>Next</span>
+
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-5 h-5">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
-
-            <div className="flex justify-end items-center mt-4 gap-x-4 sm:mt-0">
-              <button className="flex items-center justify-center w-1/2 px-5 py-2 text-md text-white font-semibold capitalize transition- bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600 ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-5 h-5 rtl:-scale-x-100">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-                  />
-                </svg>
-
-                <span>previous</span>
-              </button>
-
-              <button className="flex items-center justify-center w-1/2 px-5 py-2 text-md font-semibold text-white capitalize transition bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600">
-                <span>Next</span>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-5 h-5 rtl:-scale-x-100">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+          ) : null}
         </section>
       </>
     );
