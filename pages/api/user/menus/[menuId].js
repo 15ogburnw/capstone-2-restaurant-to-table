@@ -29,7 +29,6 @@ const handler = async (req, res) => {
         message: error.message,
       });
     } else if (menu) {
-      console.log(menu);
       res.status(200).json(menu);
     } else {
       res.status(500).json({ message: "something went wrong" });
