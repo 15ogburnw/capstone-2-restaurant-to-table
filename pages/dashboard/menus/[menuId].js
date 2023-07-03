@@ -12,6 +12,16 @@ import { useContext } from "react";
 import ToastContext from "@/lib/contexts/ToastContext";
 import ConfirmModal from "@/components/Modals/ConfirmModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as yup from "yup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { FaEdit } from "react-icons/fa";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import "tippy.js/themes/light.css";
+import "tippy.js/themes/material.css";
 
 export default function MenuPage() {
   const router = useRouter();
@@ -22,6 +32,7 @@ export default function MenuPage() {
   const [numPages, setNumPages] = useState();
   const [pageRecipes, setPageRecipes] = useState();
   const [favoriteRecipes, setFavoriteRecipes] = useState();
+  const [editingName, setEditingName] = useState(false);
   const [view, setView] = useState("all");
   const supabase = useSupabaseClient();
   const { mutate } = useSWRConfig();
@@ -31,6 +42,8 @@ export default function MenuPage() {
     data: menu,
     isLoading,
     error: menuError,
+    mutate: mutateMenu,
+    isMutating: menuMutating,
   } = useSWR(`/api/user/menus/${menuId}`);
   const {
     data: favorites,
@@ -38,6 +51,13 @@ export default function MenuPage() {
     mutate: mutateFavs,
     isMutating: favsMutating,
   } = useSWR("/api/user/favorite-recipes");
+
+  const menuNameSchema = yup.object().shape({
+    newMenuName: yup
+      .string()
+      .required("Menu name is required")
+      .min(5, "Menu name must be at least 5 characters long"),
+  });
 
   /** TODO: nice to have: incorporate ChatGPT to provide recipe recommendations */
 
@@ -107,6 +127,37 @@ export default function MenuPage() {
     }
   }, [favorites, favError, mutateFavs, favsMutating]);
 
+  const handleNameChange = async ({ newMenuName }) => {
+    console.log("in name change");
+    console.log(newMenuName);
+    const { error } = await supabase
+      .from("menus")
+      .update({ name: toCapitalCase(newMenuName) })
+      .eq("id", menuId);
+
+    if (error) {
+      showToast("error", {
+        text: "Something went wrong while attempting to change the menu name! Please try again",
+      });
+    } else {
+      setMenuName(toCapitalCase(newMenuName));
+      showToast("success", { text: "Successfully changed the menu name!" });
+    }
+    setEditingName(false);
+    mutateMenu();
+    mutate("/api/user/menus");
+  };
+
+  const toCapitalCase = (string) => {
+    const words = string.split(" ");
+
+    const capitalizedWords = words.map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    });
+
+    return capitalizedWords.join(" ");
+  };
+
   if (isLoading) return <Loading size="xl" />;
   else if (menuError) return <RetryLoad dataName="menu" textSize="3xl" />;
   else if (menu?.length === 0) router.replace("/dashboard");
@@ -116,9 +167,69 @@ export default function MenuPage() {
         <div className="flex justify-center">
           <div className="flex items-center border-b-4 pb-6 border-primary-700 mt-6 w-5/6 justify-between  md:px-8 lg:px-10">
             <div className="invisible">Invisible for spacing</div>
-            <h2 className="text-3xl font-bold capitalize text-primary-700">
-              {menuName}
-            </h2>
+            {editingName ? (
+              <Formik
+                initialValues={{ newMenuName: menuName }}
+                validationSchema={menuNameSchema}
+                onSubmit={handleNameChange}
+                validateOnMount>
+                {({ isValid, errors, touched }) => (
+                  <Form>
+                    <div className="flex flex-row gap-6 justify-center items-center ">
+                      <div className="flex flex-col ">
+                        <Field
+                          className={` px-4 py-2 focus:placeholder-transparent text-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none placeholder-primary-700 ${
+                            (errors.newMenuName && touched.newMenuName) ||
+                            !isValid
+                              ? "border-red-400 focus:ring-red-400 placeholder-red-400"
+                              : "focus:ring-primary-400  border-primary-800/60 placeholder-primary-800/60 "
+                          }`}
+                          name="newMenuName"
+                          type="text"
+                          placeholder="Enter a New Menu Name"
+                          autoComplete="name"></Field>
+                        <ErrorMessage
+                          name="newMenuName"
+                          component="div"
+                          className="text-sm text-red-500 mt-2 font-bold text-center "
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className=" bg-primary-700 text-lg font-bold  py-2   px-6  rounded-lg  hover:enabled:bg-primary-600  text-white font-medium  disabled:opacity-40 disabled:self-start"
+                        disabled={!isValid || isLoading}>
+                        Change Name
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            ) : !menuMutating ? (
+              <div className="flex flex-row justify-center gap-6 items-center">
+                <div className="text-3xl font-bold capitalize text-primary-700">
+                  {menuName}
+                </div>
+                <Tippy
+                  content={<p className="font-bold">Edit Menu Name</p>}
+                  placement="right"
+                  theme="material">
+                  <div onClick={() => setEditingName(true)}>
+                    <FaEdit className="text-primary-700 h-5 w-5 hover:cursor-pointer hover:text-primary-600" />
+                  </div>
+                </Tippy>
+              </div>
+            ) : (
+              <div className="flex flex-row justify-center items-center gap-6">
+                <FontAwesomeIcon
+                  className="text-3xl flex-none inline-block text-primary-700 "
+                  icon={faCircleNotch}
+                  spin
+                />
+                <span className="text-3xl text-primary-700 font-bold">
+                  Loading
+                </span>
+              </div>
+            )}
 
             {/* TODO: implement this button */}
             <div className="flex items-center  gap-x-3">
