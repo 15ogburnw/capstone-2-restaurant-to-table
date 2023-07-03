@@ -17,13 +17,6 @@ export default function FilterForm() {
   const [dietLabelsCollapsed, setDietLabelsCollapsed] = useState(true);
   const [healthLabelsCollapsed, setHealthLabelsCollapsed] = useState(true);
 
-  const collapsedStyles = {
-    collapsedArrows: "stroke-primary-800 group-hover:stroke-primary-600",
-    openArrows: "stroke-primary-800 group-hover:stroke-primary-600",
-    collapsed: "text-primary-800 hover:text-primary-600",
-    open: "text-primary-800 hover:text-primary-600",
-  };
-
   const toggleCollapse = (e) => {
     const name = e.target.getAttribute("name");
     switch (name) {
@@ -214,7 +207,9 @@ export default function FilterForm() {
           name="health-labels-group"
           icon={healthLabelsCollapsed ? faAnglesDown : faAnglesUp}
           onClick={toggleCollapse}
-          className={`h-3 ml-1 w-3 flex-none ${collapsedStyles.collapsedArrows}`}
+          className={
+            "h-3 ml-1 w-3 flex-none stroke-primary-800 group-hover:stroke-primary-600"
+          }
         />
       </div>
 

@@ -7,11 +7,10 @@ import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
-export default function SignupForm() {
+export default function SignupForm1() {
   const [isLoading, setIsLoading] = useState(false);
   const supabase = useSupabaseClient();
   const [errorMessage, setErrorMessage] = useState(null);
-  const [signupPage, setSignupPage] = useState(1);
   const router = useRouter();
 
   const inputStyles = {
@@ -104,141 +103,138 @@ export default function SignupForm() {
 
             <span className="w-1/4 border-2 border-primary-700 lg:w-1/3"></span>
           </div>
-          <div
-            className={`first-page ${
-              signupPage === 1 ? "block" : "hidden"
-            } transition duration-300`}>
-            {/* Name input */}
-            <div className="mt-4">
+
+          {/* Name input */}
+          <div className="mt-4">
+            <label
+              className="block mb-2 text-lg font-bold text-primary-700 "
+              htmlFor="name">
+              Name
+            </label>
+
+            <Field
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none placeholder-primary-700 ${
+                errors.name && touched.name
+                  ? inputStyles.invalid
+                  : inputStyles.valid
+              }`}
+              name="name"
+              type="text"
+              placeholder="Please enter your name"
+              autoComplete="name"
+            />
+            <ErrorMessage
+              name="name"
+              component="div"
+              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
+            />
+          </div>
+
+          {/* Email input */}
+          <div>
+            <div className="flex justify-between">
               <label
                 className="block mb-2 text-lg font-bold text-primary-700 "
-                htmlFor="name">
-                Name
+                htmlFor="email">
+                Email
               </label>
-
-              <Field
-                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none placeholder-primary-600/60 ${
-                  errors.name && touched.name
-                    ? inputStyles.invalid
-                    : inputStyles.valid
-                }`}
-                name="name"
-                type="text"
-                placeholder="Please enter your name"
-                autocomplete="name"
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
-              />
             </div>
 
-            {/* Email input */}
-            <div>
-              <div className="flex justify-between">
-                <label
-                  className="block mb-2 text-lg font-bold text-primary-700 "
-                  htmlFor="email">
-                  Email
-                </label>
-              </div>
-
-              <Field
-                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+            <Field
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 placeholder-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none
             ${
               errors.email && touched.email
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-                name="email"
-                placeholder="Please enter your email"
-                autocomplete="email"
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
-              />
+              name="email"
+              placeholder="Please enter your email"
+              autoComplete="email"
+            />
+            <ErrorMessage
+              name="email"
+              component="div"
+              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
+            />
+          </div>
+
+          {/* Password input */}
+          <div>
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-lg font-bold text-primary-700 "
+                htmlFor="password">
+                Password
+              </label>
             </div>
 
-            {/* Password input */}
-            <div>
-              <div className="flex justify-between">
-                <label
-                  className="block mb-2 text-lg font-bold text-primary-700 "
-                  htmlFor="password">
-                  Password
-                </label>
-              </div>
-
-              <Field
-                name="password"
-                placeholder="Please enter your password"
-                autocomplete="new-password"
-                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+            <Field
+              name="password"
+              placeholder="Please enter your password"
+              autoComplete="new-password"
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 placeholder-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none
             ${
               errors.password && touched.password
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-                type="password"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
-              />
+              type="password"
+            />
+            <ErrorMessage
+              name="password"
+              component="div"
+              className="text-sm text-red-500 mt-1 font-bold text-right -mb-3"
+            />
+          </div>
+
+          {/* Confirm password input */}
+          <div>
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-lg font-bold text-primary-700 "
+                htmlFor="confirmPassword">
+                Confirm Password
+              </label>
             </div>
 
-            {/* Confirm password input */}
-            <div>
-              <div className="flex justify-between">
-                <label
-                  className="block mb-2 text-lg font-bold text-primary-700 "
-                  htmlFor="confirmPassword">
-                  Confirm Password
-                </label>
-              </div>
-
-              <Field
-                name="confirmPassword"
-                placeholder="Please confirm your password"
-                autocomplete="new-password"
-                className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700/80 placeholder-primary-600/60 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none 
+            <Field
+              name="confirmPassword"
+              placeholder="Please confirm your password"
+              autoComplete="new-password"
+              className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 placeholder-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none
             ${
               errors.confirmPassword && touched.confirmPassword
                 ? inputStyles.invalid
                 : inputStyles.valid
             }`}
-                type="password"
-              />
-              <ErrorMessage
-                name="confirmPassword"
-                component="div"
-                className="text-sm text-red-500 mt-1 font-bold -mb-6  text-right"
-              />
-            </div>
-
-            {/* Sign Up Button */}
-
-            <div
-              className="w-full bg-primary-800 text-lg font-bold hover:enabled:scale-105 py-1.5 leading-none mt-10 px-6 border-4 border-primary-800 duration-150  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:bg-primary-400 disabled:border-primary-400 disabled:opacity-80 cursor-pointer"
-              disabled={!isValid || isLoading}>
-              {!isLoading ? (
-                "Create Your Account"
-              ) : (
-                <>
-                  <FontAwesomeIcon
-                    className="inline mr-3 font-bold"
-                    icon={faCircleNotch}
-                    spin
-                  />
-                  <span className="font-bold text-lg">Loading</span>
-                </>
-              )}
-            </div>
+              type="password"
+            />
+            <ErrorMessage
+              name="confirmPassword"
+              component="div"
+              className="text-sm text-red-500 mt-1 font-bold -mb-6  text-right"
+            />
           </div>
+
+          {/* Sign Up Button */}
+
+          <button
+            className="w-full bg-primary-800 text-lg font-bold hover:enabled:scale-105 py-1.5 leading-none mt-10 px-6 border-4 border-primary-800 duration-150  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:bg-primary-400 disabled:border-primary-400 disabled:opacity-80"
+            disabled={!isValid || isLoading}>
+            {!isLoading ? (
+              "Create Your Account"
+            ) : (
+              <>
+                <FontAwesomeIcon
+                  className="inline mr-3 font-bold"
+                  icon={faCircleNotch}
+                  spin
+                />
+                <span className="font-bold text-lg">Loading</span>
+              </>
+            )}
+          </button>
+
           {/* Login redirect link */}
           <div className="flex items-center justify-center mt-4">
             <span className="text-lg text-center text-primary-800 font-bold mr-3">

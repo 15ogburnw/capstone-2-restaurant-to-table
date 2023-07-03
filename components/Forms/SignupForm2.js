@@ -2,7 +2,6 @@
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "./styles.css";
 import {
   DIET_LABELS,
   HEALTH_LABELS,
@@ -11,38 +10,27 @@ import {
   MEAL_TYPES,
 } from "@/lib/edamam/filters";
 
-const dietLabelsSchema = Yup.object().shape({
-  check: Yup.array().test("custom", null, (obj) => {
-    if (obj?.length > 0) {
-      return true;
-    }
-    return new Yup.ValidationError(
-      "You are required to acknowledge the final checkbox, affirming that you do not have any of the above stated diet restrictions",
-      null,
-      "check"
-    );
-  }),
+const validationSchema = Yup.object().shape({
+  healthRestrictions: Yup.array(),
+  healthAcknowledgment: Yup.boolean().oneOf(
+    [true],
+    "You must acknowledge that you have reviewed all health restrictions thoroughly and have selected all that apply to you."
+  ),
+  dietRestrictions: Yup.array(),
+  dietAcknowledgement: Yup.boolean().oneOf(
+    [true],
+    "You must acknowledge that you have reviewed all diet restrictions thoroughly and have selected all that apply to you"
+  ),
 });
 
-const healthLabelsSchema = Yup.object().shape({
-  check: Yup.array().test("custom", null, (obj) => {
-    if (obj?.length > 0) {
-      return true;
-    }
-    return new Yup.ValidationError(
-      "If none of these options apply, you must still acknowlege that you have clearly and thoroughly read through the list of diet restrictions above and are comfortable with receiving recipe recommendations in these categories.",
-      null,
-      "check"
-    );
-  }),
-  check: Yup.array().test(""),
-});
-
-export const CustomForm = () => {
+export const SignupForm2 = () => {
   return (
     <Formik
       initialValues={{
-        check: [],
+        healthRestrictions: [],
+        healthAcknowledgment: false,
+        dietRestrictions: [],
+        dietAcknowledgement: false,
       }}
       validationSchema={LoginSchema}
       onSubmit={(values) => {
