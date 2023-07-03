@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Link from "next/link";
 import RecipeListItem from "@/components/Recipes/RecipeListItem";
+import Loading from "@/components/Loading";
+import RetryLoad from "@/components/RetryLoad";
 
 export default function MenuPage() {
   const router = useRouter();
@@ -102,21 +104,21 @@ export default function MenuPage() {
     }
   }, [favorites, favError, mutateFavs, favsMutating]);
 
-  if (isLoading) return <p>Loading...</p>;
-  else if (menuError) router.replace("/500");
+  if (isLoading) return <Loading size="xl" />;
+  else if (menuError) return <RetryLoad dataName="menu" textSize="3xl" />;
   else if (menu?.length === 0) router.replace("/404");
   else {
     return (
       <>
         <div className="flex justify-center">
-          <div className="flex items-center mt-3 justify-between w-5/6 md:px-6 lg:px-8">
+          <div className="flex items-center border-b-4 pb-6 border-primary-700 mt-6 justify-between w-5/6 md:px-6 lg:px-8">
             <div className="invisible">Invisible for spacing</div>
             <h2 className="text-3xl font-bold capitalize text-primary-700">
               {menuName}
             </h2>
 
             {/* TODO: implement this button */}
-            <div className="flex items-center mt-4  gap-x-3">
+            <div className="flex items-center  gap-x-3">
               <button className="flex items-center justify-center w-1/2 px-5 py-2 text-md tracking-wide text-white transition  bg-primary-700 rounded-lg  sm:w-auto gap-x-2 hover:bg-primary-600 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -137,15 +139,17 @@ export default function MenuPage() {
             </div>
           </div>
         </div>
-        {/* TODO: implement delete functionality for the menu and for individual recipes, add option to change name of menu */}
+
+        {/* TODO: implement delete functionality for the menu, add option to change name of menu */}
         <div className=" px-4 flex flex-col h-full justify-center items-center">
-          {/* TODO: change these buttons to be applicable to me */}
           {numPages ? (
-            <div className="mt-6 flex flex-row items-center justify-between w-5/6  md:px-6 lg:px-8">
+            <div className="mt-0 flex flex-row items-center justify-between w-5/6  md:px-6 lg:px-8">
               <div className="inline-flex overflow-hidden bg-primary-700 divide-x divide-base-accent rounded-lg">
                 <button
-                  className={`px-5 py-2 text-xs font-medium text-white transition hover:enabled:bg-primary-600 sm:text-sm ${
-                    view === "all" ? "bg-primary-400 cursor-not-allowed" : null
+                  className={`px-5 py-2 text-xs font-bold  transition hover:enabled:bg-primary-600 sm:text-sm ${
+                    view === "all"
+                      ? "bg-primary-400 text-primary-800 cursor-not-allowed"
+                      : "text-white"
                   }`}
                   onClick={(e) => {
                     e.preventDefault();
@@ -156,10 +160,10 @@ export default function MenuPage() {
                 </button>
 
                 <button
-                  className={`px-5 py-2  font-medium text-white transition text-sm hover:bg-primary-600 ${
+                  className={`px-5 py-2  font-bold transition text-sm hover:bg-primary-600 ${
                     view === "favorites"
-                      ? "cursor-not-allowed bg-primary-400"
-                      : null
+                      ? "cursor-not-allowed text-primary-800 bg-primary-400"
+                      : "text-white "
                   }`}
                   disabled={view === "favorites" ? true : false}
                   onClick={(e) => {
@@ -169,6 +173,8 @@ export default function MenuPage() {
                   Favorites
                 </button>
               </div>
+
+              {/* TODO: nice to have: implement search feature for the menu pages */}
 
               <div className=" flex items-center  mt-4 md:mt-0 ">
                 <span className="absolute">
@@ -238,7 +244,7 @@ export default function MenuPage() {
 
           {/* Pagination */}
           {numPages ? (
-            <div className="mt-2 mb-6  sm:flex sm:items-center sm:justify-end w-5/6 md:px-6 lg:px-8">
+            <div className="mt-2 mb-10  sm:flex sm:items-center sm:justify-end w-5/6 md:px-6 lg:px-8">
               {numPages ? (
                 <div className="text-md mr-4 font-bold text-primary-700">
                   {`Page ${currentPage} of ${numPages}`}
@@ -301,19 +307,19 @@ export default function MenuPage() {
             <div className="text-2xl  font-semibold text-primary-700">
               <span>{"There are no recipes in this menu yet! "}</span>
               <Link
-                className="text-primary-500 font-black hover:underline hover:text-primary-700"
+                className="text-primary-600 font-black hover:underline hover:text-primary-700"
                 href="/dashboard/recipe-search">
                 {"Search for some "}
               </Link>
               <span>{"or add from your "}</span>
               <Link
-                className="text-primary-500 font-black hover:underline hover:text-primary-700"
+                className="text-primary-600 font-black hover:underline hover:text-primary-700"
                 href="/dashboard/recipes/favorites">
                 {"Favorites "}
               </Link>
               <span>{"or "}</span>
               <Link
-                className="text-primary-500 font-black hover:underline hover:text-primary-700"
+                className="text-primary-600 font-black hover:underline hover:text-primary-700"
                 href="/dashboard/recipes/saved">
                 {"Saved Recipes"}
               </Link>

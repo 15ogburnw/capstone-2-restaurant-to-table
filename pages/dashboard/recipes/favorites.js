@@ -3,13 +3,19 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import Link from "next/link";
 
 export default function FavoritesPage() {
   const router = useRouter();
   const supabase = useSupabaseClient();
   const [favorites, setFavorites] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [numPages, setNumPages] = useState();
+  const [pageRecipes, setPageRecipes] = useState();
 
-  const { data, isLoading, error } = useSWR(`/api/user/favorite-recipes`);
+  const { data, isLoading, error, mutate } = useSWR(
+    `/api/user/favorite-recipes`
+  );
 
   useEffect(() => {
     if (data) {
@@ -118,50 +124,77 @@ export default function FavoritesPage() {
             </div>
           </div>
 
-          {/* TODO: IMPLEMENT PAGINATION */}
-          <div className="mt-2 mb-6  sm:flex sm:items-center sm:justify-end w-5/6 md:px-6 lg:px-8">
-            <div className="text-md mr-4 font-bold text-primary-700">
-              Page 1 of 10
+          {/* Pagination */}
+          {numPages ? (
+            <div className="mt-2 mb-10  sm:flex sm:items-center sm:justify-end w-5/6 md:px-6 lg:px-8">
+              {numPages ? (
+                <div className="text-md mr-4 font-bold text-primary-700">
+                  {`Page ${currentPage} of ${numPages}`}
+                </div>
+              ) : null}
+
+              <div className="flex justify-end items-center mt-4 gap-x-4 sm:mt-0">
+                {numPages === 1 || currentPage === 1 ? null : (
+                  <button
+                    className="flex items-center justify-center w-1/2 px-5 py-2 text-md text-white font-semibold capitalize transition- bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600 "
+                    onClick={() => {
+                      setCurrentPage((old) => old - 1);
+                    }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-5 h-5">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+                      />
+                    </svg>
+
+                    <span>Previous</span>
+                  </button>
+                )}
+
+                {numPages === 1 || currentPage === numPages ? null : (
+                  <button
+                    className="flex items-center justify-center w-1/2 px-5 py-2 text-md font-semibold text-white capitalize transition bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600"
+                    onClick={() => {
+                      setCurrentPage((old) => old + 1);
+                    }}>
+                    <span>Next</span>
+
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-5 h-5">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
+          ) : null}
 
-            <div className="flex justify-end items-center mt-4 gap-x-4 sm:mt-0">
-              <button className="flex items-center justify-center w-1/2 px-5 py-2 text-md text-white font-semibold capitalize transition- bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600 ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-5 h-5 rtl:-scale-x-100">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-                  />
-                </svg>
-
-                <span>Previous</span>
-              </button>
-
-              <button className="flex items-center justify-center w-1/2 px-5 py-2 text-md font-semibold text-white capitalize transition bg-primary-700  rounded-md sm:w-auto gap-x-2 hover:bg-primary-600">
-                <span>Next</span>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-5 h-5 rtl:-scale-x-100">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                  />
-                </svg>
-              </button>
+          {numPages ? null : (
+            <div className="text-2xl  font-semibold text-primary-700">
+              <span>{"You have no favorites yet! "}</span>
+              <Link
+                className="text-primary-600 font-black hover:underline hover:text-primary-700"
+                href="/dashboard/recipe-search">
+                {"Discover some new recipes!"}
+              </Link>
             </div>
-          </div>
+          )}
         </section>
       </>
     );

@@ -23,7 +23,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 export default function Sidebar() {
   const router = useRouter();
   //get current user's menus
-  const { data, isLoading } = useSWR("/api/user/menus");
+  const { data, isLoading, isValidating } = useSWR("/api/user/menus");
 
   // initialize client for supabase
   const supabase = useSupabaseClient();
@@ -157,7 +157,9 @@ export default function Sidebar() {
 
           <div className=" mx-3 mt-2">
             {/* {console.log("My menus:", menus)} */}
-            {data?.menus?.length > 0
+            {isLoading || isValidating
+              ? null
+              : data?.menus?.length > 0
               ? data.menus.map((menu, idx) => (
                   <Link href={`/dashboard/menus/${menu.id}`} key={menu.id}>
                     <SideBarMenuItem
@@ -169,16 +171,20 @@ export default function Sidebar() {
                 ))
               : null}
 
-            <div className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
+            <div className=" w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
               {/* Fix these from showing up at the same time */}
-              <div className="flex items-center gap-x-2 ">
+              <div className="flex items-center justify-center gap-x-2 ">
                 {!isLoading && !data?.menus?.length ? (
                   <span>
                     You don&apos;t have any menus yet! Create your first one to
                     get started
                   </span>
                 ) : null}
-                {isLoading && <Loading size="md" />}
+                {isLoading || isValidating ? (
+                  <div className="mb-4">
+                    <Loading size="md" />
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

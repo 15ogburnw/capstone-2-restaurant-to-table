@@ -29,7 +29,7 @@ export default function Loading({ size }) {
 
   return (
     <div
-      className={`flex align-middle flex-col text-center text-primary-600 justify-center ${container} items-center`}>
+      className={`flex align-middle flex-col text-center text-primary-700 justify-center ${container} items-center`}>
       <FontAwesomeIcon
         className={`${spinner} flex-initial`}
         icon={faCircleNotch}

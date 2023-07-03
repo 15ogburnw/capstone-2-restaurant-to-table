@@ -18,20 +18,22 @@ export default function Dashboard({ children }) {
           const res = await fetch(args);
 
           if (!res.ok) {
-            const error = new Error();
+            const error = new Error(
+              "An error occurred while fetching the data"
+            );
             // Attach extra info to the error object.
-            const { message } = await res.json();
-            error.message = message;
+            error.info = await res.json();
             error.status = res.status;
             throw error;
           }
           return await res.json();
         },
+        loadingTimeout: 10000,
 
         onError: (error, key) => {
           if (error.status !== 403 && error.status !== 404) {
-            console.log(error);
             console.log("oh no! there was an error");
+            console.log(error.info);
             const errorToast = () => {
               toast("Oh no! something went wrong", {
                 type: "error",
@@ -51,8 +53,8 @@ export default function Dashboard({ children }) {
 
           if (!user) return;
 
-          // Only retry up to 3 times.
-          if (retryCount >= 3) return;
+          // retry up to 20 times.
+          if (retryCount >= 30) return;
 
           // Retry after 3 seconds.
           setTimeout(() => revalidate({ retryCount }), 3000);
