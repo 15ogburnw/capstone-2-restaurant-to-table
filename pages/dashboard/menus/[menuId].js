@@ -148,6 +148,12 @@ export default function MenuPage() {
     mutate("/api/user/menus");
   };
 
+  useEffect(() => {
+    if (currentPage > numPages) {
+      setCurrentPage(numPages);
+    }
+  }, [currentPage, numPages]);
+
   const toCapitalCase = (string) => {
     const words = string.split(" ");
 

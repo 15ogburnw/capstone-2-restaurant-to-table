@@ -1,8 +1,6 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
   const inputStyles = {
@@ -41,7 +39,6 @@ export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
         name: newUser.name,
         email: newUser.email,
         password: newUser.password,
-        confirmPassword: newUser.confirmPassword,
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmitStep1}

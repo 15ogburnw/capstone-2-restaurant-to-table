@@ -2,16 +2,18 @@
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {
-  DIET_LABELS,
-  HEALTH_LABELS,
-  CUISINE_TYPES,
-  DISH_TYPES,
-  MEAL_TYPES,
-} from "@/lib/edamam/filters";
+import { DIET_LABELS, HEALTH_LABELS } from "@/lib/edamam/filters";
 import { ImInfo } from "react-icons/im";
+import { useContext } from "react";
+import ToastContext from "@/lib/contexts/ToastContext";
+import { useRouter } from "next/router";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
-const SignupForm2 = ({ setSignupStep, newUser, setNewUser }) => {
+const SignupForm2 = ({ setSignupStep, newUser, setNewUser, resetSignup }) => {
+  const showToast = useContext(ToastContext);
+  const router = useRouter();
+  const supabase = useSupabaseClient();
+
   const validationSchema = Yup.object().shape({
     healthRestrictions: Yup.array(),
     dietRestrictions: Yup.array(),
@@ -21,10 +23,35 @@ const SignupForm2 = ({ setSignupStep, newUser, setNewUser }) => {
     ),
   });
 
-  const handleSecondStep = (values) => {
-    console.log("user as of now:", newUser);
-    console.log("second step values:", values);
+  // TODO: Style
+
+  const handleSecondStep = async (values) => {
     setNewUser((old) => ({ ...old, ...values }));
+    const { email, password, name, dietRestrictions, healthRestrictions } =
+      values;
+    const { data: user, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name,
+          dietRestrictions,
+          healthRestrictions,
+        },
+      },
+    });
+
+    if (error) {
+      showToast("error", {
+        text: error.msg,
+      });
+      setSignupStep(1);
+      resetSignup();
+    } else if (!isLoading && user) {
+      showToast("success", {
+        text: `Welcome ${user.name}! You have successfully created a new account`,
+      });
+    }
   };
   return (
     <Formik
@@ -137,18 +164,21 @@ const SignupForm2 = ({ setSignupStep, newUser, setNewUser }) => {
             />
           </div>
           <button
-            disabled={!isValid}
+            disabled={!isValid ? true : false}
             type="submit"
-            className="py-2 px-6 mt-2 disabled:opacity-80 disabled:bg-primary-500 rounded-md bg-primary-700 text-white text-lg font-bold hover:enabled:bg-primary-500 ">
+            className={
+              "py-2 px-6 mt-2 disabled:opacity-80 disabled:bg-primary-500 rounded-md bg-primary-700 text-white text-lg font-bold hover:enabled:bg-primary-50 cursor-pointer"
+            }>
             Submit Form
           </button>
           <div
             onClick={(e) => {
               e.preventDefault();
-              setNewUser((old) => setNewUser({ ...old, values }));
+              setNewUser((old) => ({ ...old, values }));
               setSignupStep(1);
             }}
-            className="text-2xl inline-block text-primary-700 font-black ml-5 cursor-pointer hover:text-primary-600 transition hover:scale-105">
+            className="text-2xl inline-block text-primary-700 font-black ml-5 cursor-pointer hover:text-primary-600 transition hover:scale-105"
+            type="button">
             Go Back
           </div>
         </Form>
