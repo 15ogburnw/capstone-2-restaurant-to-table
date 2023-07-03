@@ -73,7 +73,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["styled-components", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.3.11"],\
             ["supabase", "npm:1.69.3"],\
             ["supabase-cli", "npm:0.0.21"],\
-            ["sweetalert2", "npm:11.4.8"],\
+            ["sweetalert2", "npm:11.7.12"],\
+            ["sweetalert2-react-content", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.0.7"],\
             ["swr", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.1.5"],\
             ["tailwindcss", "npm:3.3.2"],\
             ["tippy", "npm:0.0.0"],\
@@ -8795,7 +8796,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["styled-components", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.3.11"],\
             ["supabase", "npm:1.69.3"],\
             ["supabase-cli", "npm:0.0.21"],\
-            ["sweetalert2", "npm:11.4.8"],\
+            ["sweetalert2", "npm:11.7.12"],\
+            ["sweetalert2-react-content", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.0.7"],\
             ["swr", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:2.1.5"],\
             ["tailwindcss", "npm:3.3.2"],\
             ["tippy", "npm:0.0.0"],\
@@ -9486,10 +9488,40 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["sweetalert2", [\
-        ["npm:11.4.8", {\
-          "packageLocation": "./.yarn/cache/sweetalert2-npm-11.4.8-c217307419-6dcb2eac66.zip/node_modules/sweetalert2/",\
+        ["npm:11.7.12", {\
+          "packageLocation": "./.yarn/cache/sweetalert2-npm-11.7.12-28b1b4555b-3f0d26399f.zip/node_modules/sweetalert2/",\
           "packageDependencies": [\
-            ["sweetalert2", "npm:11.4.8"]\
+            ["sweetalert2", "npm:11.7.12"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["sweetalert2-react-content", [\
+        ["npm:5.0.7", {\
+          "packageLocation": "./.yarn/cache/sweetalert2-react-content-npm-5.0.7-fb6d71b062-383eb9dd6d.zip/node_modules/sweetalert2-react-content/",\
+          "packageDependencies": [\
+            ["sweetalert2-react-content", "npm:5.0.7"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.0.7", {\
+          "packageLocation": "./.yarn/__virtual__/sweetalert2-react-content-virtual-09bbd055a6/0/cache/sweetalert2-react-content-npm-5.0.7-fb6d71b062-383eb9dd6d.zip/node_modules/sweetalert2-react-content/",\
+          "packageDependencies": [\
+            ["sweetalert2-react-content", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:5.0.7"],\
+            ["@types/react", null],\
+            ["@types/react-dom", null],\
+            ["@types/sweetalert2", null],\
+            ["react", "npm:18.2.0"],\
+            ["react-dom", "virtual:ba31324fa5ff42022462b8d3423427aa56edc62b931aacac3d961c5d4c0c843d50b9aab3f6df5c29dfae25c3f9b0aac911d53cf7c911c7460465a82b13ae0d1e#npm:18.2.0"],\
+            ["sweetalert2", "npm:11.7.12"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-dom",\
+            "@types/react",\
+            "@types/sweetalert2",\
+            "react-dom",\
+            "react",\
+            "sweetalert2"\
           ],\
           "linkType": "HARD"\
         }]\

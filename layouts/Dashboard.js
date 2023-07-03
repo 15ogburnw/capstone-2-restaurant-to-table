@@ -53,11 +53,11 @@ export default function Dashboard({ children }) {
 
           if (!user) return;
 
-          // retry up to 20 times.
-          if (retryCount >= 30) return;
+          // retry up to 15 times.
+          if (retryCount >= 15) return;
 
           // Retry after 3 seconds.
-          setTimeout(() => revalidate({ retryCount }), 3000);
+          setTimeout(() => revalidate({ retryCount }), 10000);
         },
         revalidateOnFocus: false,
       }}>
