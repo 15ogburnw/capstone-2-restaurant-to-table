@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import Loading from "../Loading";
-import RecipeSearchCard from "./RecipeSearchCard";
+import RecipeSearchCard from "../Recipes/RecipeSearchCard";
 import NoResults from "./NoResults";
 import { useEffect, useState } from "react";
 import Pagination from "../Pagination";

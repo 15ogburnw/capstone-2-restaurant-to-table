@@ -1,25 +1,37 @@
 import Dashboard from "@/layouts/Dashboard";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import useSWR from "swr";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/themes/light.css";
 import MenuTooltip from "@/components/Tooltips/MenuTooltip";
+import RecipeListItem from "@/components/Recipes/RecipeListItem";
 
 export default function MenuPage() {
   const router = useRouter();
   const { menuId } = router.query;
-  const supabase = useSupabaseClient();
-  const { mutate } = useSWRConfig();
   const [menuName, setMenuName] = useState();
   const [menuRecipes, setMenuRecipes] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [numPages, setNumPages] = useState();
   const [pageRecipes, setPageRecipes] = useState();
+  const [favoriteRecipes, setFavoriteRecipes] = useState();
+  const [view, setView] = useState("all");
 
-  const { data: menu, isLoading, error } = useSWR(`/api/user/menus/${menuId}`);
+  const {
+    data: menu,
+    isLoading,
+    error: menuError,
+  } = useSWR(`/api/user/menus/${menuId}`);
+  const {
+    data: favorites,
+    error: favError,
+    mutate: mutateFavs,
+    isMutating: favsMutating,
+  } = useSWR("/api/user/favorite-recipes");
+
+  /** TODO: nice to have: incorporate ChatGPT to provide recipe recommendations */
 
   /**  If data is returned by SWR, update the state for the menu recipes.
    * This also triggers if the menu is mutated.
@@ -27,6 +39,7 @@ export default function MenuPage() {
   useEffect(() => {
     if (menu && menu.length > 0) {
       setMenuRecipes(menu[0].recipes);
+
       setMenuName(menu[0].name);
     }
   }, [menu]);
@@ -56,8 +69,20 @@ export default function MenuPage() {
     }
   }, [currentPage, menuRecipes]);
 
+  useEffect(() => {
+    if (favError) {
+      console.error("There was a problem fetching the user's favorite recipes");
+    } else {
+      setFavoriteRecipes({
+        data: favorites,
+        mutate: mutateFavs,
+        isMutating: favsMutating,
+      });
+    }
+  }, [favorites, favError, mutateFavs, favsMutating]);
+
   if (isLoading) return <p>Loading...</p>;
-  else if (error) router.replace("/500");
+  else if (menuError) router.replace("/500");
   else if (menu?.length === 0) router.replace("/404");
   else {
     return (
@@ -130,6 +155,7 @@ export default function MenuPage() {
 
           {/* TODO: make a dropdown for the options icon with a choice to favorite recipe or remove from menu */}
 
+          {/* Main section containing recipe list and headings */}
           <div className=" overflow-x-auto block w-5/6  justify-center">
             <div className="inline-block w-full py-4  align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden  shadow-lg shadow-primary-800/20 md:rounded-lg">
@@ -145,51 +171,16 @@ export default function MenuPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y w-full  divide-primary-700 ">
+                    {/* Loop over array of recipes and display each one */}
                     {pageRecipes?.map((recipe) => {
                       return (
-                        <tr
-                          key={recipe.id}
-                          className="cursor-pointer hover:bg-primary-600 group"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            console.log(e);
-                            router.push(`/dashboard/recipes/${recipe.id}`);
-                          }}>
-                          <td className="py-3.5 px-6 text-md text-primary-700 group-hover:text-white font-semibold text-left">
-                            <p className="text-lg font-semibold ">
-                              {recipe.name}
-                            </p>
-                          </td>
-
-                          <td className="py-3.5 px-6 text-md font-semibold group-hover:text-white  text-primary-700  text-right">
-                            <Tippy
-                              content={<MenuTooltip />}
-                              placement="bottom"
-                              interactive
-                              theme="light">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  console.log(e.target);
-                                }}
-                                className="px-1 py-1 hover:bg-primary-700   rounded-lg  ">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="1.5"
-                                  stroke="currentColor"
-                                  className="w-6 h-6">
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                                  />
-                                </svg>
-                              </button>
-                            </Tippy>
-                          </td>
-                        </tr>
+                        <>
+                          <RecipeListItem
+                            favoriteRecipes={favoriteRecipes}
+                            menuId={menuId}
+                            recipe={recipe}
+                          />
+                        </>
                       );
                     })}
                   </tbody>
@@ -198,7 +189,7 @@ export default function MenuPage() {
             </div>
           </div>
 
-          {/* TODO: IMPLEMENT PAGINATION */}
+          {/* Pagination */}
           {numPages ? (
             <div className="mt-2 mb-6  sm:flex sm:items-center sm:justify-end w-5/6 md:px-6 lg:px-8">
               {numPages ? (
