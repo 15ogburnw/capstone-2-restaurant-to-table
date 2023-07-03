@@ -69,7 +69,7 @@ export default function MenuPage() {
     }
     // If the user has clicked the button to filter by favorites, filter out the favorites and only display those
     else if (view === "favorites" && menuRecipes) {
-      // if favorites is undefined or an empty array, set the state for favorites present in the current menu to an empty array
+      // if favorites is undefined or an empty array, set the state for the recipes visible when filtered to an empty array
       if (!favorites || favorites.length === 0) {
         setNumPages(0);
         setPageRecipes([]);
@@ -92,15 +92,9 @@ export default function MenuPage() {
     }
   }, [currentPage, menuRecipes, favoriteRecipes, favorites, view]);
 
-  /**
-   * When the recipes in the menu change, update the state for total pages
+  /**If any of the values associated with the SWR key for favorites change, update a state object
+   * for favorite recipes. This gets passed down to each individual recipe list item.
    */
-  useEffect(() => {
-    if (menuRecipes) {
-      setNumPages(Math.ceil(menuRecipes.length / 15));
-    }
-  }, [currentPage, menuRecipes]);
-
   useEffect(() => {
     if (favError) {
       console.error("There was a problem fetching the user's favorite recipes");
@@ -133,7 +127,7 @@ export default function MenuPage() {
                 onClick={async (e) => {
                   e.preventDefault();
                   const result = await ConfirmModal.fire({
-                    title: `Are you sure you want to delete your menu "${menuName}?"`,
+                    title: `Are you sure you want to delete your menu "${menuName}"?`,
                     text: "You won't be able to revert this!",
                     confirmButtonText: "Yes, delete it!",
                     cancelButtonText: "Cancel",
@@ -163,15 +157,15 @@ export default function MenuPage() {
                 <span>
                   <RiDeleteBin5Fill />
                 </span>
-                <span>Delete Recipe</span>
+                <span>Delete Menu</span>
               </button>
             </div>
           </div>
         </div>
 
         {/* TODO: implement delete functionality for the menu, add option to change name of menu */}
-        <div className=" px-4 flex flex-col h-full justify-center items-center">
-          {numPages ? (
+        <div className=" px-4 flex flex-col h-full justify-start mt-10 gap-4 items-center">
+          {!numPages && view === "all" ? null : (
             <div className="mt-0 flex flex-row items-center justify-between w-5/6  md:px-6 lg:px-8">
               <div className="inline-flex overflow-hidden bg-primary-700 divide-x divide-base-accent rounded-lg">
                 <button
@@ -189,7 +183,7 @@ export default function MenuPage() {
                 </button>
 
                 <button
-                  className={`px-5 py-2  font-bold transition text-sm hover:bg-primary-600 ${
+                  className={`px-5 py-2  font-bold transition text-sm hover:enabled:bg-primary-600 ${
                     view === "favorites"
                       ? "cursor-not-allowed text-primary-800 bg-primary-400"
                       : "text-white "
@@ -229,7 +223,7 @@ export default function MenuPage() {
                 />
               </div>
             </div>
-          ) : null}
+          )}
 
           {/* TODO: make a dropdown for the options icon with a choice to favorite recipe or remove from menu */}
 
@@ -333,25 +327,42 @@ export default function MenuPage() {
           ) : null}
 
           {numPages ? null : (
-            <div className="text-2xl  font-semibold text-primary-700">
-              <span>{"There are no recipes in this menu yet! "}</span>
+            <div className="text-2xl mt-20 font-semibold text-primary-700">
+              <span>
+                {view === "all"
+                  ? "There are no recipes in this menu yet! "
+                  : "You have no favorites in this menu yet! "}
+              </span>
               <Link
                 className="text-primary-600 font-black hover:underline hover:text-primary-700"
                 href="/dashboard/recipe-search">
-                {"Search for some "}
+                {"Search for Some "}
               </Link>
-              <span>{"or add from your "}</span>
-              <Link
-                className="text-primary-600 font-black hover:underline hover:text-primary-700"
-                href="/dashboard/recipes/favorites">
-                {"Favorites "}
-              </Link>
-              <span>{"or "}</span>
-              <Link
-                className="text-primary-600 font-black hover:underline hover:text-primary-700"
-                href="/dashboard/recipes/saved">
-                {"Saved Recipes"}
-              </Link>
+              {view === "all" ? (
+                <>
+                  <span>{"or add from your "}</span>
+                  <Link
+                    className="text-primary-600 font-black hover:underline hover:text-primary-700"
+                    href="/dashboard/recipes/favorites">
+                    {"Favorites "}
+                  </Link>
+                  <span>{"or "}</span>
+                  <Link
+                    className="text-primary-600 font-black hover:underline hover:text-primary-700"
+                    href="/dashboard/recipes/saved">
+                    {"Saved Recipes"}
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <span>{"or "}</span>
+                  <span
+                    className="text-primary-600 font-black hover:underline hover:text-primary-700 hover:cursor-pointer"
+                    onClick={() => setView("all")}>
+                    {"Go Back to All"}
+                  </span>
+                </>
+              )}
             </div>
           )}
         </div>

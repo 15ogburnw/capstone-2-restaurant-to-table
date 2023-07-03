@@ -58,8 +58,15 @@ const NewMenuModal = () => {
           const { error } = await supabase
             .from("menus")
             .insert({ name: value, user_id: user.id });
-          if (error) return false;
-          else {
+          if (error) {
+            showToast("error", {
+              text: "Something went wrong while creating this menu! Please try again",
+            });
+            return false;
+          } else {
+            showToast("success", {
+              text: `Recipe ${value} was successfully created! Start searching for recipes to add to it now!`,
+            });
             await mutateMenus();
           }
         }
@@ -67,7 +74,7 @@ const NewMenuModal = () => {
       reverseButtons: true,
       buttonsStyling: false,
     }).bindClickHandler("data-add-menu-modal");
-  }, [currentMenuNames, mutateMenus, supabase, user]);
+  }, [currentMenuNames, mutateMenus, supabase, user, showToast]);
 
   if (menusError)
     return showToast("error", {

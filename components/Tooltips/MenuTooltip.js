@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import ToastContext from "@/lib/contexts/ToastContext";
 
 export default function MenuTooltip({ recipeId, menuId, favoriteRecipes }) {
   const supabase = useSupabaseClient();
   const user = useUser();
   const [isFavorite, setIsFavorite] = useState();
+  const showToast = useContext(ToastContext);
 
   useEffect(() => {
     if (favoriteRecipes) {
@@ -26,12 +29,15 @@ export default function MenuTooltip({ recipeId, menuId, favoriteRecipes }) {
       .delete()
       .eq("recipe_id", recipeId);
 
-    if (error)
-      return {
-        error:
-          "There was a problem deleting this recipe from the menu. Please try again",
-      };
-    else return { success: "Recipe successfully removed from the menu" };
+    if (error) {
+      return showToast("error", {
+        text: "There was a problem removing this recipe from the menu. Please try again",
+      });
+    } else {
+      return showToast("success", {
+        text: "Recipe successfully removed from the menu",
+      });
+    }
   };
 
   const toggleFavorite = async () => {
@@ -41,14 +47,13 @@ export default function MenuTooltip({ recipeId, menuId, favoriteRecipes }) {
         .delete()
         .eq("recipe_id", recipeId);
       if (error) {
-        return {
-          error:
-            "There was a problem removing this recipe from your favorites. Please try again",
-        };
+        return showToast("error", {
+          text: "There was a problem removing this recipe from your favorites. Please try again",
+        });
       } else {
-        return {
-          success: "Recipe successfully removed from your favorites!",
-        };
+        return showToast("success", {
+          text: "Recipe successfully removed from your favorites!",
+        });
       }
     } else {
       const { error } = await supabase
@@ -56,12 +61,13 @@ export default function MenuTooltip({ recipeId, menuId, favoriteRecipes }) {
         .insert({ recipe_id: recipeId, user_id: user?.id });
 
       if (error) {
-        return {
-          error:
-            "There was a problem adding this recipe to your favorites. Please try again",
-        };
+        return showToast("error", {
+          text: "There was a problem adding this recipe to your favorites. Please try again",
+        });
       } else {
-        return { success: "Recipe successfully added to your favorites!" };
+        return showToast("success", {
+          text: "Recipe successfully added to your favorites!",
+        });
       }
     }
   };

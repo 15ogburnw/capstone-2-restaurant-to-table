@@ -27,7 +27,7 @@ export default function Navbar() {
     <nav className=" z-30 w-screen bg-primary-800">
       <div className="  flex  flex-row items-center justify-between px-10 py-10">
         <RttFullLogo />
-
+        <div className="mt-10" id="#toast-container"></div>
         <nav className="items-center flex flex-row mt-0 justify-end pb-0">
           <p className="hidden md:inline-block text-white font-bold text-xl mr-5">
             {user?.email}
