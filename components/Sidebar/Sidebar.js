@@ -1,24 +1,19 @@
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
-  GlobeAltIcon,
-  UserCircleIcon,
   MagnifyingGlassCircleIcon,
   RectangleStackIcon,
   ArrowRightOnRectangleIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
-import SVG from "react-inlinesvg";
+
 import { useRouter } from "next/router";
 import SideBarMenuItem from "./SidebarMenuItem";
-import AddMenuModal from "../Modals/AddMenuModal";
-import Modal from "../Modals/Modal";
-import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import { faSquarePlus as faSquarePlusSolid } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import Loading from "../Loading";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import NewMenuModal from "@/components/Modals/NewMenuModal";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -148,8 +143,9 @@ export default function Sidebar() {
             <span className="text-xl font-bold  text-primary-700 ml-2 ">
               My Menus
             </span>
+
             <button
-              onClick={() => setShowModal(true)}
+              data-add-menu-modal="#add-menu-modal"
               className=" text-lg font-bold border-2 text-primary-700 border-primary-700 bg-transparent h-5 w-5 pb-1 mr-2  hover:text-white hover:bg-primary-700 flex align-middle rounded-lg items-center justify-center">
               <span>{"+"}</span>
             </button>
@@ -190,20 +186,7 @@ export default function Sidebar() {
           </div>
         </div>
       </nav>
-
-      {showModal && !isLoading ? (
-        <Modal
-          onClose={() => {
-            setShowModal(false);
-          }}
-          title="create a new menu">
-          <AddMenuModal
-            closeModal={() => {
-              setShowModal(false);
-            }}
-          />
-        </Modal>
-      ) : null}
+      <NewMenuModal />
     </aside>
   );
 }

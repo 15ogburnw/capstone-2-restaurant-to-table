@@ -1,12 +1,17 @@
 import Dashboard from "@/layouts/Dashboard";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import RecipeListItem from "@/components/Recipes/RecipeListItem";
 import Loading from "@/components/Loading";
 import RetryLoad from "@/components/RetryLoad";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import Swal from "sweetalert2";
+import { useContext } from "react";
+import ToastContext from "@/lib/contexts/ToastContext";
+import ConfirmModal from "@/components/Modals/ConfirmModal";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function MenuPage() {
   const router = useRouter();
@@ -18,6 +23,9 @@ export default function MenuPage() {
   const [pageRecipes, setPageRecipes] = useState();
   const [favoriteRecipes, setFavoriteRecipes] = useState();
   const [view, setView] = useState("all");
+  const supabase = useSupabaseClient();
+  const { mutate } = useSWRConfig();
+  const showToast = useContext(ToastContext);
 
   const {
     data: menu,
@@ -71,7 +79,7 @@ export default function MenuPage() {
         const favsInMenu = menuRecipes.filter((recipe) =>
           favoriteRecipes?.data?.map((recipe) => recipe.id)?.includes(recipe.id)
         );
-        console.log(favsInMenu);
+
         setNumPages(Math.ceil(favsInMenu.length / 15));
         if (currentPage * 15 > favsInMenu.length) {
           setPageRecipes(favsInMenu.slice(currentPage * 15 - 15));
@@ -107,12 +115,12 @@ export default function MenuPage() {
 
   if (isLoading) return <Loading size="xl" />;
   else if (menuError) return <RetryLoad dataName="menu" textSize="3xl" />;
-  else if (menu?.length === 0) router.replace("/404");
+  else if (menu?.length === 0) router.replace("/dashboard");
   else {
     return (
       <>
         <div className="flex justify-center">
-          <div className="flex items-center border-b-4 pb-6 border-primary-700 mt-6 w-5/6 justify-between w-5/6 px-0">
+          <div className="flex items-center border-b-4 pb-6 border-primary-700 mt-6 w-5/6 justify-between  md:px-8 lg:px-10">
             <div className="invisible">Invisible for spacing</div>
             <h2 className="text-3xl font-bold capitalize text-primary-700">
               {menuName}
@@ -120,7 +128,38 @@ export default function MenuPage() {
 
             {/* TODO: implement this button */}
             <div className="flex items-center  gap-x-3">
-              <button className="flex items-center justify-center w-1/2 px-5 py-2 text-md font-bold tracking-wide text-white transition  bg-red-600 rounded-lg  sm:w-auto gap-x-2 hover:bg-red-800 transition hover:scale-105 ">
+              <button
+                className="flex items-center justify-center w-1/2 px-5 py-2 text-md font-bold tracking-wide text-white transition  bg-red-600 rounded-lg  sm:w-auto gap-x-2 hover:bg-red-800 transition hover:scale-105 "
+                onClick={async (e) => {
+                  e.preventDefault();
+                  const result = await ConfirmModal.fire({
+                    title: `Are you sure you want to delete your menu "${menuName}?"`,
+                    text: "You won't be able to revert this!",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "Cancel",
+                  });
+                  if (result.isConfirmed) {
+                    const { error } = await supabase
+                      .from("menus")
+                      .delete()
+                      .eq("id", menuId);
+                    if (!error) {
+                      await mutate("/api/user/menus");
+                      showToast("success", {
+                        text: `You have successfully deleted the menu "${menuName}"`,
+                      });
+                      router.push("/dashboard");
+                    } else {
+                      showToast("error", {
+                        text: "There was a problem deleting the menu. Please try again",
+                      });
+                    }
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    showToast("success", {
+                      text: "Successfully canceled! Your menu was not deleted",
+                    });
+                  }
+                }}>
                 <span>
                   <RiDeleteBin5Fill />
                 </span>
