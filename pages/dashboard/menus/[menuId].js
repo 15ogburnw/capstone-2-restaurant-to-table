@@ -196,7 +196,7 @@ export default function MenuPage() {
                       </div>
                       <button
                         type="submit"
-                        className=" bg-primary-700 text-lg font-bold  py-2   px-6  rounded-lg  hover:enabled:bg-primary-600  text-white font-medium  disabled:opacity-40 disabled:self-start"
+                        className=" bg-primary-700 text-lg font-bold  py-2   px-6  rounded-lg  hover:enabled:bg-primary-600  text-white font-medium  disabled:opacity-80 disabled:bg-primary-500 disabled:self-start"
                         disabled={!isValid || isLoading}>
                         Change Name
                       </button>

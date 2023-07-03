@@ -1,25 +1,17 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useState } from "react";
-import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
-export default function SignupForm1() {
-  const [isLoading, setIsLoading] = useState(false);
-  const supabase = useSupabaseClient();
-  const [errorMessage, setErrorMessage] = useState(null);
-  const router = useRouter();
-
+export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
   const inputStyles = {
     valid:
       "focus:ring-primary-400 mb-3 border-primary-800/60 placeholder-primary-800/60 ",
     invalid: "border-red-400 focus:ring-red-400 placeholder-red-400",
   };
 
-  const signupSchema = yup.object().shape({
+  const validationSchema = yup.object().shape({
     name: yup
       .string()
       .required("Name is required")
@@ -38,60 +30,27 @@ export default function SignupForm1() {
   /* TODO: Add functionality for including basic user metadata along with signup. Do I want to include a name with the supabase object or keep
 	it all on the public table?
    */
-  const handleSignup = async (values) => {
-    const { email, password, name, dietRestrictions, healthRestrictions } =
-      values;
-    setIsLoading(true);
-
-    let { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${location.origin}/api/auth/callback`,
-      },
-    });
-    if (error) {
-      setIsLoading(false);
-      setErrorMessage("Something went wrong! Please try again");
-      console.error(error);
-    } else {
-      const { data: user } = await supabase
-        .from("users")
-        .update({ name })
-        .eq({ email })
-        .select();
-      if (!data) {
-        setIsLoading(false);
-        error = new Error(
-          "Account successfully created, but failed to add user's name."
-        );
-        console.error(error);
-      }
-
-      router.push("/dashboard");
-    }
+  const handleSubmitStep1 = async (values) => {
+    setNewUser((old) => ({ ...old, ...values }));
+    setSignupStep(2);
   };
 
   return (
     <Formik
       initialValues={{
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        name: newUser.name,
+        email: newUser.email,
+        password: newUser.password,
+        confirmPassword: newUser.confirmPassword,
       }}
-      validationSchema={signupSchema}
-      onSubmit={handleSignup}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmitStep1}
       validateOnMount>
       {({ errors, touched, isValid }) => (
         <Form>
           <p className="mt-3 text-3xl text-center font-extrabold text-primary-700">
             Welcome to Restaurant to Table!
           </p>
-
-          <div className="text-red-500 font-bold text-lg text-center my-2">
-            {errorMessage}
-          </div>
 
           {/* Signup with email horizontal line break */}
           <div className="flex items-center justify-between mt-3">
@@ -212,27 +171,16 @@ export default function SignupForm1() {
             <ErrorMessage
               name="confirmPassword"
               component="div"
-              className="text-sm text-red-500 mt-1 font-bold -mb-6  text-right"
+              className="text-sm text-red-500 mt-1 font-bold   text-right"
             />
           </div>
 
           {/* Sign Up Button */}
 
           <button
-            className="w-full bg-primary-800 text-lg font-bold hover:enabled:scale-105 py-1.5 leading-none mt-10 px-6 border-4 border-primary-800 duration-150  hover:enabled:bg-transparent hover:enabled:text-primary-800 text-white font-medium inline-flex items-center justify-center md:mt-0  disabled:bg-primary-400 disabled:border-primary-400 disabled:opacity-80"
-            disabled={!isValid || isLoading}>
-            {!isLoading ? (
-              "Create Your Account"
-            ) : (
-              <>
-                <FontAwesomeIcon
-                  className="inline mr-3 font-bold"
-                  icon={faCircleNotch}
-                  spin
-                />
-                <span className="font-bold text-lg">Loading</span>
-              </>
-            )}
+            className="w-full bg-primary-700 text-lg font-bold  py-2  px-6    hover:enabled:bg-primary-500 text-white font-bold  mt-3  disabled:opacity-70 disabled:bg-primary-500"
+            disabled={!isValid}>
+            Continue
           </button>
 
           {/* Login redirect link */}
