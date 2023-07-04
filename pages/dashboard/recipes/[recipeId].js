@@ -1,32 +1,20 @@
 import Dashboard from "@/layouts/Dashboard";
+import Image from "next/image";
 
-const RecipePage = ({ recipe }) => {
-  const menu = {
-    recipeName: { name: recipe.name },
-    imageUrl: { name: recipe.id },
-    nutritionFacts: {
-      calories: 250,
-      fat: 12,
-      carbohydrates: 35,
-      protein: 8,
-    },
-    recipeUrl: "https://www.example.com/recipe",
-  };
-
-  const handleAddToCart = () => {
-    // Handle adding the recipe to the cart
-  };
-
-  const handleRemoveFromCart = () => {
-    // Handle removing the recipe from the cart
-  };
+const RecipePage = (recipe) => {
+  const { name, id } = recipe;
 
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-3xl font-bold mb-4">{menu.recipeName}</h1>
       <div className="flex justify-between">
         <div className="w-1/2">
-          <img src={menu.imageUrl} alt={menu.recipeName} className="w-full" />
+          <Image
+            src={menu.imageUrl}
+            alt={menu.recipeName}
+            width={100}
+            className="w-full"
+          />
           <div className="mt-4">
             <a
               href={menu.recipeUrl}
@@ -41,10 +29,10 @@ const RecipePage = ({ recipe }) => {
           <div className="p-4 bg-gray-200 rounded-lg">
             <h2 className="text-xl font-bold mb-2">Nutrition Facts</h2>
             <ul>
-              <li>Calories: {menu.nutritionFacts.calories}</li>
-              <li>Fat: {menu.nutritionFacts.fat}g</li>
-              <li>Carbohydrates: {menu.nutritionFacts.carbohydrates}g</li>
-              <li>Protein: {menu.nutritionFacts.protein}g</li>
+              <li>Calories: {""}</li>
+              <li>Fat: {0}g</li>
+              <li>Carbohydrates: {""}g</li>
+              <li>Protein: {""}g</li>
             </ul>
           </div>
           <div className="mt-4 flex justify-between">
