@@ -28,7 +28,7 @@ export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
   /* TODO: Add functionality for including basic user metadata along with signup. Do I want to include a name with the supabase object or keep
 	it all on the public table?
    */
-  const handleSubmitStep1 = async (values) => {
+  const handleSignupStep1 = async (values) => {
     setNewUser((old) => ({ ...old, ...values }));
     setSignupStep(2);
   };
@@ -41,7 +41,7 @@ export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
         password: newUser.password,
       }}
       validationSchema={validationSchema}
-      onSubmit={handleSubmitStep1}
+      onSubmit={handleSignupStep1}
       validateOnMount>
       {({ errors, touched, isValid }) => (
         <Form>
@@ -87,14 +87,12 @@ export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
           </div>
 
           {/* Email input */}
-          <div>
-            <div className="flex justify-between">
-              <label
-                className="block mb-2 text-lg font-bold text-primary-700 "
-                htmlFor="email">
-                Email
-              </label>
-            </div>
+          <div className="mt-4">
+            <label
+              className="block mb-2 text-lg font-bold text-primary-700 "
+              htmlFor="email">
+              Email
+            </label>
 
             <Field
               className={`block w-full px-4 py-2 focus:placeholder-transparent text-primary-700 placeholder-primary-700 font-bold bg-white border-2 rounded-lg focus:border-transparent  focus:ring-2 focus:outline-none
@@ -115,14 +113,12 @@ export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
           </div>
 
           {/* Password input */}
-          <div>
-            <div className="flex justify-between">
-              <label
-                className="block mb-2 text-lg font-bold text-primary-700 "
-                htmlFor="password">
-                Password
-              </label>
-            </div>
+          <div className="mt-4">
+            <label
+              className="block mb-2 text-lg font-bold text-primary-700 "
+              htmlFor="password">
+              Password
+            </label>
 
             <Field
               name="password"
@@ -144,14 +140,12 @@ export default function SignupForm1({ newUser, setNewUser, setSignupStep }) {
           </div>
 
           {/* Confirm password input */}
-          <div>
-            <div className="flex justify-between">
-              <label
-                className="block mb-2 text-lg font-bold text-primary-700 "
-                htmlFor="confirmPassword">
-                Confirm Password
-              </label>
-            </div>
+          <div className="mt-4">
+            <label
+              className="block mb-2 text-lg font-bold text-primary-700 "
+              htmlFor="confirmPassword">
+              Confirm Password
+            </label>
 
             <Field
               name="confirmPassword"

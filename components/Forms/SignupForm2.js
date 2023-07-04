@@ -28,15 +28,13 @@ const SignupForm2 = ({ setSignupStep, newUser, setNewUser, resetSignup }) => {
   const handleSecondStep = async (values) => {
     setNewUser((old) => ({ ...old, ...values }));
     const { email, password, name, dietRestrictions, healthRestrictions } =
-      values;
+      newUser;
     const { data: user, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
           name,
-          dietRestrictions,
-          healthRestrictions,
         },
       },
     });
@@ -47,10 +45,32 @@ const SignupForm2 = ({ setSignupStep, newUser, setNewUser, resetSignup }) => {
       });
       setSignupStep(1);
       resetSignup();
-    } else if (!isLoading && user) {
+    } else if (user) {
+      const { data: regUser, error: prefsError } = await supabase
+        .from("users")
+        .update({
+          diet_restrictions: dietRestrictions,
+          health_restrictions: healthRestrictions,
+          name,
+        })
+        .eq("id", user.id)
+        .select();
+      console.log(regUser);
+
+      const { data: newAuthUser } = await supabase.auth.updateUser({
+        uuser_metadata: { name: "faggot" },
+      });
+      console.log(newAuthUser);
+      if (prefsError) {
+        showToast("error", {
+          text: "There was a problem saving your preferences. Please try updating them in the settings section",
+        });
+      }
       showToast("success", {
         text: `Welcome ${user.name}! You have successfully created a new account`,
       });
+
+      router.push("/");
     }
   };
   return (
@@ -167,13 +187,12 @@ const SignupForm2 = ({ setSignupStep, newUser, setNewUser, resetSignup }) => {
             disabled={!isValid ? true : false}
             type="submit"
             className={
-              "py-2 px-6 mt-2 disabled:opacity-80 disabled:bg-primary-500 rounded-md bg-primary-700 text-white text-lg font-bold hover:enabled:bg-primary-50 cursor-pointer"
+              "py-2 px-6 mt-2 disabled:opacity-80 disabled:bg-primary-500 rounded-md bg-primary-700 text-white text-lg font-bold hover:enabled:bg-primary-600 cursor-pointer"
             }>
             Submit Form
           </button>
           <div
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               setNewUser((old) => ({ ...old, values }));
               setSignupStep(1);
             }}

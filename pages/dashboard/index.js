@@ -6,22 +6,27 @@ import { MdFavorite } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import { IoIosSave } from "react-icons/io";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Home() {
   const user = useUser();
+
+  useEffect(() => {
+    if (user) console.log(user);
+  }, [user]);
   return (
     <main>
       <div>
         <div className=" mx-auto py-12 px-4 text-gray-700">
           <div className="flex flex-row justify-evenly">
             <h1 className="text-center text-3xl text-primary-700 font-black ">
-              {`Welcome Back ${user?.email}!`}
+              {`Welcome Back ${user?.user_metadata.name}!`}
             </h1>
           </div>
 
           <div className=" flex mt-5 flex-row lg:align-top flex-wrap lg:mt-5  justify-evenly ">
             <SVG
-              className="float-none static rounded-md max-w-[80%] xl:max-w-[75%] mx-5 lg:mx-2 "
+              className="float-none static rounded-md sm:max-w-[70%] xl:max-w-[50%] mx-5 lg:mx-2 "
               src="img/fillers/ingredients.svg"
             />
             <div className="flex  flex-col mt-6 gap-y-10  w-auto">

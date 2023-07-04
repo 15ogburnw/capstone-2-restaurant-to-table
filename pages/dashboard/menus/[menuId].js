@@ -316,7 +316,7 @@ export default function MenuPage() {
 
               {/* TODO: nice to have: implement search feature for the menu pages */}
 
-              <div className=" flex items-center  mt-4 md:mt-0 ">
+              {/* <div className=" flex items-center  mt-4 md:mt-0 ">
                 <span className="absolute">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -338,7 +338,7 @@ export default function MenuPage() {
                   placeholder="Search"
                   className="block w-full py-1.5 pr-5 text-primary-700 bg-white border-2 border-primary-600 rounded-lg md:w-80 placeholder-primary-700/80 placeholder:font-bold focus:placeholder-transparent pl-11 "
                 />
-              </div>
+              </div> */}
             </div>
           )}
 
