@@ -247,11 +247,11 @@ export default function RecipeSearchCard({
                 onClick={toggleFavorite}
                 onMouseEnter={() => handleHover("heart")}
                 onMouseLeave={() => handleHover(null)}
-                className="h-8 w-8 ml-3 cursor-pointer disabled:cursor-wait">
+                className="h-8 w-8 ml-3 ">
                 {hoveredIcon === "heart" || isFavorite ? (
-                  <HeartIconSolid className="text-red-500 stroke-2" />
+                  <HeartIconSolid className="text-red-500 stroke-2 cursor-pointer disabled:cursor-wait" />
                 ) : (
-                  <HeartIcon className="text-red-500 stroke-2" />
+                  <HeartIcon className="text-red-500 stroke-2 cursor-pointer disabled:cursor-wait" />
                 )}
                 {hoveredIcon === "heart" && tooltipShowing ? (
                   <Tooltip

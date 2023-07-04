@@ -363,6 +363,7 @@ export default function MenuPage() {
                     <tbody className="bg-white divide-y w-full  divide-primary-700 ">
                       {/* Loop over array of recipes and display each one */}
                       {pageRecipes?.map((recipe) => {
+                        console.log(recipe);
                         return (
                           <RecipeListItem
                             favoriteRecipes={favoriteRecipes}

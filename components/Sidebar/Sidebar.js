@@ -170,7 +170,7 @@ export default function Sidebar() {
             <div className=" w-full px-3 py-2 text-sm font-medium text-gray-600  duration-300 transform rounded-lg ">
               {/* Fix these from showing up at the same time */}
               <div className="flex items-center justify-center gap-x-2 ">
-                {!isLoading && !data?.menus?.length ? (
+                {!isLoading && !isValidating && !data?.menus?.length ? (
                   <span>
                     You don&apos;t have any menus yet! Create your first one to
                     get started
